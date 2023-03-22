@@ -31,13 +31,13 @@ type Capacity struct {
 }
 
 type CapacitySpec struct {
-	// max uplink data
+	// MaxUplinkThroughput defines the max uplink dataplane throughput
 	MaxUplinkThroughput resource.Quantity `json:"maxUplinkThroughput,omitempty" yaml:"maxUplinkThroughput,omitempty"`
-	// max downlink throughput
+	// MaxDownlinkThroughput defines the max downlink dataplane throughput
 	MaxDownlinkThroughput resource.Quantity `json:"maxDownlinkThroughput,omitempty" yaml:"maxDownlinkThroughput,omitempty"`
-	// max PDU sessions
+	// MaxSessions defines the max sessions of the control plane
 	MaxSessions int `json:"maxSessions,omitempty" yaml:"maxSessions,omitempty"`
-	// max Subscribers
+	// MaxSubscribers defines the max subscribers
 	MaxSubscribers int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
 }
 
