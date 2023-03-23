@@ -17,8 +17,11 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"reflect"
+
 	"github.com/nephio-project/api/references"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +kubebuilder:object:root=true
@@ -44,3 +47,11 @@ type InterfaceSpec struct {
 
 type InterfaceStatus struct {
 }
+
+// Interface type metadata.
+var (
+	InterfaceKind             = reflect.TypeOf(Interface{}).Name()
+	InterfaceGroupKind        = schema.GroupKind{Group: Group, Kind: InterfaceKind}.String()
+	InterfaceKindAPIVersion   = InterfaceKind + "." + GroupVersion.String()
+	InterfaceGroupVersionKind = GroupVersion.WithKind(InterfaceKind)
+)

@@ -17,8 +17,11 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"reflect"
+
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +kubebuilder:object:root=true
@@ -43,3 +46,11 @@ type CapacitySpec struct {
 
 type CapacityStatus struct {
 }
+
+// Capacity type metadata.
+var (
+	CapacityKind             = reflect.TypeOf(Capacity{}).Name()
+	CapacityGroupKind        = schema.GroupKind{Group: Group, Kind: CapacityKind}.String()
+	CapacityKindAPIVersion   = CapacityKind + "." + GroupVersion.String()
+	CapacityGroupVersionKind = GroupVersion.WithKind(CapacityKind)
+)

@@ -17,8 +17,11 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"reflect"
+
 	"github.com/nephio-project/api/references"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +kubebuilder:object:root=true
@@ -26,21 +29,34 @@ type DataNetworkName struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   CapacitySpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status CapacityStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   DataNetworkNameSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status DataNetworkNameStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 type DataNetworkNameSpec struct {
 	// Pools defines the parameters of the IP pool associated with the DNN
-	Pools []*Pool `json:"pool,omitempty"`
+	Pools []*Pool `json:"pools,omitempty"`
 	// NetworkInstance defines the networkInstance context to which this DNN belongs
 	NetworkInstance *references.NamespaceReference `json:"networkInstanceReference" yaml:"networkReference"`
 }
 
 type Pool struct {
+	// Name defines the name of the pool
+	//
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=253
+	Name uint8 `json:"name,omitempty" yaml:"name,omitempty"`
 	// PrefixLength define the size of the pool
 	PrefixLength uint8 `json:"prefixLength,omitempty" yaml:"prefixLength,omitempty"`
 }
 
-type DNNStatus struct {
+type DataNetworkNameStatus struct {
 }
+
+// DataNetworkName type metadata.
+var (
+	DataNetworkNameKind             = reflect.TypeOf(DataNetworkName{}).Name()
+	DataNetworkNameGroupKind        = schema.GroupKind{Group: Group, Kind: DataNetworkNameKind}.String()
+	DataNetworkNameKindAPIVersion   = DataNetworkNameKind + "." + GroupVersion.String()
+	DataNetworkNameGroupVersionKind = GroupVersion.WithKind(DataNetworkNameKind)
+)
