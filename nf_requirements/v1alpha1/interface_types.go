@@ -23,11 +23,11 @@ const AttachmentTypeNone AttachmentType = "none"
 // AttachmentTypeVLAN defines a tagged/vlan attachement
 const AttachmentTypeVLAN AttachmentType = "vlan"
 
-type Cni string
+type CNIType string
 
-// CniSRIOV defines the sriov cni
-const CniSRIOV Cni = "sriov"
-// CniIPVlan defines the ipvlan cni
-const CniIPVlan Cni = "ipvlan"
-// CniMACVlan defines the macvlan cni
-const CniMACVlan Cni = "macvlan"
+// CNITypeSRIOV defines the sriov cni
+const CNITypeSRIOV CNIType = "sriov"
+// CNITypeIPVlan defines the ipvlan cni
+const CNITypeIPVlan CNIType = "ipvlan"
+// CNITypeMACVlan defines the macvlan cni
+const CNITypeMACVlan CNIType = "macvlan"

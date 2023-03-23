@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	"github.com/nephio-project/api/references"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -36,10 +36,11 @@ type Interface struct {
 // TBD how do we distinguish the loopback from the vnic(s)
 type InterfaceSpec struct {
 	// NetworkInstance defines the networkInstance to which this interface belongs
-	NetworkInstance *references.NamespaceReference `json:"networkInstance" yaml:"networkInstance"`
-	// Cni defines the cni that is used to attach the interface to the pod
+	// Name and optionally Namespace is used here
+	NetworkInstance *corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
+	// CNIType defines the cniType that is used to attach the interface to the pod
 	// +kubebuilder:validation:Enum=sriov;ipvlan;macvlan
-	Cni Cni `json:"cniType,omitempty" yaml:"cniType,omitempty"`
+	CNIType CNIType `json:"cniType,omitempty" yaml:"cniType,omitempty"`
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
 	AttachmentType AttachmentType `json:"attachementType,omitempty" yaml:"attachementType,omitempty"`

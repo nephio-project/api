@@ -19,25 +19,26 @@ package v1alpha1
 import (
 	"reflect"
 
-	"github.com/nephio-project/api/references"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // +kubebuilder:object:root=true
-type DataNetworkName struct {
+type DataNetwork struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   DataNetworkNameSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status DataNetworkNameStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   DataNetworkSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status DataNetworkStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
-type DataNetworkNameSpec struct {
+type DataNetworkSpec struct {
 	// Pools defines the parameters of the IP pool associated with the DNN
 	Pools []*Pool `json:"pools,omitempty"`
 	// NetworkInstance defines the networkInstance context to which this DNN belongs
-	NetworkInstance *references.NamespaceReference `json:"networkInstanceReference" yaml:"networkReference"`
+	// Name and optionally Namespace is used here
+	NetworkInstance corev1.ObjectReference `json:"networkInstanceReference" yaml:"networkReference"`
 }
 
 type Pool struct {
@@ -50,13 +51,13 @@ type Pool struct {
 	PrefixLength uint8 `json:"prefixLength,omitempty" yaml:"prefixLength,omitempty"`
 }
 
-type DataNetworkNameStatus struct {
+type DataNetworkStatus struct {
 }
 
 // DataNetworkName type metadata.
 var (
-	DataNetworkNameKind             = reflect.TypeOf(DataNetworkName{}).Name()
-	DataNetworkNameGroupKind        = schema.GroupKind{Group: Group, Kind: DataNetworkNameKind}.String()
-	DataNetworkNameKindAPIVersion   = DataNetworkNameKind + "." + GroupVersion.String()
-	DataNetworkNameGroupVersionKind = GroupVersion.WithKind(DataNetworkNameKind)
+	DataNetworkKind             = reflect.TypeOf(DataNetwork{}).Name()
+	DataNetworkGroupKind        = schema.GroupKind{Group: Group, Kind: DataNetworkKind}.String()
+	DataNetworkKindAPIVersion   = DataNetworkKind + "." + GroupVersion.String()
+	DataNetworkGroupVersionKind = GroupVersion.WithKind(DataNetworkKind)
 )
