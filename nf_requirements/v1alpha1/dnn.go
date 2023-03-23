@@ -45,7 +45,7 @@ type Pool struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name uint8 `json:"name,omitempty" yaml:"name,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// PrefixLength define the size of the pool
 	PrefixLength uint8 `json:"prefixLength,omitempty" yaml:"prefixLength,omitempty"`
 }

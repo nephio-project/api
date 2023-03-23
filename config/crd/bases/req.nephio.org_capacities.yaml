@@ -37,20 +37,22 @@ spec:
                 anyOf:
                 - type: integer
                 - type: string
-                description: max downlink throughput
+                description: MaxDownlinkThroughput defines the max downlink dataplane
+                  throughput
                 pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                 x-kubernetes-int-or-string: true
               maxSessions:
-                description: max PDU sessions
+                description: MaxSessions defines the max sessions of the control plane
                 type: integer
               maxSubscribers:
-                description: max Subscribers
+                description: MaxSubscribers defines the max subscribers
                 type: integer
               maxUplinkThroughput:
                 anyOf:
                 - type: integer
                 - type: string
-                description: max uplink data
+                description: MaxUplinkThroughput defines the max uplink dataplane
+                  throughput
                 pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                 x-kubernetes-int-or-string: true
             type: object

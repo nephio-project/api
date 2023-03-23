@@ -33,26 +33,44 @@ spec:
             type: object
           spec:
             properties:
-              maxDownlinkThroughput:
-                anyOf:
-                - type: integer
-                - type: string
-                description: max downlink throughput
-                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                x-kubernetes-int-or-string: true
-              maxSessions:
-                description: max PDU sessions
-                type: integer
-              maxSubscribers:
-                description: max Subscribers
-                type: integer
-              maxUplinkThroughput:
-                anyOf:
-                - type: integer
-                - type: string
-                description: max uplink data
-                pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                x-kubernetes-int-or-string: true
+              networkInstanceReference:
+                description: NetworkInstance defines the networkInstance context to
+                  which this DNN belongs
+                properties:
+                  name:
+                    description: Name is unique within a namespace to reference a
+                      nfClass.
+                    maxLength: 253
+                    minLength: 1
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of the referent. This
+                      field is required when referring to a Namespace-scoped resource
+                      and MUST be unset when referring to a Cluster-scoped resource.
+                    maxLength: 63
+                    minLength: 1
+                    pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
+                    type: string
+                required:
+                - name
+                type: object
+              pools:
+                description: Pools defines the parameters of the IP pool associated
+                  with the DNN
+                items:
+                  properties:
+                    name:
+                      description: Name defines the name of the pool
+                      maxLength: 253
+                      minLength: 1
+                      type: string
+                    prefixLength:
+                      description: PrefixLength define the size of the pool
+                      type: integer
+                  type: object
+                type: array
+            required:
+            - networkInstanceReference
             type: object
           status:
             type: object
