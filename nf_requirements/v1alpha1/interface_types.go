@@ -27,7 +27,7 @@ type CNIType string
 
 // CNITypeSRIOV defines the sriov cni
 const CNITypeSRIOV CNIType = "sriov"
-// CNITypeIPVlan defines the ipvlan cni
-const CNITypeIPVlan CNIType = "ipvlan"
-// CNITypeMACVlan defines the macvlan cni
-const CNITypeMACVlan CNIType = "macvlan"
+// CNITypeIPVLAN defines the ipvlan cni
+const CNITypeIPVLAN CNIType = "ipvlan"
+// CNITypeMACVLAN defines the macvlan cni
+const CNITypeMACVLAN CNIType = "macvlan"
