@@ -5,14 +5,14 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: interfaces.req.nephio.org
+  name: datanetworks.req.nephio.org
 spec:
   group: req.nephio.org
   names:
-    kind: Interface
-    listKind: InterfaceList
-    plural: interfaces
-    singular: interface
+    kind: DataNetwork
+    listKind: DataNetworkList
+    plural: datanetworks
+    singular: datanetwork
   scope: Namespaced
   versions:
   - name: v1alpha1
@@ -32,26 +32,10 @@ spec:
           metadata:
             type: object
           spec:
-            description: TBD how do we distinguish the loopback from the vnic(s)
             properties:
-              attachementType:
-                description: AttachmentType defines if the interface is attached using
-                  a vlan or not
-                enum:
-                - none
-                - vlan
-                type: string
-              cniType:
-                description: CNIType defines the cniType that is used to attach the
-                  interface to the pod
-                enum:
-                - sriov
-                - ipvlan
-                - macvlan
-                type: string
-              networkInstance:
-                description: NetworkInstance defines the networkInstance to which
-                  this interface belongs Name and optionally Namespace is used here
+              networkInstanceReference:
+                description: NetworkInstance defines the networkInstance context to
+                  which this DNN belongs Name and optionally Namespace is used here
                 properties:
                   apiVersion:
                     description: API version of the referent.
@@ -87,8 +71,23 @@ spec:
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
+              pools:
+                description: Pools defines the parameters of the IP pool associated
+                  with the DNN
+                items:
+                  properties:
+                    name:
+                      description: Name defines the name of the pool
+                      maxLength: 253
+                      minLength: 1
+                      type: string
+                    prefixLength:
+                      description: PrefixLength define the size of the pool
+                      type: integer
+                  type: object
+                type: array
             required:
-            - networkInstance
+            - networkInstanceReference
             type: object
           status:
             type: object

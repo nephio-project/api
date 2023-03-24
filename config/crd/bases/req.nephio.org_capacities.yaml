@@ -43,9 +43,11 @@ spec:
                 x-kubernetes-int-or-string: true
               maxSessions:
                 description: MaxSessions defines the max sessions of the control plane
+                  expressed in unit of 1000s
                 type: integer
               maxSubscribers:
-                description: MaxSubscribers defines the max subscribers
+                description: MaxSubscribers defines the max subscribers expressed
+                  in unit of 1000s
                 type: integer
               maxUplinkThroughput:
                 anyOf:

@@ -39,8 +39,10 @@ type CapacitySpec struct {
 	// MaxDownlinkThroughput defines the max downlink dataplane throughput
 	MaxDownlinkThroughput resource.Quantity `json:"maxDownlinkThroughput,omitempty" yaml:"maxDownlinkThroughput,omitempty"`
 	// MaxSessions defines the max sessions of the control plane
+	// expressed in unit of 1000s
 	MaxSessions int `json:"maxSessions,omitempty" yaml:"maxSessions,omitempty"`
 	// MaxSubscribers defines the max subscribers
+	// expressed in unit of 1000s
 	MaxSubscribers int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
 }
 
