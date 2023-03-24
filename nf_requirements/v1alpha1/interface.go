@@ -43,7 +43,7 @@ type InterfaceSpec struct {
 	CNIType CNIType `json:"cniType,omitempty" yaml:"cniType,omitempty"`
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
-	AttachmentType AttachmentType `json:"attachementType,omitempty" yaml:"attachementType,omitempty"`
+	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
 }
 
 type InterfaceStatus struct {

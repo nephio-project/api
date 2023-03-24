@@ -34,7 +34,7 @@ spec:
           spec:
             description: TBD how do we distinguish the loopback from the vnic(s)
             properties:
-              attachementType:
+              attachmentType:
                 description: AttachmentType defines if the interface is attached using
                   a vlan or not
                 enum:
