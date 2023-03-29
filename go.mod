@@ -3,6 +3,7 @@ module github.com/nephio-project/api
 go 1.20
 
 require (
+	github.com/google/go-cmp v0.5.9
 	k8s.io/api v0.26.1
 	k8s.io/apimachinery v0.26.3
 	sigs.k8s.io/controller-runtime v0.14.5

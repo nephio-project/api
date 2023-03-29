@@ -20,26 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-type AttachmentType string
-
-// AttachmentTypeNone defines an untagged attachement (no VLAN)
-const AttachmentTypeNone AttachmentType = "none"
-
-// AttachmentTypeVLAN defines a tagged/vlan attachement
-const AttachmentTypeVLAN AttachmentType = "vlan"
-
-type CNIType string
-
-// CNITypeSRIOV defines the sriov cni
-const CNITypeSRIOV CNIType = "sriov"
-
-// CNITypeIPVLAN defines the ipvlan cni
-const CNITypeIPVLAN CNIType = "ipvlan"
-
-// CNITypeMACVLAN defines the macvlan cni
-const CNITypeMACVLAN CNIType = "macvlan"
-
-func (r *Interface) GetNetworkInstance() types.NamespacedName {
+func (r *DataNetwork) GetNetworkInstance() types.NamespacedName {
 	nsn := types.NamespacedName{}
 	if r.Spec.NetworkInstance != nil {
 		nsn.Name = r.Spec.NetworkInstance.Name
@@ -48,10 +29,14 @@ func (r *Interface) GetNetworkInstance() types.NamespacedName {
 	return nsn
 }
 
-func (r *Interface) GetCNIType() CNIType {
-	return r.Spec.CNIType
+func (r *DataNetwork) GetPools() []*Pool {
+	return r.Spec.Pools
 }
 
-func (r *Interface) GetAttachmentType() AttachmentType {
-	return r.Spec.AttachmentType
+func (r *Pool) GetName() string {
+	return r.Name
+}
+
+func (r *Pool) GetPrefixLength() uint8 {
+	return r.PrefixLength
 }
