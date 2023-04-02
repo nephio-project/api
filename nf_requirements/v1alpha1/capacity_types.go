@@ -16,20 +16,43 @@ limitations under the License.
 
 package v1alpha1
 
-import "k8s.io/apimachinery/pkg/api/resource"
+import (
+	"reflect"
 
-func (r *Capacity) GetMaxUplinkThroughput() resource.Quantity {
-	return r.Spec.MaxDownlinkThroughput
+	"k8s.io/apimachinery/pkg/api/resource"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
+
+// +kubebuilder:object:root=true
+type Capacity struct {
+	metav1.TypeMeta   `json:",inline" yaml:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	Spec   CapacitySpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status CapacityStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
-func (r *Capacity) GetMaxDownlinkThroughput() resource.Quantity {
-	return r.Spec.MaxDownlinkThroughput
+type CapacitySpec struct {
+	// MaxUplinkThroughput defines the max uplink dataplane throughput
+	MaxUplinkThroughput resource.Quantity `json:"maxUplinkThroughput,omitempty" yaml:"maxUplinkThroughput,omitempty"`
+	// MaxDownlinkThroughput defines the max downlink dataplane throughput
+	MaxDownlinkThroughput resource.Quantity `json:"maxDownlinkThroughput,omitempty" yaml:"maxDownlinkThroughput,omitempty"`
+	// MaxSessions defines the max sessions of the control plane
+	// expressed in unit of 1000s
+	MaxSessions int `json:"maxSessions,omitempty" yaml:"maxSessions,omitempty"`
+	// MaxSubscribers defines the max subscribers
+	// expressed in unit of 1000s
+	MaxSubscribers int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
 }
 
-func (r *Capacity) GetMaxSessions() int {
-	return r.Spec.MaxSessions
+type CapacityStatus struct {
 }
 
-func (r *Capacity) GetMaxSubscribers() int {
-	return r.Spec.MaxSubscribers
-}
+// Capacity type metadata.
+var (
+	CapacityKind             = reflect.TypeOf(Capacity{}).Name()
+	CapacityGroupKind        = schema.GroupKind{Group: Group, Kind: CapacityKind}.String()
+	CapacityKindAPIVersion   = CapacityKind + "." + GroupVersion.String()
+	CapacityGroupVersionKind = GroupVersion.WithKind(CapacityKind)
+)
