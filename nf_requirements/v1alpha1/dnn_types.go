@@ -30,6 +30,9 @@ func (r *DataNetwork) GetNetworkInstance() types.NamespacedName {
 }
 
 func (r *DataNetwork) GetPools() []*Pool {
+	if r.Spec.Pools == nil {
+		return []*Pool{}
+	}
 	return r.Spec.Pools
 }
 

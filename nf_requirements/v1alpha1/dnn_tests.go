@@ -86,3 +86,80 @@ func TestDNNGetNetworkInstance(t *testing.T) {
 		})
 	}
 }
+
+func TestDNNGetPools(t *testing.T) {
+	tests := map[string]struct {
+		input DataNetwork
+		want  []*Pool
+	}{
+		"GetPools Empty": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{},
+			},
+			want: []*Pool{},
+		},
+		"GetPools Single": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
+					Pools: []*Pool{
+						{
+							Name:         "a",
+							PrefixLength: 126,
+						},
+					},
+				},
+			},
+			want: []*Pool{
+				{
+					Name:         "a",
+					PrefixLength: 126,
+				},
+			},
+		},
+		"GetPools Multiple": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
+					Pools: []*Pool{
+						{
+							Name:         "a",
+							PrefixLength: 126,
+						},
+						{
+							Name:         "b",
+							PrefixLength: 16,
+						},
+					},
+				},
+			},
+			want: []*Pool{
+				{
+					Name:         "a",
+					PrefixLength: 126,
+				},
+				{
+					Name:         "b",
+					PrefixLength: 16,
+				},
+			},
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got := tc.input.GetPools()
+
+			if len(got) != len(tc.want) {
+				t.Errorf("TestDNNGetPools: unexpected length -want %d, +got: %d\n", len(tc.want), len(got))
+			} else {
+				for i, gotPool := range got {
+					if diff := cmp.Diff(tc.want[i].GetName(), gotPool.GetName()); diff != "" {
+						t.Errorf("TestDNNGetPools name: -want, +got:\n%s", diff)
+					}
+					if diff := cmp.Diff(tc.want[i].GetPrefixLength(), gotPool.GetPrefixLength()); diff != "" {
+						t.Errorf("TestDNNGetPools prefixlength: -want, +got:\n%s", diff)
+					}
+				}
+			}
+		})
+	}
+}
