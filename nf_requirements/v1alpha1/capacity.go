@@ -44,6 +44,8 @@ type CapacitySpec struct {
 	// MaxSubscribers defines the max subscribers
 	// expressed in unit of 1000s
 	MaxSubscribers int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
+	// MaxNFConnections defines the max NF(s) that can be connected to this NF/device
+	MaxNFConnections uint16 `json:"maxNFConnections,omitempty" yaml:"maxNFConnections,omitempty"`
 }
 
 type CapacityStatus struct {
