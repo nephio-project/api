@@ -1,0 +1,43 @@
+presubmits:
+  - name: presubmit-api-go-test
+    decorate: true
+    run_if_changed: "(\\.go|^Makefile)$"
+    spec:
+      containers:
+      - image: golang:1.20.2
+        command:
+        - make
+        args:
+        - test
+  - name: presubmit-api-go-fmt
+    decorate: true
+    run_if_changed: "(\\.go)$"
+    spec:
+      containers:
+      - image: golang:1.20.2
+        command:
+        - make
+        args:
+        - fmt
+  - name: presubmit-api-go-vet
+    decorate: true
+    run_if_changed: "(\\.go)$"
+    spec:
+      containers:
+      - image: golang:1.20.2
+        command:
+        - make
+        args:
+        - vet
+  - name: presubmit-api-golangci-lint
+    decorate: true
+    run_if_changed: "(\\.go)$"
+    spec:
+      containers:
+      - image: golang:1.20.2
+        command:
+        - "/bin/sh"
+        - "-c"
+        - |
+          wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.52.2
+          bin/golangci-lint run -v
