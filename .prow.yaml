@@ -16,7 +16,9 @@ presubmits:
       containers:
       - image: securego/gosec:2.15.0
         command:
-        - gosec ./...
+        - gosec
+        args:
+        - ./...
   - name: presubmit-api-golangci-lint
     decorate: true
     run_if_changed: "(\\.go)$"
