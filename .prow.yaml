@@ -8,27 +8,17 @@ presubmits:
         command:
         - make
         args:
-        - test
-  - name: presubmit-api-go-fmt
+        - unit
+  - name: presubmit-api-gosec
     decorate: true
     run_if_changed: "(\\.go)$"
     spec:
       containers:
-      - image: golang:1.20.2
+      - image: securego/gosec:2.15.0
         command:
-        - make
+        - gosec
         args:
-        - fmt
-  - name: presubmit-api-go-vet
-    decorate: true
-    run_if_changed: "(\\.go)$"
-    spec:
-      containers:
-      - image: golang:1.20.2
-        command:
-        - make
-        args:
-        - vet
+        - ./...
   - name: presubmit-api-golangci-lint
     decorate: true
     run_if_changed: "(\\.go)$"
