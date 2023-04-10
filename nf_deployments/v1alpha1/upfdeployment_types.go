@@ -54,7 +54,7 @@ type InterfaceConfig struct {
 	// IPv4 CIDRs for this interface
 	IPs []string `json:"ips,omitempty"`
 	// IPv4 addresses for gateway for this interface
-	GatewayIPs []string `json:"gateway,omitempty"`
+	GatewayIPs []string `json:"gatewayIPs,omitempty"`
 	// VLAN for this interface such that workload can tag, especially in case of sr-iov
 	// +optional
 	Vlan *string `json:"vlan:omitempty"`
@@ -125,8 +125,4 @@ type UPFDeploymentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []UPFDeployment `json:"items"`
-}
-
-func init() {
-	SchemeBuilder.Register(&UPFDeployment{}, &UPFDeploymentList{})
 }
