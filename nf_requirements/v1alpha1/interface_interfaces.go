@@ -16,6 +16,15 @@ limitations under the License.
 
 package v1alpha1
 
+import "fmt"
+
+const (
+	errMissingNetworkInstance     = "missing networkInstance"
+	errMissingNetworkInstanceName = "missing networkInstance name"
+	errUnsupportedAttachmentType  = "unsupported attachmentType"
+	errUnsupportedCNIType         = "unsupported cniType"
+)
+
 type AttachmentType string
 
 // AttachmentTypeNone defines an untagged attachement (no VLAN)
@@ -34,3 +43,47 @@ const CNITypeIPVLAN CNIType = "ipvlan"
 
 // CNITypeMACVLAN defines the macvlan cni
 const CNITypeMACVLAN CNIType = "macvlan"
+
+func IsCNITypeSupported(s string) bool {
+	switch s {
+	case string(CNITypeIPVLAN):
+	case string(CNITypeMACVLAN):
+	case string(CNITypeSRIOV):
+	default:
+		return false
+	}
+	return true
+}
+
+func IsAttachmentTypeSupported(s string) bool {
+	switch s {
+	case string(AttachmentTypeNone):
+	case string(AttachmentTypeVLAN):
+	default:
+		return false
+	}
+	return true
+}
+
+func ValidateInterfaceSpec(spec *InterfaceSpec) error {
+	if spec == nil {
+		return fmt.Errorf("spec invalid: %s", errMissingNetworkInstance)
+	}
+	if spec.AttachmentType != "" {
+		if !IsAttachmentTypeSupported(string(spec.AttachmentType)) {
+			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedAttachmentType, string(spec.AttachmentType))
+		}
+	}
+	if spec.CNIType != "" {
+		if !IsCNITypeSupported(string(spec.CNIType)) {
+			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedCNIType, string(spec.CNIType))
+		}
+	}
+	if spec.NetworkInstance == nil {
+		return fmt.Errorf("spec invalid %s", errMissingNetworkInstance)
+	}
+	if spec.NetworkInstance.Name == "" {
+		return fmt.Errorf("spec invalid: %s, got: %s", errMissingNetworkInstanceName, spec.NetworkInstance.Name)
+	}
+	return nil
+}
