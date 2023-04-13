@@ -89,15 +89,15 @@ type NetworkInstance struct {
 	// Peers defines the peer configuration associated with the network instance
 	// +optional
 	Peers []*PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
-	// dnns defines the dnns assocated with the network instance
+	// DataNetworks defines the data networks assocated with the network instance
 	// +optional
-	Dnns []*Dnn `json:"dnns,omitempty" yaml:"dnns,omitempty"`
+	DataNetworks []*DataNetwork `json:"dnns,omitempty" yaml:"dnns,omitempty"`
 	// bgp defines the BGP configuration associated with the network instance
 	// +optional
 	Bgp *BGPConfig `json:"bgp,omitempty" yaml:"bgp,omitempty"`
 }
 
-// A Dnn defines the Data Network name defined by 3GPP
+// A PeerConfig defines the peer configuration
 type PeerConfig struct {
 	// Name defines the name of the data network
 	//
@@ -112,14 +112,14 @@ type PeerConfig struct {
 	IPv6Config *IPv6Config `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
 }
 
-// A Dnn defines the Data Network name defined by 3GPP
-type Dnn struct {
+// A DataNetwork defines the Data Network name defined by 3GPP
+type DataNetwork struct {
 	// Name defines the name of the data network
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
 	Name string `json:"name,omitempty"`
-	// UEIPAddressPool defines the list of address pools associated with the dnn
+	// UEIPAddressPool defines the list of address pools associated with the data network
 	// +optional
 	UEIPAddressPool []*IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
 }
