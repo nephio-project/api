@@ -22,8 +22,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 type AMFDeployment struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
@@ -32,7 +32,7 @@ type AMFDeployment struct {
 	Status AMFDeploymentStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
-//+kubebuilder:object:root=true
+// +kubebuilder:object:root=true
 // AMFDeploymentList contains a list of AMFDeployments
 type AMFDeploymentList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

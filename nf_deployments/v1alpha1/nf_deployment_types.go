@@ -57,7 +57,7 @@ type InterfaceConfig struct {
 
 // IPv4Config defines the configuration parameters of an ipv4 interface or peer
 type IPv4Config struct {
-	// Address defines the IPv4 address and prefix length in CIDR notation 
+	// Address defines the IPv4 address and prefix length in CIDR notation
 	// [IP prefix, range IPv4 with host bits]
 	Address string `json:"address" yaml:"address"`
 	// Gateway defines the IPv4 address associated to the interface as a gateway
@@ -67,7 +67,7 @@ type IPv4Config struct {
 
 // IPv6Config defines the configuration parameters of an ipv6 interface or peer
 type IPv6Config struct {
-	// Address defines the IPv6 address and prefix length in CIDR notation 
+	// Address defines the IPv6 address and prefix length in CIDR notation
 	// [IP prefix, range IPv6 with host bits]
 	Address string `json:"address" yaml:"address"`
 	// Gateway defines the IPv6 address associated to the interface as a gateway
@@ -137,8 +137,7 @@ type BGPConfig struct {
 	// ASNumber defines the AS number of the bgp process
 	ASNumber int `json:"autonomousSystem" yaml:"autonomousSystem"`
 	// BGPNeigbors defines the configuration of the BGP neighbor
-	BGPNeigbors []*BGPNeighbor  `json:"neighbors" yaml:"neighbors"`
-	
+	BGPNeigbors []*BGPNeighbor `json:"neighbors" yaml:"neighbors"`
 }
 
 type BGPNeighbor struct {
@@ -148,7 +147,6 @@ type BGPNeighbor struct {
 	Name string `json:"Name,omitempty"`
 	// PeerAS defines the AS number of the bgp peer
 	PeerAS int `json:"peerAS" yaml:"autonomousSystem"`
-
 }
 
 // NFDeploymentStatus defines the observed state of nf deployment
