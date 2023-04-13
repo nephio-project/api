@@ -92,9 +92,9 @@ type NetworkInstance struct {
 	// DataNetworks defines the data networks assocated with the network instance
 	// +optional
 	DataNetworks []*DataNetwork `json:"dnns,omitempty" yaml:"dnns,omitempty"`
-	// bgp defines the BGP configuration associated with the network instance
+	// BGP defines the BGP configuration associated with the network instance
 	// +optional
-	Bgp *BGPConfig `json:"bgp,omitempty" yaml:"bgp,omitempty"`
+	BGP *BGPConfig `json:"bgp,omitempty" yaml:"bgp,omitempty"`
 }
 
 // A PeerConfig defines the peer configuration
@@ -130,7 +130,7 @@ type IPAddressPool struct {
 	Prefix string `json:"prefix" yaml:"prefix"`
 }
 
-// BgpConfig specifies parameters for BGP related configuration for UPF and SMF
+// BGPConfig specifies parameters for BGP related configuration for UPF and SMF
 type BGPConfig struct {
 	// RouterID defines the router ID of the bgp process
 	RouterID string `json:"routerID" yaml:"prefix"`
