@@ -5,14 +5,14 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: smfdeployments.nf.nephio.org
+  name: upfdeployments.workload.nephio.org
 spec:
-  group: nf.nephio.org
+  group: workload.nephio.org
   names:
-    kind: SMFDeployment
-    listKind: SMFDeploymentList
-    plural: smfdeployments
-    singular: smfdeployment
+    kind: UPFDeployment
+    listKind: UPFDeploymentList
+    plural: upfdeployments
+    singular: upfdeployment
   scope: Namespaced
   versions:
   - name: v1alpha1
