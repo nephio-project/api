@@ -144,9 +144,9 @@ type BGPNeighbor struct {
 	// Address defines the IPv4 or IPv6 address of the BGP neighbor
 	Address string `json:"address" yaml:"address"`
 	// BGP interface name, MUST match the one use in InterfaceConfig
-	Name string `json:"Name,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// PeerAS defines the AS number of the bgp peer
-	PeerAS int `json:"peerAS" yaml:"autonomousSystem"`
+	PeerAS int `json:"peerAS" yaml:"peerAS"`
 }
 
 // NFDeploymentStatus defines the observed state of nf deployment
