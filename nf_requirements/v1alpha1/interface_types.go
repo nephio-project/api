@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Nephio.
+Copyright 2023 The Nephio Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,21 +16,43 @@ limitations under the License.
 
 package v1alpha1
 
-type AttachmentType string
+import (
+	"reflect"
 
-// AttachmentTypeNone defines an untagged attachement (no VLAN)
-const AttachmentTypeNone AttachmentType = "none"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
 
-// AttachmentTypeVLAN defines a tagged/vlan attachement
-const AttachmentTypeVLAN AttachmentType = "vlan"
+// +kubebuilder:object:root=true
+type Interface struct {
+	metav1.TypeMeta   `json:",inline" yaml:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-type CNIType string
+	Spec   InterfaceSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status InterfaceStatus `json:"status,omitempty" yaml:"status,omitempty"`
+}
 
-// CNITypeSRIOV defines the sriov cni
-const CNITypeSRIOV CNIType = "sriov"
+// TBD how do we distinguish the loopback from the vnic(s)
+type InterfaceSpec struct {
+	// NetworkInstance defines the networkInstance to which this interface belongs
+	// Name and optionally Namespace is used here
+	NetworkInstance *corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
+	// CNIType defines the cniType that is used to attach the interface to the pod
+	// +kubebuilder:validation:Enum=sriov;ipvlan;macvlan
+	CNIType CNIType `json:"cniType,omitempty" yaml:"cniType,omitempty"`
+	// AttachmentType defines if the interface is attached using a vlan or not
+	// +kubebuilder:validation:Enum=none;vlan
+	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
+}
 
-// CNITypeIPVLAN defines the ipvlan cni
-const CNITypeIPVLAN CNIType = "ipvlan"
+type InterfaceStatus struct {
+}
 
-// CNITypeMACVLAN defines the macvlan cni
-const CNITypeMACVLAN CNIType = "macvlan"
+// Interface type metadata.
+var (
+	InterfaceKind             = reflect.TypeOf(Interface{}).Name()
+	InterfaceGroupKind        = schema.GroupKind{Group: Group, Kind: InterfaceKind}.String()
+	InterfaceKindAPIVersion   = InterfaceKind + "." + GroupVersion.String()
+	InterfaceGroupVersionKind = GroupVersion.WithKind(InterfaceKind)
+)
