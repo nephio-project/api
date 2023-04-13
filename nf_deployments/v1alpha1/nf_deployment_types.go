@@ -134,10 +134,10 @@ type IPAddressPool struct {
 type BGPConfig struct {
 	// RouterID defines the router ID of the bgp process
 	RouterID string `json:"routerID" yaml:"routerID"`
-	// ASNumber defines the AS number of the bgp process
-	ASNumber int `json:"autonomousSystem" yaml:"autonomousSystem"`
+	// AutonomousSystem defines the AS number of the bgp process
+	AutonomousSystem int `json:"autonomousSystem" yaml:"autonomousSystem"`
 	// BGPNeigbors defines the configuration of the BGP neighbor
-	BGPNeigbors []*BGPNeighbor `json:"neighbors" yaml:"neighbors"`
+	BGPNeigbors []*BGPNeighbor `json:"bgpNeighbors" yaml:"bgpNeighbors"`
 }
 
 type BGPNeighbor struct {
