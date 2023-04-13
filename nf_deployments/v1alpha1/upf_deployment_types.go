@@ -29,8 +29,8 @@ type UPFDeployment struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   AMFDeploymentSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status AMFDeploymentStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   UPFDeploymentSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status UPFDeploymentStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
