@@ -103,7 +103,7 @@ type PeerConfig struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name string `json:"name,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// IPv4Config defines the ipv4 configuration of the peer
 	// +optional
 	IPv4Config *IPv4Config `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
@@ -118,7 +118,7 @@ type DataNetwork struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name string `json:"name,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// UEIPAddressPool defines the list of address pools associated with the data network
 	// +optional
 	UEIPAddressPool []*IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
