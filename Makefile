@@ -95,7 +95,7 @@ lint: ## Run lint  against code.
 ifeq ($(CONTAINER_RUNNABLE), 0)
 		$(CONTAINER_RUNTIME) run -it -v ${PWD}:/go/src -w /go/src docker.io/golangci/golangci-lint:${GOLANG_CI_VER}-alpine golangci-lint run ./... -v
 else
-		golangci-lint run ./... -v
+		golangci-lint run ./... -v --timeout 10m
 endif
 
 # Install link at https://github.com/securego/gosec#install if not running inside a container
