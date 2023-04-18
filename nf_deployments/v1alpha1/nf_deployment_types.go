@@ -91,7 +91,7 @@ type NetworkInstance struct {
 	Peers []PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
 	// DataNetworks defines the data networks assocated with the network instance
 	// +optional
-	DataNetworks []DataNetwork `json:"dnns,omitempty" yaml:"dnns,omitempty"`
+	DataNetworks []DataNetwork `json:"dataNetworks,omitempty" yaml:"dataNetworks,omitempty"`
 	// BGP defines the BGP configuration associated with the network instance
 	// +optional
 	BGP *BGPConfig `json:"bgp,omitempty" yaml:"bgp,omitempty"`
