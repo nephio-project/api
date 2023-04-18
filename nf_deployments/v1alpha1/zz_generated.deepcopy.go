@@ -266,8 +266,8 @@ func (in *NFDeploymentSpec) DeepCopyInto(out *NFDeploymentSpec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.ConfigRef != nil {
-		in, out := &in.ConfigRef, &out.ConfigRef
+	if in.ConfigRefs != nil {
+		in, out := &in.ConfigRefs, &out.ConfigRefs
 		*out = make([]v1.ObjectReference, len(*in))
 		copy(*out, *in)
 	}

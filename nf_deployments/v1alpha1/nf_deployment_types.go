@@ -34,7 +34,7 @@ type NFDeploymentSpec struct {
 	NetworkInstances []NetworkInstance `json:"networkInstances,omitempty" yaml:"networkInstances,omitempty"`
 	// configRef defines addiitonal configuration references the nf depends upon
 	// +optional
-	ConfigRef []corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
+	ConfigRefs []corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
 }
 
 // InterfaceConfig defines the configuration of the interface
