@@ -153,23 +153,8 @@ type BGPNeighbor struct {
 type NFDeploymentStatus struct {
 	// The generation observed by the deployment controller.
 	ObservedGeneration int32 `json:"observedGeneration" yaml:"observedGeneration"`
-	// Current service state of the NF.
-	Conditions []Condition `json:"conditions,omitempty" yaml:"conditions,omitempty"`
-}
-
-type Condition struct {
-	// Type defines the type of the nf deployment condition.
-	Type NFDeploymentConditionType `json:"type" yaml:"type"`
-	// Status defines the status of the condition, one of True, False, Unknown.
-	Status corev1.ConditionStatus `json:"status" yaml:"status"`
-	// LastProbeTime defines the last time this condition was probed for.
-	LastProbeTime metav1.Time `json:"lastProbeTime,omitempty" yaml:"lastProbeTime,omitempty"`
-	// LastTransitionTime defines the last time the condition transitioned from one status to another.
-	LastTransitionTime metav1.Time `json:"lastTransitionTime,omitempty" yaml:"lastTransitionTime,omitempty"`
-	// Reason defines the reason for the condition's last transition.
-	Reason string `json:"reason,omitempty" yaml:"reason,omitempty"`
-	// Message defines a human readable message indicating details about the transition.
-	Message string `json:"message,omitempty" yaml:"message,omitempty"`
+	// Conditions define the current state of the NF deployment
+	Conditions []metav1.Condition `json:"conditions,omitempty" yaml:"conditions,omitempty"`
 }
 
 type NFDeploymentConditionType string
