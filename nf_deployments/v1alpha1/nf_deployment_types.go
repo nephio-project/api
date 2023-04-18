@@ -119,12 +119,12 @@ type DataNetwork struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
 	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
-	// UEIPAddressPool defines the list of address pools associated with the data network
+	// Pool defines the list of address pools associated with the data network
 	// +optional
-	UEIPAddressPool []IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
+	Pool []Pool `json:"pool,omitempty" yaml:"pool,omitempty"`
 }
 
-type IPAddressPool struct {
+type Pool struct {
 	// Prefix defines the ip cidr in prefix notation. It is defines as a subnet
 	// +kubebuilder:validation:Pattern=`(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))|((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))(/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))`
 	Prefix string `json:"prefix" yaml:"prefix"`

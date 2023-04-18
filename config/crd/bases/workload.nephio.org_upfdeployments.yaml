@@ -239,8 +239,8 @@ spec:
                             minLength: 1
                             type: string
                           pool:
-                            description: UEIPAddressPool defines the list of address
-                              pools associated with the data network
+                            description: Pool defines the list of address pools associated
+                              with the data network
                             items:
                               properties:
                                 prefix:
