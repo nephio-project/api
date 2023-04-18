@@ -28,13 +28,13 @@ type NFDeploymentSpec struct {
 	Capacity *nephioreqv1alpha1.CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
 	// Interfaces defines the interfaces associated with the NF deployment
 	// +optional
-	Interfaces []*InterfaceConfig `json:"interfaces,omitempty" yaml:"interfaces,omitempty"`
+	Interfaces []InterfaceConfig `json:"interfaces,omitempty" yaml:"interfaces,omitempty"`
 	// NetworkInstances defines the network instances associated with the NF deployment
 	// +optional
-	NetworkInstances []*NetworkInstance `json:"networkInstances,omitempty" yaml:"networkInstances,omitempty"`
+	NetworkInstances []NetworkInstance `json:"networkInstances,omitempty" yaml:"networkInstances,omitempty"`
 	// configRef defines addiitonal configuration references the nf depends upon
 	// +optional
-	ConfigRef []*corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
+	ConfigRef []corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
 }
 
 // InterfaceConfig defines the configuration of the interface
@@ -88,10 +88,10 @@ type NetworkInstance struct {
 	Interfaces []string `json:"interfaces,omitempty" yaml:"interfaces,omitempty"`
 	// Peers defines the peer configuration associated with the network instance
 	// +optional
-	Peers []*PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
+	Peers []PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
 	// DataNetworks defines the data networks assocated with the network instance
 	// +optional
-	DataNetworks []*DataNetwork `json:"dnns,omitempty" yaml:"dnns,omitempty"`
+	DataNetworks []DataNetwork `json:"dnns,omitempty" yaml:"dnns,omitempty"`
 	// BGP defines the BGP configuration associated with the network instance
 	// +optional
 	BGP *BGPConfig `json:"bgp,omitempty" yaml:"bgp,omitempty"`
@@ -121,7 +121,7 @@ type DataNetwork struct {
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// UEIPAddressPool defines the list of address pools associated with the data network
 	// +optional
-	UEIPAddressPool []*IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
+	UEIPAddressPool []IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
 }
 
 type IPAddressPool struct {
@@ -137,7 +137,7 @@ type BGPConfig struct {
 	// AutonomousSystem defines the AS number of the bgp process
 	AutonomousSystem int `json:"autonomousSystem" yaml:"autonomousSystem"`
 	// BGPNeigbors defines the configuration of the BGP neighbor
-	BGPNeigbors []*BGPNeighbor `json:"bgpNeighbors" yaml:"bgpNeighbors"`
+	BGPNeigbors []BGPNeighbor `json:"bgpNeighbors" yaml:"bgpNeighbors"`
 }
 
 type BGPNeighbor struct {

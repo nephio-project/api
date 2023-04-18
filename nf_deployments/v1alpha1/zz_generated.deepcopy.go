@@ -124,14 +124,8 @@ func (in *BGPConfig) DeepCopyInto(out *BGPConfig) {
 	*out = *in
 	if in.BGPNeigbors != nil {
 		in, out := &in.BGPNeigbors, &out.BGPNeigbors
-		*out = make([]*BGPNeighbor, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(BGPNeighbor)
-				**out = **in
-			}
-		}
+		*out = make([]BGPNeighbor, len(*in))
+		copy(*out, *in)
 	}
 }
 
@@ -165,14 +159,8 @@ func (in *DataNetwork) DeepCopyInto(out *DataNetwork) {
 	*out = *in
 	if in.UEIPAddressPool != nil {
 		in, out := &in.UEIPAddressPool, &out.UEIPAddressPool
-		*out = make([]*IPAddressPool, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(IPAddressPool)
-				**out = **in
-			}
-		}
+		*out = make([]IPAddressPool, len(*in))
+		copy(*out, *in)
 	}
 }
 
@@ -266,36 +254,22 @@ func (in *NFDeploymentSpec) DeepCopyInto(out *NFDeploymentSpec) {
 	}
 	if in.Interfaces != nil {
 		in, out := &in.Interfaces, &out.Interfaces
-		*out = make([]*InterfaceConfig, len(*in))
+		*out = make([]InterfaceConfig, len(*in))
 		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(InterfaceConfig)
-				(*in).DeepCopyInto(*out)
-			}
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.NetworkInstances != nil {
 		in, out := &in.NetworkInstances, &out.NetworkInstances
-		*out = make([]*NetworkInstance, len(*in))
+		*out = make([]NetworkInstance, len(*in))
 		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(NetworkInstance)
-				(*in).DeepCopyInto(*out)
-			}
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.ConfigRef != nil {
 		in, out := &in.ConfigRef, &out.ConfigRef
-		*out = make([]*v1.ObjectReference, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(v1.ObjectReference)
-				**out = **in
-			}
-		}
+		*out = make([]v1.ObjectReference, len(*in))
+		copy(*out, *in)
 	}
 }
 
@@ -341,24 +315,16 @@ func (in *NetworkInstance) DeepCopyInto(out *NetworkInstance) {
 	}
 	if in.Peers != nil {
 		in, out := &in.Peers, &out.Peers
-		*out = make([]*PeerConfig, len(*in))
+		*out = make([]PeerConfig, len(*in))
 		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(PeerConfig)
-				(*in).DeepCopyInto(*out)
-			}
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DataNetworks != nil {
 		in, out := &in.DataNetworks, &out.DataNetworks
-		*out = make([]*DataNetwork, len(*in))
+		*out = make([]DataNetwork, len(*in))
 		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(DataNetwork)
-				(*in).DeepCopyInto(*out)
-			}
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.BGP != nil {
