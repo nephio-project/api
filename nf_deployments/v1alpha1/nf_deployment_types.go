@@ -44,35 +44,35 @@ type InterfaceConfig struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
 	Name string `json:"name" yaml:"name"`
-	// IPv4Config defines the ipv4 configuration of the interface
+	// IPv4 defines the ipv4 configuration of the interface
 	// +optional
-	IPv4Config *IPv4Config `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
+	IPv4 *IPv4 `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
 	// IPv6Config defines the ipv6 configuration of the interface
 	// +optional
-	IPv6Config *IPv6Config `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
-	// VlanID defines the specific vlan id associated on this interface
+	IPv6 *IPv6 `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
+	// VLANID defines the specific vlan id associated on this interface
 	// +optional
-	VlanID uint16 `json:"vlanID,omitempty" yaml:"vlanID,omitempty"`
+	VLANID *uint16 `json:"vlanID,omitempty" yaml:"vlanID,omitempty"`
 }
 
-// IPv4Config defines the configuration parameters of an ipv4 interface or peer
-type IPv4Config struct {
+// IPv4 defines the configuration parameters of an ipv4 interface or peer
+type IPv4 struct {
 	// Address defines the IPv4 address and prefix length in CIDR notation
 	// [IP prefix, range IPv4 with host bits]
 	Address string `json:"address" yaml:"address"`
 	// Gateway defines the IPv4 address associated to the interface as a gateway
 	// +optional
-	Gateway string `json:"gateway,omitempty" yaml:"gateway,omitempty"`
+	Gateway *string `json:"gateway,omitempty" yaml:"gateway,omitempty"`
 }
 
-// IPv6Config defines the configuration parameters of an ipv6 interface or peer
-type IPv6Config struct {
+// IPv6 defines the configuration parameters of an ipv6 interface or peer
+type IPv6 struct {
 	// Address defines the IPv6 address and prefix length in CIDR notation
 	// [IP prefix, range IPv6 with host bits]
 	Address string `json:"address" yaml:"address"`
 	// Gateway defines the IPv6 address associated to the interface as a gateway
 	// +optional
-	Gateway string `json:"gateway,omitempty" yaml:"gateway,omitempty"`
+	Gateway *string `json:"gateway,omitempty" yaml:"gateway,omitempty"`
 }
 
 // A networkInstance is a Layer 3 forwarding construct
@@ -103,13 +103,13 @@ type PeerConfig struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
-	// IPv4Config defines the ipv4 configuration of the peer
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
+	// IPv4 defines the ipv4 configuration of the peer
 	// +optional
-	IPv4Config *IPv4Config `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
-	// IPv6Config defines the ipv6 configuration of the peer
+	IPv4 *IPv4 `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
+	// IPv6 defines the ipv6 configuration of the peer
 	// +optional
-	IPv6Config *IPv6Config `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
+	IPv6 *IPv6 `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
 }
 
 // A DataNetwork defines the Data Network name defined by 3GPP
@@ -118,7 +118,7 @@ type DataNetwork struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 	// UEIPAddressPool defines the list of address pools associated with the data network
 	// +optional
 	UEIPAddressPool []IPAddressPool `json:"pool,omitempty" yaml:"pool,omitempty"`
@@ -144,7 +144,7 @@ type BGPNeighbor struct {
 	// Address defines the IPv4 or IPv6 address of the BGP neighbor
 	Address string `json:"address" yaml:"address"`
 	// BGP interface name, MUST match the one use in InterfaceConfig
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 	// PeerAS defines the AS number of the bgp peer
 	PeerAS int `json:"peerAS" yaml:"peerAS"`
 }

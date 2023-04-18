@@ -138,8 +138,7 @@ spec:
                   description: InterfaceConfig defines the configuration of the interface
                   properties:
                     ipv4:
-                      description: IPv4Config defines the ipv4 configuration of the
-                        interface
+                      description: IPv4 defines the ipv4 configuration of the interface
                       properties:
                         address:
                           description: Address defines the IPv4 address and prefix
@@ -175,7 +174,7 @@ spec:
                       minLength: 1
                       type: string
                     vlanID:
-                      description: VlanID defines the specific vlan id associated
+                      description: VLANID defines the specific vlan id associated
                         on this interface
                       type: integer
                   required:
@@ -273,8 +272,8 @@ spec:
                         description: A PeerConfig defines the peer configuration
                         properties:
                           ipv4:
-                            description: IPv4Config defines the ipv4 configuration
-                              of the peer
+                            description: IPv4 defines the ipv4 configuration of the
+                              peer
                             properties:
                               address:
                                 description: Address defines the IPv4 address and
@@ -289,8 +288,8 @@ spec:
                             - address
                             type: object
                           ipv6:
-                            description: IPv6Config defines the ipv6 configuration
-                              of the peer
+                            description: IPv6 defines the ipv6 configuration of the
+                              peer
                             properties:
                               address:
                                 description: Address defines the IPv6 address and
