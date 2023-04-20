@@ -33,7 +33,7 @@ spec:
             type: object
           spec:
             properties:
-              networkInstanceReference:
+              networkInstance:
                 description: NetworkInstance defines the networkInstance context to
                   which this DNN belongs Name and optionally Namespace is used here
                 properties:
@@ -87,9 +87,58 @@ spec:
                   type: object
                 type: array
             required:
-            - networkInstanceReference
+            - networkInstance
             type: object
           status:
+            properties:
+              ipAllocationStatus:
+                description: IPAllocationStatus defines the observed state of IPAllocation
+                properties:
+                  conditions:
+                    description: Conditions of the resource.
+                    items:
+                      description: A Condition that may apply to a resource
+                      properties:
+                        kind:
+                          description: Type of this condition. At most one of each
+                            condition type may apply to a resource at any point in
+                            time.
+                          type: string
+                        lastTransitionTime:
+                          description: LastTransitionTime is the last time this condition
+                            transitioned from one status to another.
+                          format: date-time
+                          type: string
+                        message:
+                          description: A Message containing details about this condition's
+                            last transition from one status to another, if any.
+                          type: string
+                        reason:
+                          description: A Reason for this condition's last transition
+                            from one status to another.
+                          type: string
+                        status:
+                          description: Status of this condition; is it currently True,
+                            False, or Unknown?
+                          type: string
+                      required:
+                      - kind
+                      - lastTransitionTime
+                      - reason
+                      - status
+                      type: object
+                    type: array
+                  expiryTime:
+                    description: expiryTime indicated when the allocation expires
+                    type: string
+                  gateway:
+                    description: Gateway identifies the gatway IP for the network
+                    type: string
+                  prefix:
+                    description: AllocatedPrefix identifies the prefix that was allocated
+                      by the IPAM system
+                    type: string
+                type: object
             type: object
         type: object
     served: true
