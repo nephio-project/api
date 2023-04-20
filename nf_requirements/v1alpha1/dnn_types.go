@@ -39,7 +39,7 @@ type DataNetworkSpec struct {
 	Pools []*Pool `json:"pools,omitempty"`
 	// NetworkInstance defines the networkInstance context to which this DNN belongs
 	// Name and optionally Namespace is used here
-	NetworkInstance corev1.ObjectReference `json:"networkInstanceReference" yaml:"networkReference"`
+	NetworkInstance corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
 }
 
 type Pool struct {
