@@ -226,7 +226,7 @@ spec:
                       - bgpNeighbors
                       - routerID
                       type: object
-                    dnns:
+                    dataNetworks:
                       description: DataNetworks defines the data networks assocated
                         with the network instance
                       items:

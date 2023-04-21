@@ -19,6 +19,8 @@ package v1alpha1
 import (
 	"reflect"
 
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
+	vlanv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/vlan/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -47,6 +49,8 @@ type InterfaceSpec struct {
 }
 
 type InterfaceStatus struct {
+	IPAllocationStatus   *ipamv1alpha1.IPAllocationStatus   `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
+	VLANAllocationStatus *vlanv1alpha1.VLANAllocationStatus `json:"vlanAllocationStatus,omitempty" yaml:"vlanAllocationStatus,omitempty"`
 }
 
 // Interface type metadata.
