@@ -36,10 +36,10 @@ type DataNetwork struct {
 
 type DataNetworkSpec struct {
 	// Pools defines the parameters of the IP pool associated with the DNN
-	Pools []*Pool `json:"pools,omitempty"`
+	Pools []Pool `json:"pools,omitempty"`
 	// NetworkInstance defines the networkInstance context to which this DNN belongs
 	// Name and optionally Namespace is used here
-	NetworkInstance corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
+	NetworkInstance *corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
 }
 
 type Pool struct {
@@ -47,7 +47,8 @@ type Pool struct {
 	//
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 	// PrefixLength define the size of the pool
 	PrefixLength uint8 `json:"prefixLength,omitempty" yaml:"prefixLength,omitempty"`
 }

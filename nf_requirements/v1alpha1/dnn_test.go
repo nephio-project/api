@@ -22,22 +22,23 @@ import (
 	"github.com/google/go-cmp/cmp"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/utils/pointer"
 )
 
-func TestInterfaceGetNetworkInstance(t *testing.T) {
+func TestDNNGetNetworkInstance(t *testing.T) {
 	tests := map[string]struct {
-		input Interface
+		input DataNetwork
 		want  types.NamespacedName
 	}{
 		"GetNetworkInstanceEmpty": {
-			input: Interface{
-				Spec: InterfaceSpec{},
+			input: DataNetwork{
+				Spec: DataNetworkSpec{},
 			},
 			want: types.NamespacedName{},
 		},
 		"GetNetworkInstanceName": {
-			input: Interface{
-				Spec: InterfaceSpec{
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
 					NetworkInstance: &corev1.ObjectReference{
 						Name: "a",
 					},
@@ -48,8 +49,8 @@ func TestInterfaceGetNetworkInstance(t *testing.T) {
 			},
 		},
 		"GetNetworkInstanceNameSpace": {
-			input: Interface{
-				Spec: InterfaceSpec{
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
 					NetworkInstance: &corev1.ObjectReference{
 						Namespace: "a",
 					},
@@ -60,8 +61,8 @@ func TestInterfaceGetNetworkInstance(t *testing.T) {
 			},
 		},
 		"GetNetworkInstanceNameSpaceName": {
-			input: Interface{
-				Spec: InterfaceSpec{
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
 					NetworkInstance: &corev1.ObjectReference{
 						Namespace: "a",
 						Name:      "a",
@@ -87,67 +88,78 @@ func TestInterfaceGetNetworkInstance(t *testing.T) {
 	}
 }
 
-func TestInterfaceGetCNIType(t *testing.T) {
-	cniType := CNITypeIPVLAN
-
+func TestDNNGetPools(t *testing.T) {
 	tests := map[string]struct {
-		input Interface
-		want  *CNIType
+		input DataNetwork
+		want  []*Pool
 	}{
-		"TestGetCNITypeEmpty": {
-			input: Interface{
-				Spec: InterfaceSpec{},
+		"GetPools Empty": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{},
 			},
-			want: nil,
+			want: []*Pool{},
 		},
-		"TestGetCNIType": {
-			input: Interface{
-				Spec: InterfaceSpec{
-					CNIType: &cniType,
+		"GetPools Single": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
+					Pools: []Pool{
+						{
+							Name:         pointer.String("a"),
+							PrefixLength: 126,
+						},
+					},
 				},
 			},
-			want: &cniType,
+			want: []*Pool{
+				{
+					Name:         pointer.String("a"),
+					PrefixLength: 126,
+				},
+			},
+		},
+		"GetPools Multiple": {
+			input: DataNetwork{
+				Spec: DataNetworkSpec{
+					Pools: []Pool{
+						{
+							Name:         pointer.String("a"),
+							PrefixLength: 126,
+						},
+						{
+							Name:         pointer.String("b"),
+							PrefixLength: 16,
+						},
+					},
+				},
+			},
+			want: []*Pool{
+				{
+					Name:         pointer.String("a"),
+					PrefixLength: 126,
+				},
+				{
+					Name:         pointer.String("b"),
+					PrefixLength: 16,
+				},
+			},
 		},
 	}
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := tc.input.GetCNIType()
-			if diff := cmp.Diff(tc.want, got); diff != "" {
-				t.Errorf("TestGetCNIType: -want, +got:\n%s", diff)
-			}
-		})
-	}
-}
+			got := tc.input.GetPools()
 
-func TestInterfaceGetAttachmentType(t *testing.T) {
-	at := AttachmentTypeVLAN
-
-	tests := map[string]struct {
-		input Interface
-		want  *AttachmentType
-	}{
-		"TestGetAttachmentTypeEmpty": {
-			input: Interface{
-				Spec: InterfaceSpec{},
-			},
-			want: nil,
-		},
-		"TestGetAttachmentType": {
-			input: Interface{
-				Spec: InterfaceSpec{
-					AttachmentType: &at,
-				},
-			},
-			want: &at,
-		},
-	}
-
-	for name, tc := range tests {
-		t.Run(name, func(t *testing.T) {
-			got := tc.input.GetAttachmentType()
-			if diff := cmp.Diff(tc.want, got); diff != "" {
-				t.Errorf("TestGetAttachmentType: -want, +got:\n%s", diff)
+			if len(got) != len(tc.want) {
+				t.Errorf("TestDNNGetPools: unexpected length -want %d, +got: %d\n", len(tc.want), len(got))
+			} else {
+				for i, gotPool := range got {
+					if diff := cmp.Diff(tc.want[i].GetName(), gotPool.GetName()); diff != "" {
+						t.Errorf("TestDNNGetPools name: -want, +got:\n%s", diff)
+					}
+					if diff := cmp.Diff(tc.want[i].GetPrefixLength(), gotPool.GetPrefixLength()); diff != "" {
+						t.Errorf("TestDNNGetPools prefixlength: -want, +got:\n%s", diff)
+					}
+				}
 			}
 		})
 	}

@@ -16,13 +16,8 @@ limitations under the License.
 
 package v1alpha1
 
-import "fmt"
-
-const (
-	errMissingNetworkInstance     = "missing networkInstance"
-	errMissingNetworkInstanceName = "missing networkInstance name"
-	errUnsupportedAttachmentType  = "unsupported attachmentType"
-	errUnsupportedCNIType         = "unsupported cniType"
+import (
+	"k8s.io/apimachinery/pkg/types"
 )
 
 type AttachmentType string
@@ -44,46 +39,22 @@ const CNITypeIPVLAN CNIType = "ipvlan"
 // CNITypeMACVLAN defines the macvlan cni
 const CNITypeMACVLAN CNIType = "macvlan"
 
-func IsCNITypeSupported(s string) bool {
-	switch s {
-	case string(CNITypeIPVLAN):
-	case string(CNITypeMACVLAN):
-	case string(CNITypeSRIOV):
-	default:
-		return false
+// GetNetworkInstance returns the networkinstance the interface belongs to
+func (r *Interface) GetNetworkInstance() types.NamespacedName {
+	nsn := types.NamespacedName{}
+	if r.Spec.NetworkInstance != nil {
+		nsn.Name = r.Spec.NetworkInstance.Name
+		nsn.Namespace = r.Spec.NetworkInstance.Namespace
 	}
-	return true
+	return nsn
 }
 
-func IsAttachmentTypeSupported(s string) bool {
-	switch s {
-	case string(AttachmentTypeNone):
-	case string(AttachmentTypeVLAN):
-	default:
-		return false
-	}
-	return true
+// GetCNIType returns the cnitype of the interface
+func (r *Interface) GetCNIType() *CNIType {
+	return r.Spec.CNIType
 }
 
-func ValidateInterfaceSpec(spec *InterfaceSpec) error {
-	if spec == nil {
-		return fmt.Errorf("spec invalid: %s", errMissingNetworkInstance)
-	}
-	if spec.AttachmentType != "" {
-		if !IsAttachmentTypeSupported(string(spec.AttachmentType)) {
-			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedAttachmentType, string(spec.AttachmentType))
-		}
-	}
-	if spec.CNIType != "" {
-		if !IsCNITypeSupported(string(spec.CNIType)) {
-			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedCNIType, string(spec.CNIType))
-		}
-	}
-	if spec.NetworkInstance == nil {
-		return fmt.Errorf("spec invalid %s", errMissingNetworkInstance)
-	}
-	if spec.NetworkInstance.Name == "" {
-		return fmt.Errorf("spec invalid: %s, got: %s", errMissingNetworkInstanceName, spec.NetworkInstance.Name)
-	}
-	return nil
+// GetAttachmentType returns the attachment type of the interface
+func (r *Interface) GetAttachmentType() *AttachmentType {
+	return r.Spec.AttachmentType
 }

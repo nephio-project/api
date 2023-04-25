@@ -42,10 +42,12 @@ type InterfaceSpec struct {
 	NetworkInstance *corev1.ObjectReference `json:"networkInstance" yaml:"networkInstance"`
 	// CNIType defines the cniType that is used to attach the interface to the pod
 	// +kubebuilder:validation:Enum=sriov;ipvlan;macvlan
-	CNIType CNIType `json:"cniType,omitempty" yaml:"cniType,omitempty"`
+	// +kubebuilder:validation:Optional
+	CNIType *CNIType `json:"cniType,omitempty" yaml:"cniType,omitempty"`
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
-	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
+	// +kubebuilder:validation:Optional
+	AttachmentType *AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
 }
 
 type InterfaceStatus struct {
