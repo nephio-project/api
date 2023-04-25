@@ -35,6 +35,9 @@ type NFDeploymentSpec struct {
 	// configRef defines addiitonal configuration references the nf depends upon
 	// +optional
 	ConfigRefs []corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
+	// Peers defines the peers the network function is associated with
+	// +optional
+	Peers []PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
 }
 
 // InterfaceConfig defines the configuration of the interface
@@ -86,9 +89,6 @@ type NetworkInstance struct {
 	// interfaces defines the interfaces associated with the network instance
 	// +optional
 	Interfaces []string `json:"interfaces,omitempty" yaml:"interfaces,omitempty"`
-	// Peers defines the peer configuration associated with the network instance
-	// +optional
-	Peers []PeerConfig `json:"peers,omitempty" yaml:"peers,omitempty"`
 	// DataNetworks defines the data networks assocated with the network instance
 	// +optional
 	DataNetworks []DataNetwork `json:"dataNetworks,omitempty" yaml:"dataNetworks,omitempty"`
@@ -104,12 +104,17 @@ type PeerConfig struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:MaxLength=253
 	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
+	// Labels define metadata assoicated with the peer configuration
+	Labels map[string]string `json:"labels,omitempty" yaml:"labels,omitempty"`
 	// IPv4 defines the ipv4 configuration of the peer
 	// +optional
 	IPv4 *IPv4 `json:"ipv4,omitempty" yaml:"ipv4,omitempty"`
 	// IPv6 defines the ipv6 configuration of the peer
 	// +optional
 	IPv6 *IPv6 `json:"ipv6,omitempty" yaml:"ipv6,omitempty"`
+	// NetworkInstance defines the networkInstance to which this peer config belongs
+	// Name and optionally Namespace is used here
+	NetworkInstance *corev1.ObjectReference `json:"networkInstance,omitempty" yaml:"networkInstance,omitempty"`
 }
 
 // A DataNetwork defines the Data Network name defined by 3GPP
