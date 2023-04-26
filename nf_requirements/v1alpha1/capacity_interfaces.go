@@ -37,3 +37,8 @@ func (r *Capacity) GetMaxSessions() *int {
 func (r *Capacity) GetMaxSubscribers() *int {
 	return r.Spec.MaxSubscribers
 }
+
+// GetMaxNFConnections returns the max connections to a network function
+func (r *Capacity) GetMaxNFConnections() *uint16 {
+	return r.Spec.MaxNFConnections
+}

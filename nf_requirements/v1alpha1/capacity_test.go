@@ -190,3 +190,45 @@ func TestCapacityGetMaxSubscribers(t *testing.T) {
 		})
 	}
 }
+
+func TestCapacityGetMaxNFConnections(t *testing.T) {
+	maxNFConnections := uint16(10)
+
+	tests := map[string]struct {
+		input Capacity
+		want  *uint16
+	}{
+		"TestCapacityGetMaxNFConnectionsEmpty": {
+			input: Capacity{
+				Spec: CapacitySpec{},
+			},
+			want: nil,
+		},
+		"TestCapacityGetMaxNFConnectionsNormal": {
+			input: Capacity{
+				Spec: CapacitySpec{
+					MaxNFConnections: &maxNFConnections,
+				},
+			},
+			want: &maxNFConnections,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got := tc.input.GetMaxNFConnections()
+			switch {
+			case got == nil && tc.want != nil:
+				t.Errorf("TestCapacityGetMaxNFConnections: -want %v, +got: nil\n", *tc.want)
+			case got != nil && tc.want == nil:
+				t.Errorf("TestCapacityGetMaxNFConnections: -want nil, +got: %v\n", *got)
+			case got != nil && tc.want != nil:
+				if diff := cmp.Diff(tc.want, got); diff != "" {
+					t.Errorf("TestCapacityGetMaxNFConnections: -want, +got:\n%s", diff)
+				}
+			default:
+				// got == nil and want == nil ok
+			}
+		})
+	}
+}

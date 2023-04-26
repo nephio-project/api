@@ -41,6 +41,10 @@ spec:
                   throughput
                 pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                 x-kubernetes-int-or-string: true
+              maxNFConnections:
+                description: MaxNFConnections defines the max NF(s) that can be connected
+                  to this NF/device
+                type: integer
               maxSessions:
                 description: MaxSessions defines the max sessions of the control plane
                   expressed in unit of 1000s
