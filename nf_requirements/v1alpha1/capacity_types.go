@@ -35,17 +35,21 @@ type Capacity struct {
 
 type CapacitySpec struct {
 	// MaxUplinkThroughput defines the max uplink dataplane throughput
-	MaxUplinkThroughput resource.Quantity `json:"maxUplinkThroughput,omitempty" yaml:"maxUplinkThroughput,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxUplinkThroughput *resource.Quantity `json:"maxUplinkThroughput,omitempty" yaml:"maxUplinkThroughput,omitempty"`
 	// MaxDownlinkThroughput defines the max downlink dataplane throughput
-	MaxDownlinkThroughput resource.Quantity `json:"maxDownlinkThroughput,omitempty" yaml:"maxDownlinkThroughput,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxDownlinkThroughput *resource.Quantity `json:"maxDownlinkThroughput,omitempty" yaml:"maxDownlinkThroughput,omitempty"`
 	// MaxSessions defines the max sessions of the control plane
 	// expressed in unit of 1000s
-	MaxSessions int `json:"maxSessions,omitempty" yaml:"maxSessions,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxSessions *int `json:"maxSessions,omitempty" yaml:"maxSessions,omitempty"`
 	// MaxSubscribers defines the max subscribers
 	// expressed in unit of 1000s
-	MaxSubscribers int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
+	// +kubebuilder:validation:Optional
+	MaxSubscribers *int `json:"maxSubscribers,omitempty" yaml:"maxSubscribers,omitempty"`
 	// MaxNFConnections defines the max NF(s) that can be connected to this NF/device
-	MaxNFConnections uint16 `json:"maxNFConnections,omitempty" yaml:"maxNFConnections,omitempty"`
+	MaxNFConnections *uint16 `json:"maxNFConnections,omitempty" yaml:"maxNFConnections,omitempty"`
 }
 
 type CapacityStatus struct {
