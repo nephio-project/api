@@ -53,7 +53,15 @@ type Pool struct {
 }
 
 type DataNetworkStatus struct {
-	IPAllocationStatus *ipamv1alpha1.IPAllocationStatus `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
+	// Pools contains the statuses of individual pools
+	Pools []PoolStatus `yaml:"pools,omitempty" json:"pools,omitempty"`
+}
+
+type PoolStatus struct {
+	// Name of the pool
+	Name string `yaml:"name,omitempty" json:"name,omitempty"`
+	// IPAllocation holds the result of the IP allocation belonging to the pool
+	IPAllocation ipamv1alpha1.IPAllocationStatus `yaml:"ipAllocation,omitempty" json:"ipAllocation,omitempty"`
 }
 
 // DataNetworkName type metadata.
