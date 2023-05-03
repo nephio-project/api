@@ -29,6 +29,7 @@ const (
 	errMissingCNIConfig          = "mandatory field CNIConfig is missing from ClusterContext"
 	errMissingCNIType            = "mandatory field CNIType is missing from ClusterContext"
 	errMissingSiteCode           = "mandatory field siteCode is missing from ClusterContext"
+	errMissingSiteCodeEmpty      = "mandatory field siteCode cannot be empty from ClusterContext"
 )
 
 type CNIConfig struct {
@@ -80,8 +81,10 @@ func ValidateClusterContextSpec(spec *ClusterContextSpec) error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingClusterContextSpec)
 	}
-	if *spec.SiteCode == "" {
+	if spec.SiteCode == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingSiteCode)
+	} else if *spec.SiteCode == "" {
+		return fmt.Errorf("spec invalid: %s", errMissingSiteCodeEmpty)
 	}
 	if spec.CNIConfig == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingCNIConfig)
