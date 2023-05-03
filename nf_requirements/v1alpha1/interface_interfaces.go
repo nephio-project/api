@@ -65,7 +65,7 @@ func IsAttachmentTypeSupported(s string) bool {
 	return true
 }
 
-func ValidateInterfaceSpec(spec *InterfaceSpec) error {
+func (spec *InterfaceSpec) Validate() error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingNetworkInstance)
 	}

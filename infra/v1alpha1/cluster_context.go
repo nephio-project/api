@@ -17,7 +17,19 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"reflect"
+)
+
+const (
+	errMissingClusterContextSpec = "missing ClusterContext spec"
+	errMissingMasterInterface    = "mandatory field MasterInterface is missing from ClusterContext"
+	errMissingCNIConfig          = "mandatory field CNIConfig is missing from ClusterContext"
+	errMissingCNIType            = "mandatory field CNIType is missing from ClusterContext"
+	errMissingSiteCode           = "mandatory field siteCode is missing from ClusterContext"
+	errMissingSiteCodeEmpty      = "mandatory field siteCode cannot be empty from ClusterContext"
 )
 
 type CNIConfig struct {
@@ -64,3 +76,31 @@ type ClusterContextList struct {
 func init() {
 	SchemeBuilder.Register(&ClusterContext{}, &ClusterContextList{})
 }
+
+func (spec *ClusterContextSpec) Validate() error {
+	if spec == nil {
+		return fmt.Errorf("spec invalid: %s", errMissingClusterContextSpec)
+	}
+	if spec.SiteCode == nil {
+		return fmt.Errorf("spec invalid: %s", errMissingSiteCode)
+	} else if *spec.SiteCode == "" {
+		return fmt.Errorf("spec invalid: %s", errMissingSiteCodeEmpty)
+	}
+	if spec.CNIConfig == nil {
+		return fmt.Errorf("spec invalid: %s", errMissingCNIConfig)
+	}
+	if spec.CNIConfig.CNIType == "" {
+		return fmt.Errorf("spec invalid: %s", errMissingCNIType)
+	}
+	if spec.CNIConfig.MasterInterface == "" {
+		return fmt.Errorf("spec invalid: %s", errMissingMasterInterface)
+	}
+	return nil
+}
+
+var (
+	ClusterContextKind             = reflect.TypeOf(ClusterContext{}).Name()
+	ClusterContextGroupKind        = schema.GroupKind{Group: GroupVersion.Group, Kind: ClusterContextKind}.String()
+	ClusterContextKindAPIVersion   = ClusterContextKind + "." + GroupVersion.String()
+	ClusterContextGroupVersionKind = GroupVersion.WithKind(ClusterContextKind)
+)
