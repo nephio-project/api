@@ -77,7 +77,7 @@ func init() {
 	SchemeBuilder.Register(&ClusterContext{}, &ClusterContextList{})
 }
 
-func ValidateClusterContextSpec(spec *ClusterContextSpec) error {
+func (spec *ClusterContextSpec) Validate() error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingClusterContextSpec)
 	}
