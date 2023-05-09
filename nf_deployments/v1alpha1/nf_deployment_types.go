@@ -184,11 +184,3 @@ const (
 	// At this stage, the deployment is ready to serve requests.
 	Ready NFDeploymentConditionType = "Ready"
 )
-
-type NFDeployment interface {
-	GetNFDeploymentSpec() *NFDeploymentSpec
-	GetNFDeploymentStatus() *NFDeploymentStatus
-
-	SetNFDeploymentSpec(s *NFDeploymentSpec)
-	SetNFDeploymentStatus(s *NFDeploymentStatus)
-}
