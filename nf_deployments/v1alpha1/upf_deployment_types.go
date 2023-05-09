@@ -50,6 +50,21 @@ type UPFDeploymentStatus struct {
 	NFDeploymentStatus `json:",inline" yaml:",inline"`
 }
 
+// Implement NFDeployment interface
+
+func (d *UPFDeployment) GetNFDeploymentSpec() *NFDeploymentSpec {
+	return d.Spec.NFDeploymentSpec.DeepCopy()
+}
+func (d *UPFDeployment) GetNFDeploymentStatus() *NFDeploymentStatus {
+	return d.Status.NFDeploymentStatus.DeepCopy()
+}
+func (d *UPFDeployment) SetNFDeploymentSpec(s *NFDeploymentSpec) {
+	s.DeepCopyInto(&d.Spec.NFDeploymentSpec)
+}
+func (d *UPFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
+	s.DeepCopyInto(&d.Status.NFDeploymentStatus)
+}
+
 // Interface type metadata.
 var (
 	UPFDeploymentKind              = reflect.TypeOf(UPFDeployment{}).Name()
