@@ -91,54 +91,65 @@ spec:
             type: object
           status:
             properties:
-              ipAllocationStatus:
-                description: IPAllocationStatus defines the observed state of IPAllocation
-                properties:
-                  conditions:
-                    description: Conditions of the resource.
-                    items:
-                      description: A Condition that may apply to a resource
+              pools:
+                description: Pools contains the statuses of individual pools
+                items:
+                  properties:
+                    ipAllocation:
+                      description: IPAllocation holds the result of the IP allocation
+                        belonging to the pool
                       properties:
-                        kind:
-                          description: Type of this condition. At most one of each
-                            condition type may apply to a resource at any point in
-                            time.
+                        conditions:
+                          description: Conditions of the resource.
+                          items:
+                            description: A Condition that may apply to a resource
+                            properties:
+                              kind:
+                                description: Type of this condition. At most one of
+                                  each condition type may apply to a resource at any
+                                  point in time.
+                                type: string
+                              lastTransitionTime:
+                                description: LastTransitionTime is the last time this
+                                  condition transitioned from one status to another.
+                                format: date-time
+                                type: string
+                              message:
+                                description: A Message containing details about this
+                                  condition's last transition from one status to another,
+                                  if any.
+                                type: string
+                              reason:
+                                description: A Reason for this condition's last transition
+                                  from one status to another.
+                                type: string
+                              status:
+                                description: Status of this condition; is it currently
+                                  True, False, or Unknown?
+                                type: string
+                            required:
+                            - kind
+                            - lastTransitionTime
+                            - reason
+                            - status
+                            type: object
+                          type: array
+                        expiryTime:
+                          description: expiryTime indicated when the allocation expires
                           type: string
-                        lastTransitionTime:
-                          description: LastTransitionTime is the last time this condition
-                            transitioned from one status to another.
-                          format: date-time
+                        gateway:
+                          description: Gateway identifies the gatway IP for the network
                           type: string
-                        message:
-                          description: A Message containing details about this condition's
-                            last transition from one status to another, if any.
+                        prefix:
+                          description: AllocatedPrefix identifies the prefix that
+                            was allocated by the IPAM system
                           type: string
-                        reason:
-                          description: A Reason for this condition's last transition
-                            from one status to another.
-                          type: string
-                        status:
-                          description: Status of this condition; is it currently True,
-                            False, or Unknown?
-                          type: string
-                      required:
-                      - kind
-                      - lastTransitionTime
-                      - reason
-                      - status
                       type: object
-                    type: array
-                  expiryTime:
-                    description: expiryTime indicated when the allocation expires
-                    type: string
-                  gateway:
-                    description: Gateway identifies the gatway IP for the network
-                    type: string
-                  prefix:
-                    description: AllocatedPrefix identifies the prefix that was allocated
-                      by the IPAM system
-                    type: string
-                type: object
+                    name:
+                      description: Name of the pool
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
