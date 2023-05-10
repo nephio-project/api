@@ -38,6 +38,37 @@ spec:
             type: object
           spec:
             description: RepositorySpec defines the desired state of Repository
+            properties:
+              defaultBranch:
+                description: DefaultBranch of the repository (used when initializes
+                  and in template)
+                type: string
+              description:
+                description: Description of the repository to create
+                type: string
+              gitignores:
+                description: Gitignores defines the Gitignores of the repository
+                type: string
+              issueLabels:
+                description: IssueLabels defines the Issue Label set to use
+                type: string
+              license:
+                description: License to use
+                type: string
+              private:
+                description: Private defines whether the repository is private
+                type: boolean
+              readme:
+                description: Readme of the repository to create
+                type: string
+              trustModel:
+                description: TrustModel of the repository
+                enum:
+                - default
+                - collaborator
+                - committer
+                - collaboratorcommitter
+                type: string
             type: object
           status:
             description: RepositoryStatus defines the observed state of Repository
