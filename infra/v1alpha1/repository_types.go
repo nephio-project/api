@@ -38,30 +38,30 @@ const (
 
 // RepositorySpec defines the desired state of Repository
 type RepositorySpec struct {
-    // Description of the repository to create
-    // +optional
+	// Description of the repository to create
+	// +optional
 	Description *string `json:"description,omitempty" yaml:"description,omitempty"`
-    // Private defines whether the repository is private
-    // +optional
+	// Private defines whether the repository is private
+	// +optional
 	Private *bool `json:"private,omitempty" yaml:"private,omitempty"`
-    // IssueLabels defines the Issue Label set to use
-    // +optional
+	// IssueLabels defines the Issue Label set to use
+	// +optional
 	IssueLabels *string `json:"issueLabels,omitempty" yaml:"issueLabels,omitempty"`
-    // Gitignores defines the Gitignores of the repository
-    // +optional
+	// Gitignores defines the Gitignores of the repository
+	// +optional
 	Gitignores *string `json:"gitignores,omitempty" yaml:"gitignores,omitempty"`
-    // License to use
-    // +optional
+	// License to use
+	// +optional
 	License *string `json:"license,omitempty" yaml:"license,omitempty"`
-    // Readme of the repository to create
-    // +optional
+	// Readme of the repository to create
+	// +optional
 	Readme *string `json:"readme,omitempty" yaml:"readme,omitempty"`
-    // DefaultBranch of the repository (used when initializes and in template)
-    // +optional
+	// DefaultBranch of the repository (used when initializes and in template)
+	// +optional
 	DefaultBranch *string `json:"defaultBranch,omitempty" yaml:"defaultBranch,omitempty"`
-    // TrustModel of the repository
+	// TrustModel of the repository
 	// +kubebuilder:validation:Enum=default;collaborator;committer;collaboratorcommitter
-    // +optional
+	// +optional
 	TrustModel *TrustModel `json:"trustModel" yaml:"trustModel"`
 }
 
