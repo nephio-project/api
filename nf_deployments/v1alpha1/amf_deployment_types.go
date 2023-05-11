@@ -65,8 +65,8 @@ func (d *AMFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
 
 // Interface type metadata.
 var (
-	AMFDeploymentKind              = reflect.TypeOf(AMFDeployment{}).Name()
-	AMFDeploymentGroupKind         = schema.GroupKind{Group: Group, Kind: AMFDeploymentKind}.String()
-	AMFDeploymentKindAPIVersion    = AMFDeploymentKind + "." + GroupVersion.String()
-	AMFDeploymenteGroupVersionKind = GroupVersion.WithKind(AMFDeploymentKind)
+	AMFDeploymentKind             = reflect.TypeOf(AMFDeployment{}).Name()
+	AMFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: AMFDeploymentKind}.String()
+	AMFDeploymentKindAPIVersion   = AMFDeploymentKind + "." + GroupVersion.String()
+	AMFDeploymentGroupVersionKind = GroupVersion.WithKind(AMFDeploymentKind)
 )

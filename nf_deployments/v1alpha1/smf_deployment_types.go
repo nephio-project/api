@@ -67,8 +67,8 @@ func (d *SMFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
 
 // Interface type metadata.
 var (
-	SMFDeploymentKind              = reflect.TypeOf(SMFDeployment{}).Name()
-	SMFDeploymentGroupKind         = schema.GroupKind{Group: Group, Kind: SMFDeploymentKind}.String()
-	SMFDeploymentKindAPIVersion    = SMFDeploymentKind + "." + GroupVersion.String()
-	SMFDeploymenteGroupVersionKind = GroupVersion.WithKind(SMFDeploymentKind)
+	SMFDeploymentKind             = reflect.TypeOf(SMFDeployment{}).Name()
+	SMFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: SMFDeploymentKind}.String()
+	SMFDeploymentKindAPIVersion   = SMFDeploymentKind + "." + GroupVersion.String()
+	SMFDeploymentGroupVersionKind = GroupVersion.WithKind(SMFDeploymentKind)
 )

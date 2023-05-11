@@ -67,8 +67,8 @@ func (d *UPFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
 
 // Interface type metadata.
 var (
-	UPFDeploymentKind              = reflect.TypeOf(UPFDeployment{}).Name()
-	UPFDeploymentGroupKind         = schema.GroupKind{Group: Group, Kind: UPFDeploymentKind}.String()
-	UPFDeploymentKindAPIVersion    = UPFDeploymentKind + "." + GroupVersion.String()
-	UPFDeploymenteGroupVersionKind = GroupVersion.WithKind(UPFDeploymentKind)
+	UPFDeploymentKind             = reflect.TypeOf(UPFDeployment{}).Name()
+	UPFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: UPFDeploymentKind}.String()
+	UPFDeploymentKindAPIVersion   = UPFDeploymentKind + "." + GroupVersion.String()
+	UPFDeploymentGroupVersionKind = GroupVersion.WithKind(UPFDeploymentKind)
 )
