@@ -50,10 +50,25 @@ type SMFDeploymentStatus struct {
 	NFDeploymentStatus `json:",inline" yaml:",inline"`
 }
 
+// Implement NFDeployment interface
+
+func (d *SMFDeployment) GetNFDeploymentSpec() *NFDeploymentSpec {
+	return d.Spec.NFDeploymentSpec.DeepCopy()
+}
+func (d *SMFDeployment) GetNFDeploymentStatus() *NFDeploymentStatus {
+	return d.Status.NFDeploymentStatus.DeepCopy()
+}
+func (d *SMFDeployment) SetNFDeploymentSpec(s *NFDeploymentSpec) {
+	s.DeepCopyInto(&d.Spec.NFDeploymentSpec)
+}
+func (d *SMFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
+	s.DeepCopyInto(&d.Status.NFDeploymentStatus)
+}
+
 // Interface type metadata.
 var (
-	SMFDeploymentKind              = reflect.TypeOf(SMFDeployment{}).Name()
-	SMFDeploymentGroupKind         = schema.GroupKind{Group: Group, Kind: SMFDeploymentKind}.String()
-	SMFDeploymentKindAPIVersion    = SMFDeploymentKind + "." + GroupVersion.String()
-	SMFDeploymenteGroupVersionKind = GroupVersion.WithKind(SMFDeploymentKind)
+	SMFDeploymentKind             = reflect.TypeOf(SMFDeployment{}).Name()
+	SMFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: SMFDeploymentKind}.String()
+	SMFDeploymentKindAPIVersion   = SMFDeploymentKind + "." + GroupVersion.String()
+	SMFDeploymentGroupVersionKind = GroupVersion.WithKind(SMFDeploymentKind)
 )

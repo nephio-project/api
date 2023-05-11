@@ -48,10 +48,25 @@ type AMFDeploymentStatus struct {
 	NFDeploymentStatus `json:",inline" yaml:",inline"`
 }
 
+// Implement NFDeployment interface
+
+func (d *AMFDeployment) GetNFDeploymentSpec() *NFDeploymentSpec {
+	return d.Spec.NFDeploymentSpec.DeepCopy()
+}
+func (d *AMFDeployment) GetNFDeploymentStatus() *NFDeploymentStatus {
+	return d.Status.NFDeploymentStatus.DeepCopy()
+}
+func (d *AMFDeployment) SetNFDeploymentSpec(s *NFDeploymentSpec) {
+	s.DeepCopyInto(&d.Spec.NFDeploymentSpec)
+}
+func (d *AMFDeployment) SetNFDeploymentStatus(s *NFDeploymentStatus) {
+	s.DeepCopyInto(&d.Status.NFDeploymentStatus)
+}
+
 // Interface type metadata.
 var (
-	AMFDeploymentKind              = reflect.TypeOf(AMFDeployment{}).Name()
-	AMFDeploymentGroupKind         = schema.GroupKind{Group: Group, Kind: AMFDeploymentKind}.String()
-	AMFDeploymentKindAPIVersion    = AMFDeploymentKind + "." + GroupVersion.String()
-	AMFDeploymenteGroupVersionKind = GroupVersion.WithKind(AMFDeploymentKind)
+	AMFDeploymentKind             = reflect.TypeOf(AMFDeployment{}).Name()
+	AMFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: AMFDeploymentKind}.String()
+	AMFDeploymentKindAPIVersion   = AMFDeploymentKind + "." + GroupVersion.String()
+	AMFDeploymentGroupVersionKind = GroupVersion.WithKind(AMFDeploymentKind)
 )
