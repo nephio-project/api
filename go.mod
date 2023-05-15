@@ -1,4 +1,5 @@
-module github.com/nephio-project/api
+// module github.com/nephio-project/api
+module github.com/s3wong/api
 
 go 1.20
 
