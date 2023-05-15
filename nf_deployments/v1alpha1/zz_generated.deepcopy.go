@@ -22,7 +22,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	nf_requirementsv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
+	nf_requirementsv1alpha1 "github.com/s3wong/api/nf_requirements/v1alpha1"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
