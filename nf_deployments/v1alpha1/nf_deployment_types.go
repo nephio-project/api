@@ -16,7 +16,8 @@ limitations under the License.
 package v1alpha1
 
 import (
-	nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
+	//nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
+	nephioreqv1alpha1 "github.com/s3wong/api/nf_requirements/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
