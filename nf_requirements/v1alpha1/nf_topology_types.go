@@ -38,7 +38,7 @@ type NFAttachment struct {
 
     // NetworkInstanceRef is a reference to NetworkInstance. Two NF with attachment to
     // the same NetworkInstance is considered connected neighbors
-    NetworkInstanceRef  apiv1.ObjectReference `json:"networkInstance,omitempty" yaml:"networkInstance,omitempty"`
+    NetworkInstanceName  string `json:"networkInstanceName,omitempty" yaml:"networkInstanceName,omitempty"`
 }
 
 // NFTemplate defines the template for deployment of an instance of a NF
@@ -57,6 +57,9 @@ type NFTemplate struct {
 }
 
 type NFInstance struct {
+    // Name specifies the name of this NFInstance
+    Name                string `json:"name,omitempty" yaml:"name,omitempty"`
+
     // ClusterSelector specifies the matching labels for the NF instance to be instantiated
     ClusterSelector     metav1.LabelSelector `json:"clusterSelector,omitempty" yaml:"clusterSelector,omitempty"`
 
