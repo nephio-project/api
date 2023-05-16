@@ -15,6 +15,7 @@ limitations under the License.
 */
 package v1alpha1
 
+// +kubebuilder:object:generate=false
 type NFDeployment interface {
 	GetNFDeploymentSpec() *NFDeploymentSpec
 	GetNFDeploymentStatus() *NFDeploymentStatus
