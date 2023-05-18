@@ -50,7 +50,7 @@ type NFTemplate struct {
     ClassName   string      `json:"classRef,omitempty" yaml:"classRef,omitempty"`
 
     // Capacity specifies the NF capacity profile for this NF instance
-    Capacity    Capacity `json:"capacity,omitempty" yaml:"capacity,omitempty"`
+    Capacity    CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
 
     // NFAttachments
     NFAttachments   []NFAttachment  `json:"nfAttachments,omitempty" yaml:"nfAttachments,omitempty"`
