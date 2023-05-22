@@ -55,6 +55,20 @@ spec:
               license:
                 description: License to use
                 type: string
+              lifecycle:
+                description: Lifecycle determines the deletion lifecycle policies
+                  the resource will follow
+                properties:
+                  deletionPolicy:
+                    default: delete
+                    description: DeletionPolicy specifies what will happen to the
+                      underlying resource when this resource is deleted - either "delete"
+                      or "orphan" the resource.
+                    enum:
+                    - delete
+                    - orphan
+                    type: string
+                type: object
               private:
                 description: Private defines whether the repository is private
                 type: boolean
