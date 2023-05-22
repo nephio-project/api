@@ -19,12 +19,16 @@ package v1alpha1
 import (
 	"reflect"
 
+	commonv1alpha1 "github.com/nephio-project/api/common/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // TokenSpec defines the desired state of Token
 type TokenSpec struct {
+	// Lifecycle determines the deletion lifecycle policies the resource
+	// will follow
+	Lifecycle commonv1alpha1.Lifecycle `json:"lifecycle,omitempty"`
 }
 
 // TokenStatus defines the observed state of the Token

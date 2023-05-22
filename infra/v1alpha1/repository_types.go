@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	"reflect"
 
+	commonv1alpha1 "github.com/nephio-project/api/common/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -38,6 +39,9 @@ const (
 
 // RepositorySpec defines the desired state of Repository
 type RepositorySpec struct {
+	// Lifecycle determines the deletion lifecycle policies the resource
+	// will follow
+	Lifecycle commonv1alpha1.Lifecycle `json:"lifecycle,omitempty"`
 	// Description of the repository to create
 	// +optional
 	Description *string `json:"description,omitempty" yaml:"description,omitempty"`
