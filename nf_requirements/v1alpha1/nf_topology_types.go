@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-    apiv1 "k8s.io/api/core/v1"
+    //apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
