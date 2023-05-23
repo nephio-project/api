@@ -47,7 +47,7 @@ type NFTemplate struct {
     NFType      NFType      `json:"nfType,omitempty" yaml:"nfType,omitempty"`
 
     // ClassName --- for now, the NFClass this NF template will derive from
-    ClassName   string      `json:"classRef,omitempty" yaml:"classRef,omitempty"`
+    ClassName   string      `json:"className,omitempty" yaml:"className,omitempty"`
 
     // Capacity specifies the NF capacity profile for this NF instance
     Capacity    CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
@@ -69,7 +69,7 @@ type NFInstance struct {
 }
 
 type NFTopologySpec struct {
-    NFInstances         []*NFInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
+    NFInstances         []NFInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
 }
 
 // NFTopologyStatus defines the observed state of NFTopology

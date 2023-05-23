@@ -57,7 +57,7 @@ type NFClassStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
-//+kubebuilder:resource:path=upfclasses,scope=Cluster
+//+kubebuilder:resource:path=nfclasses,scope=Cluster
 
 // NFClass is the Schema for the nfclasses API
 type NFClass struct {

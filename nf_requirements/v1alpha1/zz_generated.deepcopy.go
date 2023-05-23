@@ -442,13 +442,9 @@ func (in *NFTopologySpec) DeepCopyInto(out *NFTopologySpec) {
 	*out = *in
 	if in.NFInstances != nil {
 		in, out := &in.NFInstances, &out.NFInstances
-		*out = make([]*NFInstance, len(*in))
+		*out = make([]NFInstance, len(*in))
 		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(NFInstance)
-				(*in).DeepCopyInto(*out)
-			}
+			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 }

@@ -5,13 +5,13 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: upfclasses.req.nephio.org
+  name: nfclasses.req.nephio.org
 spec:
   group: req.nephio.org
   names:
     kind: NFClass
     listKind: NFClassList
-    plural: upfclasses
+    plural: nfclasses
     singular: nfclass
   scope: Cluster
   versions:
