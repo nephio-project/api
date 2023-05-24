@@ -2,6 +2,12 @@ module github.com/nephio-project/api
 
 go 1.20
 
+replace k8s.io/api => k8s.io/api v0.26.1
+
+replace k8s.io/apimachinery => k8s.io/apimachinery v0.26.1
+
+replace k8s.io/client-go => k8s.io/client-go v0.26.1
+
 require (
 	github.com/google/go-cmp v0.5.9
 	github.com/nokia/k8s-ipam v0.0.4-0.20230416191338-dcd944a8d636
