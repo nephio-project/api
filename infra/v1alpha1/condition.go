@@ -29,8 +29,6 @@ type ConditionType string
 const (
 	// ConditionTypeReady represents the resource ready condition
 	ConditionTypeReady ConditionType = "Ready"
-	// ConditionTypePorchRepoReady represents the resource porch repo ready condition
-	//ConditionTypePorchRepoReady ConditionType = "PorchRepoReady"
 )
 
 // A ConditionReason represents the reason a resource is in a condition.
