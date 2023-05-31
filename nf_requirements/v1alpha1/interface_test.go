@@ -148,7 +148,7 @@ func TestValidateInterfaceSpec(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			err := ValidateInterfaceSpec(tc.input)
+			err := tc.input.Validate()
 
 			if tc.errExpected {
 				assert.Error(t, err)
