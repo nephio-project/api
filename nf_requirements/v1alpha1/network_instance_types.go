@@ -17,20 +17,20 @@ limitations under the License.
 package v1alpha1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // NetworkInstanceSpec is meant for defining a type of network's characteristics
 // It is a placeholder for now
 type NetworkInstanceSpec struct {
-    // NetworkName is just a dummy for now
-    NetworkName     string `json:"networkName,omitempty" yaml:"networkName,omitempty"`
+	// NetworkName is just a dummy for now
+	NetworkName string `json:"networkName,omitempty" yaml:"networkName,omitempty"`
 }
 
 // NetworkInstanceStatus defines the observed state of Networkinstance
 type NetworkInstanceStatus struct {
-    // INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-    // Important: Run "make" to regenerate code after modifying this file
+	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
 }
 
 //+kubebuilder:object:root=true
@@ -39,18 +39,18 @@ type NetworkInstanceStatus struct {
 
 // NetworkInstance is the Schema for the networkinstance API
 type NetworkInstance struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec   NetworkInstanceSpec   `json:"spec,omitempty"`
-    Status NetworkInstanceStatus `json:"status,omitempty"`
+	Spec   NetworkInstanceSpec   `json:"spec,omitempty"`
+	Status NetworkInstanceStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
 // NetworkInstanceList contains a list of NetworkInstance
 type NetworkInstanceList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []NetworkInstance `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []NetworkInstance `json:"items"`
 }

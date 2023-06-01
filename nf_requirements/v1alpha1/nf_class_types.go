@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // PackageRevisionReference is a temporary replica of PackageRevisionReference used for the
@@ -39,20 +39,20 @@ type PackageRevisionReference struct {
 
 // NFClassSpec defines the reusable class struct for NF in general
 type NFClassSpec struct {
-    // Vendor is the name of the NF vendor
-    Vendor      string `json:"vendor,omitempty" yaml:"vendor,omitempty"`
+	// Vendor is the name of the NF vendor
+	Vendor string `json:"vendor,omitempty" yaml:"vendor,omitempty"`
 
-    // Version of the software version for this NF vendor's NFType
-    Version     string `json:"version,omitempty" yaml:"version,omitempty"`
+	// Version of the software version for this NF vendor's NFType
+	Version string `json:"version,omitempty" yaml:"version,omitempty"`
 
-    // PackageRef is a reference to the upstream package used for this NF deployment
-    PackageRef  PackageRevisionReference `json:"packageRef,omitempty" yaml:"packageRef,omitempty"`
+	// PackageRef is a reference to the upstream package used for this NF deployment
+	PackageRef PackageRevisionReference `json:"packageRef,omitempty" yaml:"packageRef,omitempty"`
 }
 
 // NFClassStatus defines the observed state of NFClass
 type NFClassStatus struct {
-    // INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-    // Important: Run "make" to regenerate code after modifying this file
+	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
+	// Important: Run "make" to regenerate code after modifying this file
 }
 
 //+kubebuilder:object:root=true
@@ -61,18 +61,18 @@ type NFClassStatus struct {
 
 // NFClass is the Schema for the nfclasses API
 type NFClass struct {
-    metav1.TypeMeta   `json:",inline"`
-    metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec   NFClassSpec   `json:"spec,omitempty"`
-    Status NFClassStatus `json:"status,omitempty"`
+	Spec   NFClassSpec   `json:"spec,omitempty"`
+	Status NFClassStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
 // NFClassList contains a list of NFClass
 type NFClassList struct {
-    metav1.TypeMeta `json:",inline"`
-    metav1.ListMeta `json:"metadata,omitempty"`
-    Items           []NFClass `json:"items"`
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []NFClass `json:"items"`
 }
