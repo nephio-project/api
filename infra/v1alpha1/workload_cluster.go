@@ -32,6 +32,11 @@ const (
 type WorkloadClusterSpec struct {
 	// ClusterName is the unique name for this cluster
 	ClusterName string `json:"clusterName,omitempty"`
+	// CNIs defines the CNIs required for the workload cluster
+	CNIs []string `json:"cnis,omitempty"`
+	// MasterInterface define the master interface for secondary networking in the nodes
+	// on the cluster
+	MasterInterface string `json:"masterInterface,omitempty"`
 }
 
 // WorkloadClusterStatus defines the observed state of WorkloadCluster
