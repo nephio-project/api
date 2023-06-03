@@ -36,7 +36,7 @@ type WorkloadClusterSpec struct {
 	CNIs []string `json:"cnis,omitempty"`
 	// MasterInterface define the master interface for secondary networking in the nodes
 	// on the cluster
-	MasterInterface string `json:"masterInterface,omitempty"`
+	MasterInterface *string `json:"masterInterface,omitempty"`
 }
 
 // WorkloadClusterStatus defines the observed state of WorkloadCluster
