@@ -38,6 +38,15 @@ spec:
               clusterName:
                 description: ClusterName is the unique name for this cluster
                 type: string
+              cnis:
+                description: CNIs defines the CNIs required for the workload cluster
+                items:
+                  type: string
+                type: array
+              masterInterface:
+                description: MasterInterface define the master interface for secondary
+                  networking in the nodes on the cluster
+                type: string
             type: object
           status:
             description: WorkloadClusterStatus defines the observed state of WorkloadCluster
