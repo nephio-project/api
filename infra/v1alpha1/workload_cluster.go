@@ -17,15 +17,10 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"fmt"
+	"reflect"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"reflect"
-)
-
-const (
-	errMissingWorkloadClusterSpec = "missing WorkloadCluster spec"
-	errMissingClusterName         = "mandatory field ClusterName is missing from WorkloadCluster"
 )
 
 // WorkloadClusterSpec defines the desired state of WorkloadCluster
@@ -66,16 +61,6 @@ type WorkloadClusterList struct {
 
 func init() {
 	SchemeBuilder.Register(&WorkloadCluster{}, &WorkloadClusterList{})
-}
-
-func (spec *WorkloadClusterSpec) Validate() error {
-	if spec == nil {
-		return fmt.Errorf("spec invalid: %s", errMissingWorkloadClusterSpec)
-	}
-	if spec.ClusterName == "" {
-		return fmt.Errorf("spec invalid: %s", errMissingClusterName)
-	}
-	return nil
 }
 
 var (
