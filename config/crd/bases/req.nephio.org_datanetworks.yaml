@@ -76,6 +76,10 @@ spec:
                   with the DNN
                 items:
                   properties:
+                    addressFamily:
+                      description: AddressFamily defines the address family of the
+                        pool
+                      type: string
                     name:
                       description: Name defines the name of the pool
                       maxLength: 253

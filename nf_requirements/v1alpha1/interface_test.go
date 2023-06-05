@@ -218,3 +218,37 @@ func TestIsAddressingSupported(t *testing.T) {
 		})
 	}
 }
+
+func TestIsAddressFamilySupported(t *testing.T) {
+	cases := map[string]struct {
+		input     string
+		supported bool
+	}{
+		"ipv4": {
+			input:     "ipv4",
+			supported: true,
+		},
+		"ipv6": {
+			input:     "ipv6",
+			supported: true,
+		},
+		"empty": {
+			input:     "",
+			supported: false,
+		},
+		"unknown": {
+			input:     "a",
+			supported: false,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			b := IsAddressFamilySupported(tc.input)
+
+			if diff := cmp.Diff(tc.supported, b); diff != "" {
+				t.Errorf("-want, +got:\n%s", diff)
+			}
+		})
+	}
+}

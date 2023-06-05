@@ -50,6 +50,8 @@ type Pool struct {
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// PrefixLength define the size of the pool
 	PrefixLength uint8 `json:"prefixLength,omitempty" yaml:"prefixLength,omitempty"`
+	// AddressFamily defines the address family of the pool
+	AddressFamily AddressFamily `json:"addressFamily,omitempty" yaml:"addressFamily,omitempty"`
 }
 
 type DataNetworkStatus struct {

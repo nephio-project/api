@@ -59,6 +59,24 @@ const AddressingIpv6Only Addressing = "ipv6only"
 // AddressingDualStack defines L3 addressing as dual stack (ipv4 and ipv6)
 const AddressingDualStack Addressing = "dualstack"
 
+type AddressFamily string
+
+// AddressFamilyIPv4 defines ipv4 address family
+const AddressFamilyIPv4 Addressing = "ipv4"
+
+// AddressFamilyIPv6 defines ipv6 address family
+const AddressFamilyIPv6 Addressing = "ipv6"
+
+func IsAddressFamilySupported(s string) bool {
+	switch s {
+	case string(AddressFamilyIPv4):
+	case string(AddressFamilyIPv6):
+	default:
+		return false
+	}
+	return true
+}
+
 func IsCNITypeSupported(s string) bool {
 	switch s {
 	case string(CNITypeIPVLAN):
