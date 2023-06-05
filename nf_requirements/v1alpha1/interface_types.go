@@ -52,7 +52,7 @@ type InterfaceSpec struct {
 }
 
 type InterfaceStatus struct {
-	IPAllocationStatus   []ipamv1alpha1.IPAllocationStatus   `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
+	IPAllocationStatus   []ipamv1alpha1.IPAllocationStatus  `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
 	VLANAllocationStatus *vlanv1alpha1.VLANAllocationStatus `json:"vlanAllocationStatus,omitempty" yaml:"vlanAllocationStatus,omitempty"`
 }
 
