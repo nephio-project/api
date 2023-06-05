@@ -23,6 +23,7 @@ const (
 	errMissingNetworkInstanceName = "missing networkInstance name"
 	errUnsupportedAttachmentType  = "unsupported attachmentType"
 	errUnsupportedCNIType         = "unsupported cniType"
+	errUnsupportedAddressing      = "unsupported addressing"
 )
 
 type AttachmentType string
@@ -43,6 +44,20 @@ const CNITypeIPVLAN CNIType = "ipvlan"
 
 // CNITypeMACVLAN defines the macvlan cni
 const CNITypeMACVLAN CNIType = "macvlan"
+
+type Addressing string
+
+// AddressingNone defines no L3 addressing, meaning L2
+const AddressingNone Addressing = "none"
+
+// AddressingIpv4Only defines L3 addressing as ipv4 only
+const AddressingIpv4Only Addressing = "ipv4only"
+
+// AddressingIpv6Only defines L3 addressing as ipv6 only
+const AddressingIpv6Only Addressing = "ipv6only"
+
+// AddressingDualStack defines L3 addressing as dual stack (ipv4 and ipv6)
+const AddressingDualStack Addressing = "dualstack"
 
 func IsCNITypeSupported(s string) bool {
 	switch s {
@@ -65,6 +80,18 @@ func IsAttachmentTypeSupported(s string) bool {
 	return true
 }
 
+func IsAddressingSupported(s string) bool {
+	switch s {
+	case string(AddressingNone):
+	case string(AddressingIpv4Only):
+	case string(AddressingIpv6Only):
+	case string(AddressingDualStack):
+	default:
+		return false
+	}
+	return true
+}
+
 func (spec *InterfaceSpec) Validate() error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingNetworkInstance)
@@ -77,6 +104,11 @@ func (spec *InterfaceSpec) Validate() error {
 	if spec.CNIType != "" {
 		if !IsCNITypeSupported(string(spec.CNIType)) {
 			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedCNIType, string(spec.CNIType))
+		}
+	}
+	if spec.Addressing != "" {
+		if !IsAddressingSupported(string(spec.Addressing)) {
+			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedAddressing, string(spec.CNIType))
 		}
 	}
 	if spec.NetworkInstance == nil {

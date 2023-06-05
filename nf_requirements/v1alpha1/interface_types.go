@@ -46,10 +46,13 @@ type InterfaceSpec struct {
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
 	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
+	// Addressing defines the addressing used on this interface
+	// +kubebuilder:validation:Enum=none;ipv6-only;ipv4-only;dual-stack
+	Addressing Addressing `json:"addressing,omitempty" yaml:"addressing,omitempty"`
 }
 
 type InterfaceStatus struct {
-	IPAllocationStatus   *ipamv1alpha1.IPAllocationStatus   `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
+	IPAllocationStatus   []ipamv1alpha1.IPAllocationStatus   `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
 	VLANAllocationStatus *vlanv1alpha1.VLANAllocationStatus `json:"vlanAllocationStatus,omitempty" yaml:"vlanAllocationStatus,omitempty"`
 }
 
