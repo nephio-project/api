@@ -23,6 +23,7 @@ const (
 	errMissingNetworkInstanceName = "missing networkInstance name"
 	errUnsupportedAttachmentType  = "unsupported attachmentType"
 	errUnsupportedCNIType         = "unsupported cniType"
+	errUnsupportedAddressing      = "unsupported addressing"
 )
 
 type AttachmentType string
@@ -43,6 +44,38 @@ const CNITypeIPVLAN CNIType = "ipvlan"
 
 // CNITypeMACVLAN defines the macvlan cni
 const CNITypeMACVLAN CNIType = "macvlan"
+
+type IpFamilyPolicy string
+
+// IpFamilyPolicyNone defines no L3 addressing, meaning L2
+const IpFamilyPolicyNone IpFamilyPolicy = "none"
+
+// IpFamilyPolicyIPv4Only defines L3 IpFamilyPolicy as ipv4 only
+const IpFamilyPolicyIPv4Only IpFamilyPolicy = "ipv4only"
+
+// IpFamilyPolicyIPv6Only defines L3 IpFamilyPolicy as ipv6 only
+const IpFamilyPolicyIPv6Only IpFamilyPolicy = "ipv6only"
+
+// IpFamilyPolicyDualStack defines L3 IpFamilyPolicy as dual stack (ipv4 and ipv6)
+const IpFamilyPolicyDualStack IpFamilyPolicy = "dualstack"
+
+type IPFamily string
+
+// IPFamilyIPv6 defines ipv4 ip address family
+const IPFamilyIPv4 IPFamily = "ipv4"
+
+// IPFamilyIPv6 defines ipv6 ip address family
+const IPFamilyIPv6 IPFamily = "ipv6"
+
+func IsIPFamilySupported(s string) bool {
+	switch s {
+	case string(IPFamilyIPv4):
+	case string(IPFamilyIPv6):
+	default:
+		return false
+	}
+	return true
+}
 
 func IsCNITypeSupported(s string) bool {
 	switch s {
@@ -65,6 +98,18 @@ func IsAttachmentTypeSupported(s string) bool {
 	return true
 }
 
+func IsIPFamilyPolicySupported(s string) bool {
+	switch s {
+	case string(IpFamilyPolicyNone):
+	case string(IpFamilyPolicyIPv4Only):
+	case string(IpFamilyPolicyIPv6Only):
+	case string(IpFamilyPolicyDualStack):
+	default:
+		return false
+	}
+	return true
+}
+
 func (spec *InterfaceSpec) Validate() error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingNetworkInstance)
@@ -77,6 +122,11 @@ func (spec *InterfaceSpec) Validate() error {
 	if spec.CNIType != "" {
 		if !IsCNITypeSupported(string(spec.CNIType)) {
 			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedCNIType, string(spec.CNIType))
+		}
+	}
+	if spec.IpFamilyPolicy != "" {
+		if !IsIPFamilyPolicySupported(string(spec.IpFamilyPolicy)) {
+			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedAddressing, string(spec.CNIType))
 		}
 	}
 	if spec.NetworkInstance == nil {

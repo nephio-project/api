@@ -95,34 +95,35 @@ func TestValidateInterfaceSpec(t *testing.T) {
 		errExpected bool
 		err         string
 	}{
-		"TestValidateInterfaceSpecOK": {
+		"Normal": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
 				},
 				CNIType:        "ipvlan",
 				AttachmentType: "none",
+				IpFamilyPolicy: "dualstack",
 			},
 			errExpected: false,
 		},
-		"TestValidateInterfaceSpecMissingNetworkInstanceName": {
+		"MissingNetworkInstanceName": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{},
 			},
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecEmpty": {
+		"EmptySpec": {
 			input:       &InterfaceSpec{},
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecNil": {
+		"NilSpec": {
 			input:       nil,
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecUnsupportedCNIType": {
+		"UnsupportedCNIType": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
@@ -133,7 +134,7 @@ func TestValidateInterfaceSpec(t *testing.T) {
 			errExpected: true,
 			err:         errUnsupportedCNIType,
 		},
-		"TestValidateInterfaceSpecUnsupportedAttachmentType": {
+		"UnsupportedAttachmentType": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
@@ -143,6 +144,18 @@ func TestValidateInterfaceSpec(t *testing.T) {
 			},
 			errExpected: true,
 			err:         errUnsupportedAttachmentType,
+		},
+		"UnsupportedAddressing": {
+			input: &InterfaceSpec{
+				NetworkInstance: &corev1.ObjectReference{
+					Name: "a",
+				},
+				CNIType:        "sriov",
+				AttachmentType: "vlan",
+				IpFamilyPolicy: "a",
+			},
+			errExpected: true,
+			err:         errUnsupportedAddressing,
 		},
 	}
 
@@ -159,6 +172,82 @@ func TestValidateInterfaceSpec(t *testing.T) {
 				}
 			} else {
 				assert.NoError(t, err)
+			}
+		})
+	}
+}
+
+func TestIsAddressingSupported(t *testing.T) {
+	cases := map[string]struct {
+		input     string
+		supported bool
+	}{
+		"ipv4only": {
+			input:     "ipv4only",
+			supported: true,
+		},
+		"ipv6only": {
+			input:     "ipv6only",
+			supported: true,
+		},
+		"dualstack": {
+			input:     "dualstack",
+			supported: true,
+		},
+		"none": {
+			input:     "none",
+			supported: true,
+		},
+		"empty": {
+			input:     "",
+			supported: false,
+		},
+		"unknown": {
+			input:     "a",
+			supported: false,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			b := IsIPFamilyPolicySupported(tc.input)
+
+			if diff := cmp.Diff(tc.supported, b); diff != "" {
+				t.Errorf("-want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestIsAddressFamilySupported(t *testing.T) {
+	cases := map[string]struct {
+		input     string
+		supported bool
+	}{
+		"ipv4": {
+			input:     "ipv4",
+			supported: true,
+		},
+		"ipv6": {
+			input:     "ipv6",
+			supported: true,
+		},
+		"empty": {
+			input:     "",
+			supported: false,
+		},
+		"unknown": {
+			input:     "a",
+			supported: false,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			b := IsIPFamilySupported(tc.input)
+
+			if diff := cmp.Diff(tc.supported, b); diff != "" {
+				t.Errorf("-want, +got:\n%s", diff)
 			}
 		})
 	}

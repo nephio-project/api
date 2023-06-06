@@ -215,8 +215,10 @@ func (in *InterfaceStatus) DeepCopyInto(out *InterfaceStatus) {
 	*out = *in
 	if in.IPAllocationStatus != nil {
 		in, out := &in.IPAllocationStatus, &out.IPAllocationStatus
-		*out = new(ipamv1alpha1.IPAllocationStatus)
-		(*in).DeepCopyInto(*out)
+		*out = make([]ipamv1alpha1.IPAllocationStatus, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.VLANAllocationStatus != nil {
 		in, out := &in.VLANAllocationStatus, &out.VLANAllocationStatus
