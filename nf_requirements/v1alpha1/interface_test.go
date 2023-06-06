@@ -102,7 +102,7 @@ func TestValidateInterfaceSpec(t *testing.T) {
 				},
 				CNIType:        "ipvlan",
 				AttachmentType: "none",
-				Addressing:     "dualstack",
+				IpFamilyPolicy: "dualstack",
 			},
 			errExpected: false,
 		},
@@ -152,7 +152,7 @@ func TestValidateInterfaceSpec(t *testing.T) {
 				},
 				CNIType:        "sriov",
 				AttachmentType: "vlan",
-				Addressing:     "a",
+				IpFamilyPolicy: "a",
 			},
 			errExpected: true,
 			err:         errUnsupportedAddressing,
@@ -210,7 +210,7 @@ func TestIsAddressingSupported(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			b := IsAddressingSupported(tc.input)
+			b := IsIPFamilyPolicySupported(tc.input)
 
 			if diff := cmp.Diff(tc.supported, b); diff != "" {
 				t.Errorf("-want, +got:\n%s", diff)
@@ -244,7 +244,7 @@ func TestIsAddressFamilySupported(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			b := IsAddressFamilySupported(tc.input)
+			b := IsIPFamilySupported(tc.input)
 
 			if diff := cmp.Diff(tc.supported, b); diff != "" {
 				t.Errorf("-want, +got:\n%s", diff)

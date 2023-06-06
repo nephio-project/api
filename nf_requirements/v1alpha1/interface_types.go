@@ -46,9 +46,9 @@ type InterfaceSpec struct {
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
 	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
-	// Addressing defines the addressing used on this interface
+	// IpFamilyPolicy defines the ip family policy on this interface to determine single stack, dual stack
 	// +kubebuilder:validation:Enum=none;ipv6-only;ipv4-only;dual-stack
-	Addressing Addressing `json:"addressing,omitempty" yaml:"addressing,omitempty"`
+	IpFamilyPolicy IpFamilyPolicy `json:"ipFamilyPolicy,omitempty" yaml:"ipFamilyPolicy,omitempty"`
 }
 
 type InterfaceStatus struct {

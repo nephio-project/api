@@ -45,32 +45,32 @@ const CNITypeIPVLAN CNIType = "ipvlan"
 // CNITypeMACVLAN defines the macvlan cni
 const CNITypeMACVLAN CNIType = "macvlan"
 
-type Addressing string
+type IpFamilyPolicy string
 
-// AddressingNone defines no L3 addressing, meaning L2
-const AddressingNone Addressing = "none"
+// IpFamilyPolicyNone defines no L3 addressing, meaning L2
+const IpFamilyPolicyNone IpFamilyPolicy = "none"
 
-// AddressingIpv4Only defines L3 addressing as ipv4 only
-const AddressingIpv4Only Addressing = "ipv4only"
+// IpFamilyPolicyIPv4Only defines L3 IpFamilyPolicy as ipv4 only
+const IpFamilyPolicyIPv4Only IpFamilyPolicy = "ipv4only"
 
-// AddressingIpv6Only defines L3 addressing as ipv6 only
-const AddressingIpv6Only Addressing = "ipv6only"
+// IpFamilyPolicyIPv6Only defines L3 IpFamilyPolicy as ipv6 only
+const IpFamilyPolicyIPv6Only IpFamilyPolicy = "ipv6only"
 
-// AddressingDualStack defines L3 addressing as dual stack (ipv4 and ipv6)
-const AddressingDualStack Addressing = "dualstack"
+// IpFamilyPolicyDualStack defines L3 IpFamilyPolicy as dual stack (ipv4 and ipv6)
+const IpFamilyPolicyDualStack IpFamilyPolicy = "dualstack"
 
-type AddressFamily string
+type IPFamily string
 
-// AddressFamilyIPv4 defines ipv4 address family
-const AddressFamilyIPv4 Addressing = "ipv4"
+// IPFamilyIPv6 defines ipv4 ip address family
+const IPFamilyIPv4 IPFamily = "ipv4"
 
-// AddressFamilyIPv6 defines ipv6 address family
-const AddressFamilyIPv6 Addressing = "ipv6"
+// IPFamilyIPv6 defines ipv6 ip address family
+const IPFamilyIPv6 IPFamily = "ipv6"
 
-func IsAddressFamilySupported(s string) bool {
+func IsIPFamilySupported(s string) bool {
 	switch s {
-	case string(AddressFamilyIPv4):
-	case string(AddressFamilyIPv6):
+	case string(IPFamilyIPv4):
+	case string(IPFamilyIPv6):
 	default:
 		return false
 	}
@@ -98,12 +98,12 @@ func IsAttachmentTypeSupported(s string) bool {
 	return true
 }
 
-func IsAddressingSupported(s string) bool {
+func IsIPFamilyPolicySupported(s string) bool {
 	switch s {
-	case string(AddressingNone):
-	case string(AddressingIpv4Only):
-	case string(AddressingIpv6Only):
-	case string(AddressingDualStack):
+	case string(IpFamilyPolicyNone):
+	case string(IpFamilyPolicyIPv4Only):
+	case string(IpFamilyPolicyIPv6Only):
+	case string(IpFamilyPolicyDualStack):
 	default:
 		return false
 	}
@@ -124,8 +124,8 @@ func (spec *InterfaceSpec) Validate() error {
 			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedCNIType, string(spec.CNIType))
 		}
 	}
-	if spec.Addressing != "" {
-		if !IsAddressingSupported(string(spec.Addressing)) {
+	if spec.IpFamilyPolicy != "" {
+		if !IsIPFamilyPolicySupported(string(spec.IpFamilyPolicy)) {
 			return fmt.Errorf("spec invalid: %s, got: %s", errUnsupportedAddressing, string(spec.CNIType))
 		}
 	}

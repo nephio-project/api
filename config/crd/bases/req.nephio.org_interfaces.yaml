@@ -34,14 +34,6 @@ spec:
           spec:
             description: TBD how do we distinguish the loopback from the vnic(s)
             properties:
-              addressing:
-                description: Addressing defines the addressing used on this interface
-                enum:
-                - none
-                - ipv6-only
-                - ipv4-only
-                - dual-stack
-                type: string
               attachmentType:
                 description: AttachmentType defines if the interface is attached using
                   a vlan or not
@@ -56,6 +48,15 @@ spec:
                 - sriov
                 - ipvlan
                 - macvlan
+                type: string
+              ipFamilyPolicy:
+                description: IpFamilyPolicy defines the ip family policy on this interface
+                  to determine single stack, dual stack
+                enum:
+                - none
+                - ipv6-only
+                - ipv4-only
+                - dual-stack
                 type: string
               networkInstance:
                 description: NetworkInstance defines the networkInstance to which

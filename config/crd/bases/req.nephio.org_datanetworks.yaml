@@ -76,9 +76,11 @@ spec:
                   with the DNN
                 items:
                   properties:
-                    addressFamily:
-                      description: AddressFamily defines the address family of the
-                        pool
+                    ipFamily:
+                      description: IPFamily defines the ip family of the pool
+                      enum:
+                      - ipv4
+                      - ipv6
                       type: string
                     name:
                       description: Name defines the name of the pool
