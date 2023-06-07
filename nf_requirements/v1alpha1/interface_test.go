@@ -21,8 +21,10 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/utils/pointer"
 )
 
 func TestIsCNISupported(t *testing.T) {
@@ -248,6 +250,53 @@ func TestIsAddressFamilySupported(t *testing.T) {
 
 			if diff := cmp.Diff(tc.supported, b); diff != "" {
 				t.Errorf("-want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestUpsertIPAllocation(t *testing.T) {
+	cases := map[string]struct {
+		interfaceStatus *InterfaceStatus
+		allocStatus     ipamv1alpha1.IPAllocationStatus
+		expectedLength  int
+	}{
+		"Init": {
+			interfaceStatus: &InterfaceStatus{},
+			allocStatus:     ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("a")},
+			expectedLength:  1,
+		},
+		"InitWithNil": {
+			interfaceStatus: &InterfaceStatus{},
+			allocStatus:     ipamv1alpha1.IPAllocationStatus{},
+			expectedLength:  0,
+		},
+		"Update": {
+			interfaceStatus: &InterfaceStatus{
+				IPAllocationStatus: []ipamv1alpha1.IPAllocationStatus{
+					{Prefix: pointer.String("a")},
+				},
+			},
+			allocStatus:    ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("a")},
+			expectedLength: 1,
+		},
+		"Add": {
+			interfaceStatus: &InterfaceStatus{
+				IPAllocationStatus: []ipamv1alpha1.IPAllocationStatus{
+					{Prefix: pointer.String("a")},
+				},
+			},
+			allocStatus:    ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("b")},
+			expectedLength: 2,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			tc.interfaceStatus.UpsertIPAllocation(tc.allocStatus)
+
+			if len(tc.interfaceStatus.IPAllocationStatus) != tc.expectedLength {
+				t.Errorf("-want: %d, +got: %d", tc.expectedLength, len(tc.interfaceStatus.IPAllocationStatus))
 			}
 		})
 	}

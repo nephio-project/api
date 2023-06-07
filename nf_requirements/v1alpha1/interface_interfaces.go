@@ -16,7 +16,11 @@ limitations under the License.
 
 package v1alpha1
 
-import "fmt"
+import (
+	"fmt"
+
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
+)
 
 const (
 	errMissingNetworkInstance     = "missing networkInstance"
@@ -136,4 +140,22 @@ func (spec *InterfaceSpec) Validate() error {
 		return fmt.Errorf("spec invalid: %s, got: %s", errMissingNetworkInstanceName, spec.NetworkInstance.Name)
 	}
 	return nil
+}
+
+func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPAllocationStatus) {
+	if newAllocStatus.Prefix == nil {
+		return
+	}
+	if r.IPAllocationStatus == nil {
+		r.IPAllocationStatus = []ipamv1alpha1.IPAllocationStatus{}
+	}
+	for _, alloc := range r.IPAllocationStatus {
+
+		if alloc.Prefix != nil && *alloc.Prefix == *newAllocStatus.Prefix {
+			alloc = newAllocStatus
+			return
+		}
+	}
+	r.IPAllocationStatus = append(r.IPAllocationStatus, newAllocStatus)
+
 }
