@@ -150,7 +150,7 @@ func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPAlloc
 		r.IPAllocationStatus = []ipamv1alpha1.IPAllocationStatus{}
 	}
 	for _, alloc := range r.IPAllocationStatus {
-		
+
 		if alloc.Prefix != nil && *alloc.Prefix == *newAllocStatus.Prefix {
 			alloc = newAllocStatus
 			return
