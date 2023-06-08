@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/google/go-cmp v0.5.9
-	github.com/nokia/k8s-ipam v0.0.4-0.20230531091740-a5fc07f8c2e2
+	github.com/nokia/k8s-ipam v0.0.4-0.20230608184434-0c910788bac7
 	github.com/stretchr/testify v1.8.1
 	k8s.io/api v0.27.2
 	k8s.io/apimachinery v0.27.2

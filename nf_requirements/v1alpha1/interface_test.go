@@ -21,7 +21,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/utils/pointer"
@@ -258,45 +258,45 @@ func TestIsAddressFamilySupported(t *testing.T) {
 func TestUpsertIPAllocation(t *testing.T) {
 	cases := map[string]struct {
 		interfaceStatus *InterfaceStatus
-		allocStatus     ipamv1alpha1.IPAllocationStatus
+		claimStatus     ipamv1alpha1.IPClaimStatus
 		expectedLength  int
 	}{
 		"Init": {
 			interfaceStatus: &InterfaceStatus{},
-			allocStatus:     ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("a")},
+			claimStatus:     ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("a")},
 			expectedLength:  1,
 		},
 		"InitWithNil": {
 			interfaceStatus: &InterfaceStatus{},
-			allocStatus:     ipamv1alpha1.IPAllocationStatus{},
+			claimStatus:     ipamv1alpha1.IPClaimStatus{},
 			expectedLength:  0,
 		},
 		"Update": {
 			interfaceStatus: &InterfaceStatus{
-				IPAllocationStatus: []ipamv1alpha1.IPAllocationStatus{
+				IPClaimStatus: []ipamv1alpha1.IPClaimStatus{
 					{Prefix: pointer.String("a")},
 				},
 			},
-			allocStatus:    ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("a")},
+			claimStatus:    ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("a")},
 			expectedLength: 1,
 		},
 		"Add": {
 			interfaceStatus: &InterfaceStatus{
-				IPAllocationStatus: []ipamv1alpha1.IPAllocationStatus{
+				IPClaimStatus: []ipamv1alpha1.IPClaimStatus{
 					{Prefix: pointer.String("a")},
 				},
 			},
-			allocStatus:    ipamv1alpha1.IPAllocationStatus{Prefix: pointer.String("b")},
+			claimStatus:    ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("b")},
 			expectedLength: 2,
 		},
 	}
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			tc.interfaceStatus.UpsertIPAllocation(tc.allocStatus)
+			tc.interfaceStatus.UpsertIPAllocation(tc.claimStatus)
 
-			if len(tc.interfaceStatus.IPAllocationStatus) != tc.expectedLength {
-				t.Errorf("-want: %d, +got: %d", tc.expectedLength, len(tc.interfaceStatus.IPAllocationStatus))
+			if len(tc.interfaceStatus.IPClaimStatus) != tc.expectedLength {
+				t.Errorf("-want: %d, +got: %d", tc.expectedLength, len(tc.interfaceStatus.IPClaimStatus))
 			}
 		})
 	}
@@ -325,7 +325,7 @@ func TestGetAddressFamilies(t *testing.T) {
 		},
 		"none": {
 			interfaceSpec: &InterfaceSpec{},
-			afs: []IPFamily{IPFamilyIPv4},
+			afs:           []IPFamily{IPFamilyIPv4},
 		},
 	}
 
