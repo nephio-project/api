@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	"fmt"
 
-	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
 )
 
 const (
@@ -142,21 +142,21 @@ func (spec *InterfaceSpec) Validate() error {
 	return nil
 }
 
-func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPAllocationStatus) {
+func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPClaimStatus) {
 	if newAllocStatus.Prefix == nil {
 		return
 	}
-	if r.IPAllocationStatus == nil {
-		r.IPAllocationStatus = []ipamv1alpha1.IPAllocationStatus{}
+	if r.IPClaimStatus == nil {
+		r.IPClaimStatus = []ipamv1alpha1.IPClaimStatus{}
 	}
-	for _, alloc := range r.IPAllocationStatus {
+	for _, alloc := range r.IPClaimStatus {
 
 		if alloc.Prefix != nil && *alloc.Prefix == *newAllocStatus.Prefix {
 			alloc = newAllocStatus
 			return
 		}
 	}
-	r.IPAllocationStatus = append(r.IPAllocationStatus, newAllocStatus)
+	r.IPClaimStatus = append(r.IPClaimStatus, newAllocStatus)
 }
 
 func (r *InterfaceSpec) GetAddressFamilies() []IPFamily {

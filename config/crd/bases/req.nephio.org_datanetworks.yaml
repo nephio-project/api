@@ -101,9 +101,9 @@ spec:
                 description: Pools contains the statuses of individual pools
                 items:
                   properties:
-                    ipAllocation:
-                      description: IPAllocation holds the result of the IP allocation
-                        belonging to the pool
+                    ipClaim:
+                      description: IPClaim holds the result of the IP claim belonging
+                        to the pool
                       properties:
                         conditions:
                           description: Conditions of the resource.
@@ -172,15 +172,15 @@ spec:
                             type: object
                           type: array
                         expiryTime:
-                          description: ExpiryTime defines when the allocation expires
+                          description: ExpiryTime defines when the claim expires
                           type: string
                         gateway:
-                          description: Gateway defines the gateway IP for the allocated
+                          description: Gateway defines the gateway IP for the claimed
                             prefix Gateway is only relevant for prefix kind = network
                           type: string
                         prefix:
-                          description: Prefix defines the prefix, allocated by the
-                            IPAM backend
+                          description: Prefix defines the prefix, claimed through
+                            the IPAM backend
                           type: string
                       type: object
                     name:

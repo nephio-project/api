@@ -101,9 +101,9 @@ spec:
             type: object
           status:
             properties:
-              ipAllocationStatus:
+              ipClaimStatus:
                 items:
-                  description: IPAllocationStatus defines the observed state of IPAllocation
+                  description: IPClaimStatus defines the observed state of IPClaim
                   properties:
                     conditions:
                       description: Conditions of the resource.
@@ -169,20 +169,20 @@ spec:
                         type: object
                       type: array
                     expiryTime:
-                      description: ExpiryTime defines when the allocation expires
+                      description: ExpiryTime defines when the claim expires
                       type: string
                     gateway:
-                      description: Gateway defines the gateway IP for the allocated
+                      description: Gateway defines the gateway IP for the claimed
                         prefix Gateway is only relevant for prefix kind = network
                       type: string
                     prefix:
-                      description: Prefix defines the prefix, allocated by the IPAM
-                        backend
+                      description: Prefix defines the prefix, claimed through the
+                        IPAM backend
                       type: string
                   type: object
                 type: array
-              vlanAllocationStatus:
-                description: VLANAllocationStatus defines the observed state of VLANAllocation
+              vlanClaimStatus:
+                description: VLANClaimStatus defines the observed state of VLANClaim
                 properties:
                   conditions:
                     description: Conditions of the resource.
@@ -247,15 +247,15 @@ spec:
                       type: object
                     type: array
                   expiryTime:
-                    description: ExpiryTime indicated when the allocation expires
+                    description: ExpiryTime indicated when the claim expires
                     type: string
                   vlanID:
-                    description: VLANID defines the vlan ID, allocated by the VLAN
+                    description: VLANID defines the vlan ID, claimed through the VLAN
                       backend
                     type: integer
                   vlanRange:
-                    description: VLANRange defines the vlan range, allocated by the
-                      VLAN backend
+                    description: VLANRange defines the vlan range, claimed through
+                      the VLAN backend
                     type: string
                 type: object
             type: object

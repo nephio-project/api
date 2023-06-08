@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	"reflect"
 
-	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -63,8 +63,8 @@ type DataNetworkStatus struct {
 type PoolStatus struct {
 	// Name of the pool
 	Name string `yaml:"name,omitempty" json:"name,omitempty"`
-	// IPAllocation holds the result of the IP allocation belonging to the pool
-	IPAllocation ipamv1alpha1.IPAllocationStatus `yaml:"ipAllocation,omitempty" json:"ipAllocation,omitempty"`
+	// IPClaim holds the result of the IP claim belonging to the pool
+	IPClaim ipamv1alpha1.IPClaimStatus `yaml:"ipClaim,omitempty" json:"ipClaim,omitempty"`
 }
 
 // DataNetworkName type metadata.
