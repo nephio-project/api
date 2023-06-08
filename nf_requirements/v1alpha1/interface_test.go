@@ -301,3 +301,41 @@ func TestUpsertIPAllocation(t *testing.T) {
 		})
 	}
 }
+
+func TestGetAddressFamilies(t *testing.T) {
+	cases := map[string]struct {
+		interfaceSpec *InterfaceSpec
+		afs           []IPFamily
+	}{
+		"dualstack": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyDualStack},
+			afs: []IPFamily{IPFamilyIPv4, IPFamilyIPv6},
+		},
+
+		"ipv4only": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyIPv4Only},
+			afs: []IPFamily{IPFamilyIPv4},
+		},
+		"ipv6only": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyIPv6Only},
+			afs: []IPFamily{IPFamilyIPv6},
+		},
+		"none": {
+			interfaceSpec: &InterfaceSpec{},
+			afs: []IPFamily{IPFamilyIPv4},
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got := tc.interfaceSpec.GetAddressFamilies()
+
+			if diff := cmp.Diff(got, tc.afs); diff != "" {
+				t.Errorf("-want: %v, +got: %v", tc.afs, got)
+			}
+		})
+	}
+}
