@@ -157,5 +157,20 @@ func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPAlloc
 		}
 	}
 	r.IPAllocationStatus = append(r.IPAllocationStatus, newAllocStatus)
+}
 
+func (r *InterfaceSpec) GetAddressFamilies() []IPFamily {
+	afs := []IPFamily{}
+	switch r.IpFamilyPolicy {
+	case IpFamilyPolicyDualStack:
+		afs = append(afs, IPFamilyIPv4)
+		afs = append(afs, IPFamilyIPv6)
+	case IpFamilyPolicyIPv6Only:
+		afs = append(afs, IPFamilyIPv6)
+	case IpFamilyPolicyIPv4Only:
+		afs = append(afs, IPFamilyIPv4)
+	default:
+		afs = append(afs, IPFamilyIPv4)
+	}
+	return afs
 }
