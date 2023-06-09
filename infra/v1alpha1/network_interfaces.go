@@ -16,6 +16,8 @@ limitations under the License.
 
 package v1alpha1
 
+import "fmt"
+
 // GetCondition returns the condition based on the condition kind
 func (r *Network) GetCondition(t ConditionType) Condition {
 	return r.Status.GetCondition(t)
@@ -33,3 +35,11 @@ const (
 	InterfaceKindInterface    InterfaceKind = "interface"
 	InterfaceKindBridgeDomain InterfaceKind = "bridgedomain"
 )
+
+func (r *Interface) GetBridgeDomainName(bdName, selectorName string) string {
+	// selectorName is a global unique identity (interface/node or a grouping like clusters)
+	if r.Selector != nil {
+		return fmt.Sprintf("%s-%s-bd", bdName, selectorName)
+	}
+	return fmt.Sprintf("%s-bd", bdName)
+}
