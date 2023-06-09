@@ -293,7 +293,7 @@ func TestUpsertIPAllocation(t *testing.T) {
 
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			tc.interfaceStatus.UpsertIPAllocation(tc.claimStatus)
+			tc.interfaceStatus.UpsertIPClaim(tc.claimStatus)
 
 			if len(tc.interfaceStatus.IPClaimStatus) != tc.expectedLength {
 				t.Errorf("-want: %d, +got: %d", tc.expectedLength, len(tc.interfaceStatus.IPClaimStatus))
