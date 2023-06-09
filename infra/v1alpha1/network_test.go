@@ -31,7 +31,7 @@ func TestGetBridgeDomainName(t *testing.T) {
 		expected     string
 	}{
 		"Selector": {
-			itfce:        &Interface{Selector: &metav1.LabelSelector{
+			itfce: &Interface{Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{},
 			}},
 			bdName:       "a",
