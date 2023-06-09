@@ -142,8 +142,8 @@ func (spec *InterfaceSpec) Validate() error {
 	return nil
 }
 
-func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPClaimStatus) {
-	if newAllocStatus.Prefix == nil {
+func (r *InterfaceStatus) UpsertIPClaim(newClaimStatus ipamv1alpha1.IPClaimStatus) {
+	if newClaimStatus.Prefix == nil {
 		return
 	}
 	if r.IPClaimStatus == nil {
@@ -151,12 +151,12 @@ func (r *InterfaceStatus) UpsertIPAllocation(newAllocStatus ipamv1alpha1.IPClaim
 	}
 	for _, alloc := range r.IPClaimStatus {
 
-		if alloc.Prefix != nil && *alloc.Prefix == *newAllocStatus.Prefix {
-			alloc = newAllocStatus
+		if alloc.Prefix != nil && *alloc.Prefix == *newClaimStatus.Prefix {
+			alloc = newClaimStatus
 			return
 		}
 	}
-	r.IPClaimStatus = append(r.IPClaimStatus, newAllocStatus)
+	r.IPClaimStatus = append(r.IPClaimStatus, newClaimStatus)
 }
 
 func (r *InterfaceSpec) GetAddressFamilies() []IPFamily {
