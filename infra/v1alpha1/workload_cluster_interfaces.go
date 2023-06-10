@@ -30,7 +30,7 @@ func (spec *WorkloadClusterSpec) Validate() error {
 	if spec == nil {
 		return fmt.Errorf("spec invalid: %s", errMissingWorkloadClusterSpec)
 	}
-	if spec.ClusterName == "" || spec.ClusterName == "empty" {
+	if spec.ClusterName == "" || spec.ClusterName == "example" {
 		return fmt.Errorf("spec invalid: %s", errMissingClusterName)
 	}
 	if len(spec.CNIs) == 0 {
