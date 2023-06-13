@@ -19,8 +19,8 @@ package v1alpha1
 import (
 	"reflect"
 
-	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/ipam/v1alpha1"
-	vlanv1alpha1 "github.com/nokia/k8s-ipam/apis/alloc/vlan/v1alpha1"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
+	vlanv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/vlan/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -46,11 +46,14 @@ type InterfaceSpec struct {
 	// AttachmentType defines if the interface is attached using a vlan or not
 	// +kubebuilder:validation:Enum=none;vlan
 	AttachmentType AttachmentType `json:"attachmentType,omitempty" yaml:"attachmentType,omitempty"`
+	// IpFamilyPolicy defines the ip family policy on this interface to determine single stack, dual stack
+	// +kubebuilder:validation:Enum=none;ipv6-only;ipv4-only;dual-stack
+	IpFamilyPolicy IpFamilyPolicy `json:"ipFamilyPolicy,omitempty" yaml:"ipFamilyPolicy,omitempty"`
 }
 
 type InterfaceStatus struct {
-	IPAllocationStatus   *ipamv1alpha1.IPAllocationStatus   `json:"ipAllocationStatus,omitempty" yaml:"ipAllocationStatus,omitempty"`
-	VLANAllocationStatus *vlanv1alpha1.VLANAllocationStatus `json:"vlanAllocationStatus,omitempty" yaml:"vlanAllocationStatus,omitempty"`
+	IPClaimStatus   []ipamv1alpha1.IPClaimStatus  `json:"ipClaimStatus,omitempty" yaml:"ipClaimStatus,omitempty"`
+	VLANClaimStatus *vlanv1alpha1.VLANClaimStatus `json:"vlanClaimStatus,omitempty" yaml:"vlanClaimStatus,omitempty"`
 }
 
 // Interface type metadata.

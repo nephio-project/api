@@ -21,8 +21,10 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/utils/pointer"
 )
 
 func TestIsCNISupported(t *testing.T) {
@@ -95,34 +97,35 @@ func TestValidateInterfaceSpec(t *testing.T) {
 		errExpected bool
 		err         string
 	}{
-		"TestValidateInterfaceSpecOK": {
+		"Normal": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
 				},
 				CNIType:        "ipvlan",
 				AttachmentType: "none",
+				IpFamilyPolicy: "dualstack",
 			},
 			errExpected: false,
 		},
-		"TestValidateInterfaceSpecMissingNetworkInstanceName": {
+		"MissingNetworkInstanceName": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{},
 			},
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecEmpty": {
+		"EmptySpec": {
 			input:       &InterfaceSpec{},
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecNil": {
+		"NilSpec": {
 			input:       nil,
 			errExpected: true,
 			err:         errMissingNetworkInstance,
 		},
-		"TestValidateInterfaceSpecUnsupportedCNIType": {
+		"UnsupportedCNIType": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
@@ -133,7 +136,7 @@ func TestValidateInterfaceSpec(t *testing.T) {
 			errExpected: true,
 			err:         errUnsupportedCNIType,
 		},
-		"TestValidateInterfaceSpecUnsupportedAttachmentType": {
+		"UnsupportedAttachmentType": {
 			input: &InterfaceSpec{
 				NetworkInstance: &corev1.ObjectReference{
 					Name: "a",
@@ -143,6 +146,18 @@ func TestValidateInterfaceSpec(t *testing.T) {
 			},
 			errExpected: true,
 			err:         errUnsupportedAttachmentType,
+		},
+		"UnsupportedAddressing": {
+			input: &InterfaceSpec{
+				NetworkInstance: &corev1.ObjectReference{
+					Name: "a",
+				},
+				CNIType:        "sriov",
+				AttachmentType: "vlan",
+				IpFamilyPolicy: "a",
+			},
+			errExpected: true,
+			err:         errUnsupportedAddressing,
 		},
 	}
 
@@ -159,6 +174,167 @@ func TestValidateInterfaceSpec(t *testing.T) {
 				}
 			} else {
 				assert.NoError(t, err)
+			}
+		})
+	}
+}
+
+func TestIsAddressingSupported(t *testing.T) {
+	cases := map[string]struct {
+		input     string
+		supported bool
+	}{
+		"ipv4only": {
+			input:     "ipv4only",
+			supported: true,
+		},
+		"ipv6only": {
+			input:     "ipv6only",
+			supported: true,
+		},
+		"dualstack": {
+			input:     "dualstack",
+			supported: true,
+		},
+		"none": {
+			input:     "none",
+			supported: true,
+		},
+		"empty": {
+			input:     "",
+			supported: false,
+		},
+		"unknown": {
+			input:     "a",
+			supported: false,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			b := IsIPFamilyPolicySupported(tc.input)
+
+			if diff := cmp.Diff(tc.supported, b); diff != "" {
+				t.Errorf("-want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestIsAddressFamilySupported(t *testing.T) {
+	cases := map[string]struct {
+		input     string
+		supported bool
+	}{
+		"ipv4": {
+			input:     "ipv4",
+			supported: true,
+		},
+		"ipv6": {
+			input:     "ipv6",
+			supported: true,
+		},
+		"empty": {
+			input:     "",
+			supported: false,
+		},
+		"unknown": {
+			input:     "a",
+			supported: false,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			b := IsIPFamilySupported(tc.input)
+
+			if diff := cmp.Diff(tc.supported, b); diff != "" {
+				t.Errorf("-want, +got:\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestUpsertIPAllocation(t *testing.T) {
+	cases := map[string]struct {
+		interfaceStatus *InterfaceStatus
+		claimStatus     ipamv1alpha1.IPClaimStatus
+		expectedLength  int
+	}{
+		"Init": {
+			interfaceStatus: &InterfaceStatus{},
+			claimStatus:     ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("a")},
+			expectedLength:  1,
+		},
+		"InitWithNil": {
+			interfaceStatus: &InterfaceStatus{},
+			claimStatus:     ipamv1alpha1.IPClaimStatus{},
+			expectedLength:  0,
+		},
+		"Update": {
+			interfaceStatus: &InterfaceStatus{
+				IPClaimStatus: []ipamv1alpha1.IPClaimStatus{
+					{Prefix: pointer.String("a")},
+				},
+			},
+			claimStatus:    ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("a")},
+			expectedLength: 1,
+		},
+		"Add": {
+			interfaceStatus: &InterfaceStatus{
+				IPClaimStatus: []ipamv1alpha1.IPClaimStatus{
+					{Prefix: pointer.String("a")},
+				},
+			},
+			claimStatus:    ipamv1alpha1.IPClaimStatus{Prefix: pointer.String("b")},
+			expectedLength: 2,
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			tc.interfaceStatus.UpsertIPClaim(tc.claimStatus)
+
+			if len(tc.interfaceStatus.IPClaimStatus) != tc.expectedLength {
+				t.Errorf("-want: %d, +got: %d", tc.expectedLength, len(tc.interfaceStatus.IPClaimStatus))
+			}
+		})
+	}
+}
+
+func TestGetAddressFamilies(t *testing.T) {
+	cases := map[string]struct {
+		interfaceSpec *InterfaceSpec
+		afs           []IPFamily
+	}{
+		"dualstack": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyDualStack},
+			afs: []IPFamily{IPFamilyIPv4, IPFamilyIPv6},
+		},
+
+		"ipv4only": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyIPv4Only},
+			afs: []IPFamily{IPFamilyIPv4},
+		},
+		"ipv6only": {
+			interfaceSpec: &InterfaceSpec{
+				IpFamilyPolicy: IpFamilyPolicyIPv6Only},
+			afs: []IPFamily{IPFamilyIPv6},
+		},
+		"none": {
+			interfaceSpec: &InterfaceSpec{},
+			afs:           []IPFamily{IPFamilyIPv4},
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			got := tc.interfaceSpec.GetAddressFamilies()
+
+			if diff := cmp.Diff(got, tc.afs); diff != "" {
+				t.Errorf("-want: %v, +got: %v", tc.afs, got)
 			}
 		})
 	}
