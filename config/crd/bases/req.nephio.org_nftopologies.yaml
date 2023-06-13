@@ -1,0 +1,161 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: nftopologies.req.nephio.org
+spec:
+  group: req.nephio.org
+  names:
+    kind: NFTopology
+    listKind: NFTopologyList
+    plural: nftopologies
+    singular: nftopology
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: NFTopology is the Schema for the nfTopology API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              nfInstances:
+                items:
+                  properties:
+                    clusterSelector:
+                      description: ClusterSelector specifies the matching labels for
+                        the NF instance to be instantiated
+                      properties:
+                        matchExpressions:
+                          description: matchExpressions is a list of label selector
+                            requirements. The requirements are ANDed.
+                          items:
+                            description: A label selector requirement is a selector
+                              that contains values, a key, and an operator that relates
+                              the key and values.
+                            properties:
+                              key:
+                                description: key is the label key that the selector
+                                  applies to.
+                                type: string
+                              operator:
+                                description: operator represents a key's relationship
+                                  to a set of values. Valid operators are In, NotIn,
+                                  Exists and DoesNotExist.
+                                type: string
+                              values:
+                                description: values is an array of string values.
+                                  If the operator is In or NotIn, the values array
+                                  must be non-empty. If the operator is Exists or
+                                  DoesNotExist, the values array must be empty. This
+                                  array is replaced during a strategic merge patch.
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - key
+                            - operator
+                            type: object
+                          type: array
+                        matchLabels:
+                          additionalProperties:
+                            type: string
+                          description: matchLabels is a map of {key,value} pairs.
+                            A single {key,value} in the matchLabels map is equivalent
+                            to an element of matchExpressions, whose key field is
+                            "key", the operator is "In", and the values array contains
+                            only "value". The requirements are ANDed.
+                          type: object
+                      type: object
+                      x-kubernetes-map-type: atomic
+                    name:
+                      description: Name specifies the name of this NFInstance
+                      type: string
+                    nfTemplate:
+                      description: NFTemplate specifies the template of the NF to
+                        be deployed when a cluster matches the selector above
+                      properties:
+                        capacity:
+                          description: Capacity specifies the NF capacity profile
+                            for this NF instance
+                          properties:
+                            maxDownlinkThroughput:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              description: MaxDownlinkThroughput defines the max downlink
+                                dataplane throughput
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                            maxNFConnections:
+                              description: MaxNFConnections defines the max NF(s)
+                                that can be connected to this NF/device
+                              type: integer
+                            maxSessions:
+                              description: MaxSessions defines the max sessions of
+                                the control plane expressed in unit of 1000s
+                              type: integer
+                            maxSubscribers:
+                              description: MaxSubscribers defines the max subscribers
+                                expressed in unit of 1000s
+                              type: integer
+                            maxUplinkThroughput:
+                              anyOf:
+                              - type: integer
+                              - type: string
+                              description: MaxUplinkThroughput defines the max uplink
+                                dataplane throughput
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
+                          type: object
+                        className:
+                          description: ClassName --- for now, the NFClass this NF
+                            template will derive from
+                          type: string
+                        nfAttachments:
+                          description: NFAttachments
+                          items:
+                            description: NFAttachment defines the specification of
+                              network attachment points of a NF
+                            properties:
+                              name:
+                                description: Name of the network attachment point
+                                type: string
+                              networkInstanceName:
+                                description: NetworkInstanceRef is a reference to
+                                  NetworkInstance. Two NF with attachment to the same
+                                  NetworkInstance is considered connected neighbors
+                                type: string
+                            type: object
+                          type: array
+                        nfType:
+                          description: NFType specifies the type of NF this template
+                            is specifying
+                          type: string
+                      type: object
+                  type: object
+                type: array
+            type: object
+          status:
+            description: NFTopologyStatus defines the observed state of NFTopology
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
