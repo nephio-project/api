@@ -16,39 +16,40 @@ limitations under the License.
 package v1alpha1
 
 import (
+	nephiodeployv1alpha1 "github.com/nephio-project/api/nf_deployments/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type NFDeployedConnectivity struct {
+type NFConnectivity struct {
 	// peer NF's Id (see NFInstance struct below)
 	NeighborName string `json:"neighborName,omitempty" yaml:"neighborName,omitempty"`
 }
 
-// NFDeployedInstance defines an NF instance that is deployed
-type NFDeployedInstance struct {
+// NFTopoTrackerInstance defines an NF instance that is deployed
+type NFTopoTrackerInstance struct {
 	// unique ID for this NF instance
-	Id string `json:"id,omitempty" yaml:"id,omitempty"`
+	ID string `json:"id,omitempty" yaml:"id,omitempty"`
 	// name of workload cluster where the NF instance is to be deployed
-	ClusterName string `json:"clustername,omitempty" yaml:"clustername,omitempty"`
+	ClusterName string `json:"clusterName,omitempty" yaml:"clusterName,omitempty"`
 	// type of NF, example: amf, smf, upf
-	NFType string `json:"nftype,omitempty" yaml:"nftype,omitempty"`
+	NFType string `json:"nfType,omitempty" yaml:"nfType,omitempty"`
 	// flavor of NF, example: small, medium, large
-	NFFlavor string `json:"nfflavor,omitempty" yaml:"nfflavor,omitempty"`
+	NFFlavor string `json:"nfFlavor,omitempty" yaml:"nfFlavor,omitempty"`
 	// NF vendor name
-	NFVendor string `json:"nfvendor,omitempty" yaml:"nfvendor,omitempty"`
+	NFVendor string `json:"nfVendor,omitempty" yaml:"nfVendor,omitempty"`
 	// the software version of this NF vendor's NFType
-	NFVersion string `json:"nfversion,omitempty" yaml:"nfversion,omitempty"`
+	NFVersion string `json:"nfVersion,omitempty" yaml:"nfVersion,omitempty"`
 	// list of connected NF instances to this NF instance
-	Connectivities []NFDeployedConnectivity `json:"connectivities,omitempty" yaml:"connectivities,omitempty"`
+	Connectivities []NFConnectivity `json:"connectivities,omitempty" yaml:"connectivities,omitempty"`
 }
 
-// NFDeployedSpec defines list of deployed NF for Edge Status Aggregator to monitor
-type NFDeployedSpec struct {
-	NFInstances []NFDeployedInstance `json:"nfinstances,omitempty" yaml:"nfinstances,omitempty"`
+// NFTopoTrackerSpec defines list of deployed NF for Edge Status Aggregator to monitor
+type NFTopoTrackerSpec struct {
+	NFInstances []NFTopoTrackerInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
 }
 
-// NFDeployedStatus tracks the aggregated status of all the deployed NFs for this one deployment
-type NFDeployedStatus struct {
+// NFTopoTrackerStatus tracks the aggregated status of all the deployed NFs for this one deployment
+type NFTopoTrackerStatus struct {
 	// The generation observed by the deployment controller.
 	ObservedGeneration int32 `json:"observedGeneration,omitempty"`
 
@@ -65,26 +66,26 @@ type NFDeployedStatus struct {
 	StalledNFs int32 `json:"stalledNFs,omitempty"`
 
 	// Current service state of the UPF.
-	Conditions []NFDeploymentConditionType `json:"conditions,omitempty"`
+	Conditions []nephiodeployv1alpha1.NFDeploymentConditionType `json:"conditions,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// NfDeployed is the Schema for the tracking of the list of deployed NFs
-type NFDeployed struct {
+// NfTopoTracker is the Schema for the tracking of the list of deployed NFs
+type NFTopoTracker struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata"`
 
-	Spec   NFDeployedSpec   `json:"spec,omitempty"`
-	Status NFDeployedStatus `json:"status,omitempty"`
+	Spec   NFTopoTrackerSpec   `json:"spec,omitempty"`
+	Status NFTopoTrackerStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// NFDeployedList contains a list of NfDeployed
-type NFDeployedList struct {
+// NFTopoTrackerList contains a list of NfTopoTracker
+type NFTopoTrackerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []NFDeployed `json:"items"`
+	Items           []NFTopoTracker `json:"items"`
 }

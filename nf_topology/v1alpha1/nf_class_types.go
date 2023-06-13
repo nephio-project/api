@@ -46,7 +46,7 @@ type NFClassSpec struct {
 	Version string `json:"version,omitempty" yaml:"version,omitempty"`
 
 	// PackageRef is a reference to the upstream package used for this NF deployment
-	PackageRef PackageRevisionReference `json:"packageRef,omitempty" yaml:"packageRef,omitempty"`
+	PackageRef PackageRevisionReference `json:"packageRef" yaml:"packageRef"`
 }
 
 // NFClassStatus defines the observed state of NFClass

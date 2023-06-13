@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	//apiv1 "k8s.io/api/core/v1"
+	nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -31,45 +31,45 @@ const (
 	NFTypeAMF NFType = "amf"
 )
 
-// NFAttachment defines the specification of network attachment points of a NF
-type NFAttachment struct {
+// NFInterface defines the specification of network attachment points of a NF
+type NFInterface struct {
 	// Name of the network attachment point
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
+	Name string `json:"name" yaml:"name"`
 
 	// NetworkInstanceRef is a reference to NetworkInstance. Two NF with attachment to
 	// the same NetworkInstance is considered connected neighbors
-	NetworkInstanceName string `json:"networkInstanceName,omitempty" yaml:"networkInstanceName,omitempty"`
+	NetworkInstanceName string `json:"networkInstanceName" yaml:"networkInstanceName"`
 }
 
 // NFTemplate defines the template for deployment of an instance of a NF
 type NFTemplate struct {
 	// NFType specifies the type of NF this template is specifying
-	NFType NFType `json:"nfType,omitempty" yaml:"nfType,omitempty"`
+	NFType NFType `json:"nfType" yaml:"nfType"`
 
 	// ClassName --- for now, the NFClass this NF template will derive from
-	ClassName string `json:"className,omitempty" yaml:"className,omitempty"`
+	ClassName string `json:"className" yaml:"className"`
 
 	// Capacity specifies the NF capacity profile for this NF instance
-	Capacity CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
+	Capacity nephioreqv1alpha1.CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
 
-	// NFAttachments
-	NFAttachments []NFAttachment `json:"nfAttachments,omitempty" yaml:"nfAttachments,omitempty"`
+	// NFInterfaces
+	NFInterfaces []NFInterface `json:"nfInterfaces,omitempty" yaml:"nfInterfaces,omitempty"`
 }
 
 type NFInstance struct {
 	// Name specifies the name of this NFInstance
-	Name string `json:"name,omitempty" yaml:"name,omitempty"`
+	Name string `json:"name" yaml:"name"`
 
 	// ClusterSelector specifies the matching labels for the NF instance to be instantiated
-	ClusterSelector metav1.LabelSelector `json:"clusterSelector,omitempty" yaml:"clusterSelector,omitempty"`
+	ClusterSelector metav1.LabelSelector `json:"clusterSelector" yaml:"clusterSelector"`
 
 	// NFTemplate specifies the template of the NF to be deployed when a cluster matches
 	// the selector above
-	NFTemplate NFTemplate `json:"nfTemplate,omitempty" yaml:"nfTemplate,omitempty"`
+	NFTemplate NFTemplate `json:"nfTemplate" yaml:"nfTemplate"`
 }
 
 type NFTopologySpec struct {
-	NFInstances []NFInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
+	NFInstances []NFInstance `json:"nfInstances" yaml:"nfInstances"`
 }
 
 // NFTopologyStatus defines the observed state of NFTopology
