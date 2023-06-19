@@ -41,11 +41,7 @@ type ConfigRefSpec struct {
 	GVKC GVKC `json:"gvkc,omitempty" yaml:"gvkc,omitempty"`
 }
 
-type ConfigRefStatus struct {
-}
-
 //+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
 //+kubebuilder:resource:path=configref
 
 // ConfigRef is the Schema for the ConfigRef API
@@ -54,7 +50,6 @@ type ConfigRef struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   ConfigRefSpec   `json:"spec,omitempty"`
-	Status ConfigRefStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
