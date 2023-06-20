@@ -49,7 +49,7 @@ type ConfigRef struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   ConfigRefSpec   `json:"spec,omitempty"`
+	Spec ConfigRefSpec `json:"spec,omitempty"`
 }
 
 //+kubebuilder:object:root=true
