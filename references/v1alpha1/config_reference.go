@@ -18,13 +18,13 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-    "k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // ConfigSpec defines the structure for config reference specification
 type ConfigSpec struct {
 	// Config is the embedded config
-    //+kubebuilder:pruning:PreserveUnknownFields
+	//+kubebuilder:pruning:PreserveUnknownFields
 	Config runtime.RawExtension `json:"config,omitempty" yaml:"config,omitempty"`
 }
 
