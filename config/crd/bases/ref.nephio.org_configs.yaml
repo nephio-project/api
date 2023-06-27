@@ -5,13 +5,13 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: config.ref.nephio.org
+  name: configs.ref.nephio.org
 spec:
   group: ref.nephio.org
   names:
     kind: Config
     listKind: ConfigList
-    plural: config
+    plural: configs
     singular: config
   scope: Namespaced
   versions:

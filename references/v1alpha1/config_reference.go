@@ -29,7 +29,6 @@ type ConfigSpec struct {
 }
 
 //+kubebuilder:object:root=true
-//+kubebuilder:resource:path=config
 
 // Config is the Schema for the ConfigRef API
 type Config struct {
