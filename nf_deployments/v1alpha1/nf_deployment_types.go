@@ -62,14 +62,14 @@ type NFDeploymentSpec struct {
 
 type ObjectReference struct {
 	// APIVersion of the target resources
-	APIVersion string `yaml:"apiVersion,omitempty" json:"apiVersion,omitempty"`
+	APIVersion string `yaml:"apiVersion" json:"apiVersion"`
 
 	// Kind of the target resources
-	Kind string `yaml:"kind,omitempty" json:"kind,omitempty"`
+	Kind string `yaml:"kind" json:"kind"`
 
 	// Name of the target resource
 	// +optional
-	Name *string `yaml:"name" json:"name"`
+	Name string `yaml:"name" json:"name"`
 
 	// Note: Namespace is not allowed; the namespace
 	// must match the namespace of the PackageVariantSet resource
