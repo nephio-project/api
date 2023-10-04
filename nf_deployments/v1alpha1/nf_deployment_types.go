@@ -16,13 +16,36 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"reflect"
+
 	nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
+
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+type NFDeployment struct {
+	metav1.TypeMeta   `json:",inline" yaml:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	Spec   NFDeploymentSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status NFDeploymentStatus `json:"status,omitempty" yaml:"status,omitempty"`
+}
+
+//+kubebuilder:object:root=true
+
+// NFDeploymentList contains a list of NFDeployments
+type NFDeploymentList struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	Items           []NFDeployment `json:"items" yaml:"items"`
+}
 
 // NFDeploymentSpec defines the characteristics of a deployment of a network function
 type NFDeploymentSpec struct {
+	// provider defines which provider implement this NFDeployment
+	Provider string `json:"provider,omitempty" yaml:"provider,omitempty"`
 	// capacity defines the capacity characteristics of the NF deployment
 	// +optional
 	Capacity *nephioreqv1alpha1.CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
@@ -34,7 +57,22 @@ type NFDeploymentSpec struct {
 	NetworkInstances []NetworkInstance `json:"networkInstances,omitempty" yaml:"networkInstances,omitempty"`
 	// configRef defines addiitonal configuration references the nf depends upon
 	// +optional
-	ConfigRefs []corev1.ObjectReference `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
+	ParametersRefs []ObjectReference `json:"parametersRefs,omitempty" yaml:"parametersRefs,omitempty"`
+}
+
+type ObjectReference struct {
+	// APIVersion of the target resources
+	APIVersion string `yaml:"apiVersion,omitempty" json:"apiVersion,omitempty"`
+
+	// Kind of the target resources
+	Kind string `yaml:"kind,omitempty" json:"kind,omitempty"`
+
+	// Name of the target resource
+	// +optional
+	Name *string `yaml:"name" json:"name"`
+
+	// Note: Namespace is not allowed; the namespace
+	// must match the namespace of the PackageVariantSet resource
 }
 
 // InterfaceConfig defines the configuration of the interface
@@ -183,4 +221,12 @@ const (
 	// interfaces.
 	// At this stage, the deployment is ready to serve requests.
 	Ready NFDeploymentConditionType = "Ready"
+)
+
+// Interface type metadata.
+var (
+	NFDeploymentKind             = reflect.TypeOf(NFDeployment{}).Name()
+	NFDeploymentGroupKind        = schema.GroupKind{Group: Group, Kind: NFDeploymentKind}.String()
+	NFDeploymentKindAPIVersion   = NFDeploymentKind + "." + GroupVersion.String()
+	NFDeploymentGroupVersionKind = GroupVersion.WithKind(NFDeploymentKind)
 )
