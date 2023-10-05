@@ -55,7 +55,7 @@ type NFDeploymentSpec struct {
 	// NetworkInstances defines the network instances associated with the NF deployment
 	// +optional
 	NetworkInstances []NetworkInstance `json:"networkInstances,omitempty" yaml:"networkInstances,omitempty"`
-	// ParametersRefs defines addiitonal KRM parmeter references the nf depends upon
+	// ParametersRefs defines addiitonal KRM parameter references the nf depends upon
 	// +optional
 	ParametersRefs []ObjectReference `json:"parametersRefs,omitempty" yaml:"parametersRefs,omitempty"`
 }
