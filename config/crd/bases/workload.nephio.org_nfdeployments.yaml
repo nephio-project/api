@@ -252,7 +252,7 @@ spec:
                   type: object
                 type: array
               parametersRefs:
-                description: ParametersRefs defines addiitonal KRM parmeter references
+                description: ParametersRefs defines addiitonal KRM parameter references
                   the nf depends upon
                 items:
                   properties:
@@ -265,6 +265,9 @@ spec:
                     name:
                       description: Name of the target resource
                       type: string
+                  required:
+                  - apiVersion
+                  - kind
                   type: object
                 type: array
               provider:
