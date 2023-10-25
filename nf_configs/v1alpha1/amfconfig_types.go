@@ -22,13 +22,18 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// AmfConfigStatus defines the observed state of AmfConfig
+type AmfConfigStatus struct {
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 type AmfConfig struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   AmfConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Spec     AmfConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status   AmfConfigStatus   `json:"status,omitempty" yaml:"status,omitempty"`
 
 }
 
@@ -38,7 +43,7 @@ type AmfConfig struct {
 type AmfConfigList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
-	Items           []amfConfig `json:"items" yaml:"items"`
+	Items           []AmfConfig `json:"items" yaml:"items"`
 }
 
 // AmfConfigSpec defines the characteristics of a deployment of a network function
@@ -49,21 +54,6 @@ type AmfConfigSpec struct {
 	AmfName string `json:"amfName" yaml:"amfName"`
 	// ServedGuami defines information related to GUAMI
 	ServedGuami []ServedGuamiConfig `json:"servedGuami" yaml:"servedGuami"`
-}
-
-type ObjectReference struct {
-	// APIVersion of the target resources
-	APIVersion string `yaml:"apiVersion,omitempty" json:"apiVersion,omitempty"`
-
-	// Kind of the target resources
-	Kind string `yaml:"kind,omitempty" json:"kind,omitempty"`
-
-	// Name of the target resource
-	// +optional
-	Name *string `yaml:"name" json:"name"`
-
-	// Note: Namespace is not allowed; the namespace
-	// must match the namespace of the PackageVariantSet resource
 }
 
 // ServedGuami information related to GUAMI

@@ -127,6 +127,9 @@ spec:
                   type: object
                 type: array
             type: object
+          status:
+            description: CommonCoreRANStatus defines the observed state of CommonCoreRAN
+            type: object
         type: object
     served: true
     storage: true

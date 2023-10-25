@@ -22,13 +22,18 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// CommonCoreRANStatus defines the observed state of CommonCoreRAN
+type CommonCoreRANConfigStatus struct {
+}
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 type CommonCoreRANConfig struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   CommonCoreRANConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Spec     CommonCoreRANConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status   CommonCoreRANConfigStatus   `json:"status,omitempty" yaml:"status,omitempty"`
 
 }
 
@@ -48,21 +53,6 @@ type CommonCoreRANConfigSpec struct {
 	// communicationModel defines the communcation strategy between core components, using NRF or without NRF
 	// +optional
 	CommunicationModel []CommunicationModelConfig `json:"communicationModel,omitempty" yaml:"communicationModel,omitempty"`
-}
-
-type ObjectReference struct {
-	// APIVersion of the target resources
-	APIVersion string `yaml:"apiVersion,omitempty" json:"apiVersion,omitempty"`
-
-	// Kind of the target resources
-	Kind string `yaml:"kind,omitempty" json:"kind,omitempty"`
-
-	// Name of the target resource
-	// +optional
-	Name *string `yaml:"name" json:"name"`
-
-	// Note: Namespace is not allowed; the namespace
-	// must match the namespace of the PackageVariantSet resource
 }
 
 // PlmnInfoConfig defines the structure of PLMN
@@ -95,7 +85,7 @@ type Nssai struct {
 	// Sd defines Service Differentiator
 	// +optional
 	// +kubebuilder:validation:Pattern=`^[A-Fa-f0-9]{6}$`
-	Sd *string `json:"sd,omitempty" yaml:"sd,omitempty"`
+	Sd string `json:"sd,omitempty" yaml:"sd,omitempty"`
 	// dnnInfo defines the Data Network Names information 
 	DnnInfo []DnnInfo `json:"dnnInfo,omitempty" yaml:"dnnInfo,omitempty"`
 }
@@ -107,10 +97,10 @@ type DnnInfo struct {
 	Name string `json:"name" yaml:"name"`
 	// SessionType defines session type 
 	// +kubebuilder:validation:Enum=ipv4;ipv6;ipv4v6;unstructured;ethernet
-	SessionType *string `json:"sessionType" yaml:"sessionType"`
+	SessionType string `json:"sessionType" yaml:"sessionType"`
 	// Dns defines Domain Network Service Name
 	// +optional
-	Dns *string `json:"dns" yaml:"dns"`
+	Dns string `json:"dns" yaml:"dns"`
 }
 
 // CommunicationModelConfig defines the Communication Model
@@ -119,5 +109,5 @@ type CommunicationModelConfig struct {
 	// +kubebuilder:validation:Enum=withNrf;woNrf
 	Name string `json:"name" yaml:"name"`
 	// nrfUri defines NRF Uniform Resource Identifier
-	NrfUri *string `json:"nrfUri" yaml:"nrfUri"`
+	NrfUri string `json:"nrfUri" yaml:"nrfUri"`
 }

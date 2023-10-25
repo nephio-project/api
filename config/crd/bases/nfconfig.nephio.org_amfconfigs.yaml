@@ -93,6 +93,9 @@ spec:
             - amfName
             - servedGuami
             type: object
+          status:
+            description: AmfConfigStatus defines the observed state of AmfConfig
+            type: object
         type: object
     served: true
     storage: true
