@@ -16,10 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"reflect"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // AmfConfigStatus defines the observed state of AmfConfig
@@ -27,14 +24,12 @@ type AmfConfigStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 type AmfConfig struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec     AmfConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status   AmfConfigStatus   `json:"status,omitempty" yaml:"status,omitempty"`
-
+	Spec   AmfConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status AmfConfigStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
@@ -66,12 +61,10 @@ type ServedGuamiConfig struct {
 
 // PlmnId defines the Public Land Mobile Network Identifier
 type PlmnId struct {
-	// mcc defines the mobile country code 
-	//
+	// mcc defines the mobile country code
 	// +kubebuilder:validation:Pattern=`[02-79][0-9][0-9]`
 	Mcc string `json:"mcc" yaml:"mcc"`
-	// mnc defines the mobile network code 
-	//
+	// mnc defines the mobile network code
 	// +kubebuilder:validation:Pattern=`[0-9][0-9][0-9]|[0-9][0-9]`
 	Mnc string `json:"mnc" yaml:"mnc"`
 }
@@ -79,18 +72,15 @@ type PlmnId struct {
 // AmfId defines the AMF Identifier
 type AmfId struct {
 	// amfRegionId identifies the region
-	//
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AmfRegionId string  `json:"amfRegionId" yaml:"amfRegionId"`
+	AmfRegionId string `json:"amfRegionId" yaml:"amfRegionId"`
 	// amfSetId uniquely identifies the AMF Set within the AMF Region
-	//
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AmfSetId string  `json:"amfSetId" yaml:"amfSetId"`
+	AmfSetId string `json:"amfSetId" yaml:"amfSetId"`
 	// amfPointer uniquely identifies the AMF in AMF set
-	//
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=6
-	AmfPointer string  `json:"amfPointer" yaml:"amfPointer"`
+	AmfPointer string `json:"amfPointer" yaml:"amfPointer"`
 }

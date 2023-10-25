@@ -16,10 +16,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"reflect"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // CommonCoreRANStatus defines the observed state of CommonCoreRAN
@@ -27,14 +24,12 @@ type CommonCoreRANConfigStatus struct {
 }
 
 // +kubebuilder:object:root=true
-// +kubebuilder:subresource:status
 type CommonCoreRANConfig struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec     CommonCoreRANConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status   CommonCoreRANConfigStatus   `json:"status,omitempty" yaml:"status,omitempty"`
-
+	Spec   CommonCoreRANConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status CommonCoreRANConfigStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
@@ -57,23 +52,19 @@ type CommonCoreRANConfigSpec struct {
 
 // PlmnInfoConfig defines the structure of PLMN
 type PlmnInfoConfig struct {
-	// mcc defines the mobile country code 
-	//
+	// mcc defines the mobile country code
 	// +kubebuilder:validation:Pattern=`[02-79][0-9][0-9]`
 	Mcc string `json:"mcc" yaml:"mcc"`
-	// mnc defines the mobile network code 
-	//
+	// mnc defines the mobile network code
 	// +kubebuilder:validation:Pattern=`[0-9][0-9][0-9]|[0-9][0-9]`
 	Mnc string `json:"mnc" yaml:"mnc"`
-	// tac defines the tracking area code 
-	//
+	// tac defines the tracking area code
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=16777215
 	Tac int `json:"tac" yaml:"tac"`
 	// NSSAI defines the Network Slice Selection Assistance Information
 	// +optional
 	Nssai []Nssai `json:"nssai,omitempty" yaml:"nssai,omitempty"`
-
 }
 
 // NSSAI defines the Network Slice Selection Assistance Information
@@ -86,16 +77,15 @@ type Nssai struct {
 	// +optional
 	// +kubebuilder:validation:Pattern=`^[A-Fa-f0-9]{6}$`
 	Sd string `json:"sd,omitempty" yaml:"sd,omitempty"`
-	// dnnInfo defines the Data Network Names information 
+	// dnnInfo defines the Data Network Names information
 	DnnInfo []DnnInfo `json:"dnnInfo,omitempty" yaml:"dnnInfo,omitempty"`
 }
-
 
 // DNN defines the Data Network Names Information
 type DnnInfo struct {
 	// name defines dnn
 	Name string `json:"name" yaml:"name"`
-	// SessionType defines session type 
+	// SessionType defines session type
 	// +kubebuilder:validation:Enum=ipv4;ipv6;ipv4v6;unstructured;ethernet
 	SessionType string `json:"sessionType" yaml:"sessionType"`
 	// Dns defines Domain Network Service Name
