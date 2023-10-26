@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.12.0
+    controller-gen.kubebuilder.io/version: v0.13.0
   name: rannfconfigs.nfconfig.nephio.org
 spec:
   group: nfconfig.nephio.org
@@ -37,25 +37,22 @@ spec:
               cellIdentity:
                 description: cellIdentity defines the cell identity of a cell
                 type: string
-              dlFrequencyBand:
+              dlCarrierBandwidth:
                 format: int32
                 type: integer
-              dlSubCarrierBandwidth:
+              dlFrequencyBand:
                 format: int32
                 type: integer
               dlSubCarrierSpacing:
                 type: integer
               gnbId:
-                description: gNB Identity of the cell
-                format: int64
-                maximum: 4294967295
-                minimum: 0
-                type: integer
+                description: gNB Identity
+                type: string
               physicalCellId:
                 description: physicalCellId defines the physical cell identity of
                   a cell
                 format: int32
-                maximum: 1007
+                maximum: 503
                 minimum: 0
                 type: integer
               plmnInfo:

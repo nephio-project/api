@@ -43,24 +43,22 @@ type PlmnInfo struct {
 
 // RanNfConfigSpec defines the desired state of RanNfConfig
 type RanNfConfigSpec struct {
-	//gNB Identity of the cell
-	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:Maximum=4294967295
-	GnbId int64 `json:"gnbId,omitempty"`
+	//gNB Identity
+	GnbId string `json:"gnbId,omitempty"`
 	//cellIdentity defines the cell identity of a cell
 	CellIdentity string `json:"cellIdentity,omitempty"`
 	//physicalCellId defines the physical cell identity of a cell
 	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:Maximum=1007
+	// +kubebuilder:validation:Maximum=503
 	PhysicalCellId uint32 `json:"physicalCellId,omitempty"`
 	//plmn defines the plmn of a cell
-	PlmnInfo              `json:"plmnInfo,omitempty"`
-	DlFrequencyBand       uint32 `json:"dlFrequencyBand,omitempty"`
-	DlSubCarrierSpacing   uint8  `json:"dlSubCarrierSpacing,omitempty"`
-	DlSubCarrierBandwidth uint32 `json:"dlSubCarrierBandwidth,omitempty"`
-	UlFrequencyBand       uint32 `json:"ulFrequencyBand,omitempty"`
-	UlSubCarrierSpacing   uint8  `json:"ulSubCarrierSpacing,omitempty"`
-	UlCarrierBandwidth    uint32 `json:"ulCarrierBandwidth,omitempty"`
+	PlmnInfo            `json:"plmnInfo,omitempty"`
+	DlFrequencyBand     uint32 `json:"dlFrequencyBand,omitempty"`
+	DlSubCarrierSpacing uint16 `json:"dlSubCarrierSpacing,omitempty"`
+	DlCarrierBandwidth  uint32 `json:"dlCarrierBandwidth,omitempty"`
+	UlFrequencyBand     uint32 `json:"ulFrequencyBand,omitempty"`
+	UlSubCarrierSpacing uint16 `json:"ulSubCarrierSpacing,omitempty"`
+	UlCarrierBandwidth  uint32 `json:"ulCarrierBandwidth,omitempty"`
 }
 
 // RanNfConfigStatus defines the observed state of RanNfConfig
