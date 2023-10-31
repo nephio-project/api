@@ -22,8 +22,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:object:root=true
-
 // NFInterface defines the specification of network attachment points of a NF
 type NFInterface struct {
 	// Name of the network attachment point
@@ -78,6 +76,7 @@ type NFInstance struct {
 	NFTemplate NFTemplate `json:"nfTemplate" yaml:"nfTemplate"`
 }
 
+// NFTopologySpec defines the specification of NFTopology
 type NFTopologySpec struct {
 	NFInstances []NFInstance `json:"nfInstances" yaml:"nfInstances"`
 }
