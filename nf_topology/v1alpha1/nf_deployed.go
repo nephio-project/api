@@ -28,14 +28,14 @@ type NFDeployedInstance struct {
 	ClusterName string `json:"clusterName,omitempty" yaml:"clusterName,omitempty"`
 	// type of NF, example: amf, smf, upf
 	NFType string `json:"nfType,omitempty" yaml:"nfType,omitempty"`
-    /*
-    TODO(s3wong): the following parameters should eventually be metadata embedded
-    in a NF package (NFType should be as well)
-	// NF vendor name
-	NFVendor string `json:"nfVendor,omitempty" yaml:"nfVendor,omitempty"`
-	// the software version of this NF vendor's NFType
-	NFVersion string `json:"nfVersion,omitempty" yaml:"nfVersion,omitempty"`
-    */
+	/*
+	    TODO(s3wong): the following parameters should eventually be metadata embedded
+	    in a NF package (NFType should be as well)
+		// NF vendor name
+		NFVendor string `json:"nfVendor,omitempty" yaml:"nfVendor,omitempty"`
+		// the software version of this NF vendor's NFType
+		NFVersion string `json:"nfVersion,omitempty" yaml:"nfVersion,omitempty"`
+	*/
 	// list of connected NF instances to this NF instance
 	Connectivities []NFConnectivity `json:"connectivities,omitempty" yaml:"connectivities,omitempty"`
 }
