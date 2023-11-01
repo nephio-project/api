@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: commoncoreranconfigs.nfconfig.nephio.org
+  name: commoncoreranconfigs.cellular.config.nephio.org
 spec:
-  group: nfconfig.nephio.org
+  group: cellular.config.nephio.org
   names:
     kind: CommonCoreRANConfig
     listKind: CommonCoreRANConfigList
@@ -133,5 +133,3 @@ spec:
         type: object
     served: true
     storage: true
-    subresources:
-      status: {}

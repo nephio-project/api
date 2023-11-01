@@ -16,7 +16,7 @@ limitations under the License.
 
 // Package v1alpha1 contains API Schema definitions for the ipam v1alpha1 API group
 // +kubebuilder:object:generate=true
-// +groupName=nfconfig.nephio.org
+// +groupName=cellular.config.nephio.org
 package v1alpha1
 
 import (
@@ -26,7 +26,7 @@ import (
 
 const (
 	// Group in the kubernetes api
-	Group = "nfconfig.nephio.org"
+	Group = "cellular.config.nephio.org"
 	// Version in the kubernetes api
 	Version = "v1alpha1"
 )

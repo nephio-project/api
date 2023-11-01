@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: amfconfigs.nfconfig.nephio.org
+  name: amfconfigs.cellular.config.nephio.org
 spec:
-  group: nfconfig.nephio.org
+  group: cellular.config.nephio.org
   names:
     kind: AmfConfig
     listKind: AmfConfigList
@@ -99,5 +99,3 @@ spec:
         type: object
     served: true
     storage: true
-    subresources:
-      status: {}
