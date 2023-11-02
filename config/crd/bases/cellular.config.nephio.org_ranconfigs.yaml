@@ -4,20 +4,20 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: rannfconfigs.nfconfig.nephio.org
+  name: ranconfigs.cellular.config.nephio.org
 spec:
-  group: nfconfig.nephio.org
+  group: cellular.config.nephio.org
   names:
-    kind: RanNfConfig
-    listKind: RanNfConfigList
-    plural: rannfconfigs
-    singular: rannfconfig
+    kind: RanConfig
+    listKind: RanConfigList
+    plural: ranconfigs
+    singular: ranconfig
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: RanNfConfig is the Schema for the rannfconfigs API
+        description: RanConfig is the Schema for the ranconfigs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -32,7 +32,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RanNfConfigSpec defines the desired state of RanNfConfig
+            description: RanConfigSpec defines the desired state of RanConfig
             properties:
               cellIdentity:
                 description: cellIdentity defines the cell identity of a cell
@@ -45,9 +45,6 @@ spec:
                 type: integer
               dlSubCarrierSpacing:
                 type: integer
-              gnbId:
-                description: gNB Identity
-                type: string
               physicalCellId:
                 description: physicalCellId defines the physical cell identity of
                   a cell
@@ -79,6 +76,9 @@ spec:
                           type: string
                         sst:
                           type: integer
+                      required:
+                      - sd
+                      - sst
                       type: object
                     type: array
                   tac:
@@ -88,6 +88,11 @@ spec:
                     maximum: 16777215
                     minimum: 0
                     type: integer
+                required:
+                - mcc
+                - mnc
+                - mncLength
+                - tac
                 type: object
               ulCarrierBandwidth:
                 format: int32
@@ -97,9 +102,18 @@ spec:
                 type: integer
               ulSubCarrierSpacing:
                 type: integer
+            required:
+            - cellIdentity
+            - dlCarrierBandwidth
+            - dlFrequencyBand
+            - dlSubCarrierSpacing
+            - physicalCellId
+            - ulCarrierBandwidth
+            - ulFrequencyBand
+            - ulSubCarrierSpacing
             type: object
           status:
-            description: RanNfConfigStatus defines the observed state of RanNfConfig
+            description: RanConfigStatus defines the observed state of RanConfig
             type: object
         type: object
     served: true

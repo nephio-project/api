@@ -21,67 +21,65 @@ import (
 )
 
 type Nssai struct {
-	Sst uint8 `json:"sst,omitempty"`
+	Sst uint8 `json:"sst"`
 	// +kubebuilder:validation:Pattern=`^[A-Fa-f0-9]{6}$`
-	Sd string `json:"sd,omitempty"`
+	Sd string `json:"sd"`
 }
 
 type PlmnInfo struct {
 	// +kubebuilder:validation:Pattern=`[02-79][0-9][0-9]`
-	Mcc string `json:"mcc,omitempty"`
+	Mcc string `json:"mcc"`
 	// +kubebuilder:validation:Pattern=`[0-9][0-9][0-9]|[0-9][0-9]`
-	Mnc string `json:"mnc,omitempty"`
+	Mnc string `json:"mnc"`
 	// +kubebuilder:validation:Enum=2;3
-	MncLength uint8 `json:"mncLength,omitempty"`
+	MncLength uint8 `json:"mncLength"`
 	//tac defines the tracking area code to be used by the cell
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=16777215
-	Tac uint32 `json:"tac,omitempty"`
+	Tac uint32 `json:"tac"`
 	//nssaiList defines the Nssai list to be configured for the cell
 	NssaiList []Nssai `json:"nssaiList,omitempty"`
 }
 
-// RanNfConfigSpec defines the desired state of RanNfConfig
-type RanNfConfigSpec struct {
-	//gNB Identity
-	GnbId string `json:"gnbId,omitempty"`
+// RanConfigSpec defines the desired state of RanConfig
+type RanConfigSpec struct {
 	//cellIdentity defines the cell identity of a cell
-	CellIdentity string `json:"cellIdentity,omitempty"`
+	CellIdentity string `json:"cellIdentity"`
 	//physicalCellId defines the physical cell identity of a cell
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=503
-	PhysicalCellId uint32 `json:"physicalCellId,omitempty"`
+	PhysicalCellId uint32 `json:"physicalCellId"`
 	//plmn defines the plmn of a cell
 	PlmnInfo            `json:"plmnInfo,omitempty"`
-	DlFrequencyBand     uint32 `json:"dlFrequencyBand,omitempty"`
-	DlSubCarrierSpacing uint16 `json:"dlSubCarrierSpacing,omitempty"`
-	DlCarrierBandwidth  uint32 `json:"dlCarrierBandwidth,omitempty"`
-	UlFrequencyBand     uint32 `json:"ulFrequencyBand,omitempty"`
-	UlSubCarrierSpacing uint16 `json:"ulSubCarrierSpacing,omitempty"`
-	UlCarrierBandwidth  uint32 `json:"ulCarrierBandwidth,omitempty"`
+	DlFrequencyBand     uint32 `json:"dlFrequencyBand"`
+	DlSubCarrierSpacing uint16 `json:"dlSubCarrierSpacing"`
+	DlCarrierBandwidth  uint32 `json:"dlCarrierBandwidth"`
+	UlFrequencyBand     uint32 `json:"ulFrequencyBand"`
+	UlSubCarrierSpacing uint16 `json:"ulSubCarrierSpacing"`
+	UlCarrierBandwidth  uint32 `json:"ulCarrierBandwidth"`
 }
 
-// RanNfConfigStatus defines the observed state of RanNfConfig
-type RanNfConfigStatus struct {
+// RanConfigStatus defines the observed state of RanConfig
+type RanConfigStatus struct {
 }
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// RanNfConfig is the Schema for the rannfconfigs API
-type RanNfConfig struct {
+// RanConfig is the Schema for the ranconfigs API
+type RanConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   RanNfConfigSpec   `json:"spec,omitempty"`
-	Status RanNfConfigStatus `json:"status,omitempty"`
+	Spec   RanConfigSpec   `json:"spec,omitempty"`
+	Status RanConfigStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// RanNfConfigList contains a list of RanNfConfig
-type RanNfConfigList struct {
+// RanConfigList contains a list of RanConfig
+type RanConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []RanNfConfig `json:"items"`
+	Items           []RanConfig `json:"items"`
 }
