@@ -8,8 +8,8 @@ metadata:
 spec:
   group: cellular.config.nephio.org
   names:
-    kind: AmfConfig
-    listKind: AmfConfigList
+    kind: AMFConfig
+    listKind: AMFConfigList
     plural: amfconfigs
     singular: amfconfig
   scope: Namespaced
@@ -31,7 +31,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: AmfConfigSpec defines the characteristics of a deployment
+            description: AMFConfigSpec defines the characteristics of a deployment
               of a network function
             properties:
               amfName:
@@ -39,7 +39,7 @@ spec:
                 maxLength: 253
                 minLength: 1
                 type: string
-              servedGuami:
+              servedGUAMI:
                 description: ServedGuami defines information related to GUAMI
                 items:
                   description: ServedGuami information related to GUAMI
@@ -91,10 +91,10 @@ spec:
                 type: array
             required:
             - amfName
-            - servedGuami
+            - servedGUAMI
             type: object
           status:
-            description: AmfConfigStatus defines the observed state of AmfConfig
+            description: AMFConfigStatus defines the observed state of AmfConfig
             type: object
         type: object
     served: true
