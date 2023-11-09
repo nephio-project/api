@@ -19,38 +19,38 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// PLMNConfigStatus defines the observed state of PLMNConfig
-type PLMNConfigStatus struct {
+// PLMNStatus defines the observed state of PLMN
+type PLMNStatus struct {
 }
 
 // +kubebuilder:object:root=true
-type PLMNConfig struct {
+type PLMN struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   PLMNConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status PLMNConfigStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   PLMNSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status PLMNStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// PLMNConfigList contains a list of PLMNConfigs
-type PLMNConfigList struct {
+// PLMNList contains a list of PLMNs
+type PLMNList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
-	Items           []PLMNConfig `json:"items" yaml:"items"`
+	Items           []PLMN `json:"items" yaml:"items"`
 }
 
-// PLMNConfigSpec defines the characteristics of a deployment of a network function
-type PLMNConfigSpec struct {
+// PLMNSpec defines the characteristics of a deployment of a network function
+type PLMNSpec struct {
 	// PLMNInfo defines the list of PLMN to configure for core NFs
 	PLMNInfo []PLMNInfo `json:"PLMNInfo" yaml:"PLMNInfo"`
 }
 
 // PLMNInfo defines the structure of PLMN
 type PLMNInfo struct {
-	// PLMNId defines the PLMN Identifier
-	PLMNId PLMNId `json:"plmnId" yaml:"plmnId"`
+	// PLMNID defines the PLMN Identifier
+	PLMNID PLMNID `json:"plmnID" yaml:"plmnID"`
 	// tac defines the tracking area code
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=16777215
@@ -59,8 +59,8 @@ type PLMNInfo struct {
 	NSSAI []NSSAI `json:"nssai" yaml:"nssai"`
 }
 
-// PLMNId defines the Public Land Mobile Network Identifier
-type PLMNId struct {
+// PLMNID defines the Public Land Mobile Network Identifier
+type PLMNID struct {
 	// mcc defines the mobile country code
 	// +kubebuilder:validation:Pattern=`[02-79][0-9][0-9]`
 	MCC string `json:"mcc" yaml:"mcc"`
@@ -78,20 +78,20 @@ type NSSAI struct {
 	// Sd defines Service Differentiator
 	// +optional
 	// +kubebuilder:validation:Pattern=`^[A-Fa-f0-9]{6}$`
-	SD string `json:"sd,omitempty" yaml:"sd,omitempty"`
+	SD *string `json:"sd,omitempty" yaml:"sd,omitempty"`
 	// dnnInfo defines the Data Network Names information
-	DNNInfo DnnInfo `json:"dnnInfo" yaml:"dnnInfo"`
+	DNNInfo DNNInfo `json:"dnnInfo" yaml:"dnnInfo"`
 }
 
-// NOTE: For R2 the dnn.name here should match with NF deployment dnn name. This is a hack for R2
+// NOTE: For R2 the DNN.name here should match with NF deployment DNN name. This is a hack for R2
 // DNN defines the Data Network Names Information
-type DnnInfo struct {
-	// name defines dnn
+type DNNInfo struct {
+	// name defines DNN
 	Name string `json:"name" yaml:"name"`
 	// SessionType defines session type
 	// +kubebuilder:validation:Enum=ipv4;ipv6;ipv4v6;unstructured;ethernet
 	SessionType string `json:"sessionType" yaml:"sessionType"`
-	// Dns defines Domain Network Service Name
+	// DNS defines Domain Name Server
 	// +optional
-	DNS string `json:"dns" yaml:"dns"`
+	DNS *string `json:"dns" yaml:"dns"`
 }

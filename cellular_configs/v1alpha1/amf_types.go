@@ -19,56 +19,52 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// AMFConfigStatus defines the observed state of AmfConfig
-type AMFConfigStatus struct {
+// AMFStatus defines the observed state of Amf
+type AMFStatus struct {
 }
 
 // +kubebuilder:object:root=true
-type AMFConfig struct {
+type AMF struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   AMFConfigSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status AMFConfigStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   AMFSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status AMFStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// AMFConfigList contains a list of amfConfigs
-type AMFConfigList struct {
+// AMFList contains a list of amf
+type AMFList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
-	Items           []AMFConfig `json:"items" yaml:"items"`
+	Items           []AMF `json:"items" yaml:"items"`
 }
 
-// AMFConfigSpec defines the characteristics of a deployment of a network function
-type AMFConfigSpec struct {
-	// amfName defines name of the amf NF
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:MaxLength=253
-	AMFName string `json:"amfName" yaml:"amfName"`
+// AMFSpec defines the characteristics of a deployment of a network function
+type AMFSpec struct {
 	// ServedGuami defines information related to GUAMI
-	ServedGuami []ServedGuamiConfig `json:"servedGUAMI" yaml:"servedGUAMI"`
+	ServedGuami []ServedGuami `json:"servedGUAMI" yaml:"servedGUAMI"`
 }
 
 // ServedGuami information related to GUAMI
-type ServedGuamiConfig struct {
-	// PlmnId defines the PLMN Identifier
-	PLMNId PLMNId `json:"plmnId" yaml:"plmnId"`
-	// AmfId defines the AMF Identifier
-	AMFId AMFId `json:"amfId" yaml:"amfId"`
+type ServedGuami struct {
+	// PlmnID defines the PLMN Identifier
+	PLMNID PLMNID `json:"plmnID" yaml:"plmnID"`
+	// AMFID defines the AMF Identifier
+	AMFID AMFID `json:"amfID" yaml:"amfID"`
 }
 
-// AmfId defines the AMF Identifier
-type AMFId struct {
+// AMFID defines the AMF Identifier
+type AMFID struct {
 	// amfRegionId identifies the region
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AMFRegionId string `json:"amfRegionId" yaml:"amfRegionId"`
+	AMFRegionId string `json:"amfRegionID" yaml:"amfRegionID"`
 	// amfSetId uniquely identifies the AMF Set within the AMF Region
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AMFSetId string `json:"amfSetId" yaml:"amfSetId"`
+	AMFSetId string `json:"amfSetID" yaml:"amfSetID"`
 	// amfPointer uniquely identifies the AMF in AMF set
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=6

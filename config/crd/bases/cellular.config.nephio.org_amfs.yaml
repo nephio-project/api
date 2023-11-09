@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: amfconfigs.cellular.config.nephio.org
+  name: amfs.cellular.config.nephio.org
 spec:
   group: cellular.config.nephio.org
   names:
-    kind: AMFConfig
-    listKind: AMFConfigList
-    plural: amfconfigs
-    singular: amfconfig
+    kind: AMF
+    listKind: AMFList
+    plural: amfs
+    singular: amf
   scope: Namespaced
   versions:
   - name: v1alpha1
@@ -31,21 +31,16 @@ spec:
           metadata:
             type: object
           spec:
-            description: AMFConfigSpec defines the characteristics of a deployment
-              of a network function
+            description: AMFSpec defines the characteristics of a deployment of a
+              network function
             properties:
-              amfName:
-                description: amfName defines name of the amf NF
-                maxLength: 253
-                minLength: 1
-                type: string
               servedGUAMI:
                 description: ServedGuami defines information related to GUAMI
                 items:
                   description: ServedGuami information related to GUAMI
                   properties:
-                    amfId:
-                      description: AmfId defines the AMF Identifier
+                    amfID:
+                      description: AMFID defines the AMF Identifier
                       properties:
                         amfPointer:
                           description: amfPointer uniquely identifies the AMF in AMF
@@ -53,12 +48,12 @@ spec:
                           maxLength: 6
                           pattern: '[01]*'
                           type: string
-                        amfRegionId:
+                        amfRegionID:
                           description: amfRegionId identifies the region
                           maxLength: 8
                           pattern: '[01]*'
                           type: string
-                        amfSetId:
+                        amfSetID:
                           description: amfSetId uniquely identifies the AMF Set within
                             the AMF Region
                           maxLength: 8
@@ -66,11 +61,11 @@ spec:
                           type: string
                       required:
                       - amfPointer
-                      - amfRegionId
-                      - amfSetId
+                      - amfRegionID
+                      - amfSetID
                       type: object
-                    plmnId:
-                      description: PlmnId defines the PLMN Identifier
+                    plmnID:
+                      description: PlmnID defines the PLMN Identifier
                       properties:
                         mcc:
                           description: mcc defines the mobile country code
@@ -85,16 +80,15 @@ spec:
                       - mnc
                       type: object
                   required:
-                  - amfId
-                  - plmnId
+                  - amfID
+                  - plmnID
                   type: object
                 type: array
             required:
-            - amfName
             - servedGUAMI
             type: object
           status:
-            description: AMFConfigStatus defines the observed state of AmfConfig
+            description: AMFStatus defines the observed state of Amf
             type: object
         type: object
     served: true

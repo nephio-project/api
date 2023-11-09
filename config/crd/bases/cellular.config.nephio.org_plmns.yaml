@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: plmnconfigs.cellular.config.nephio.org
+  name: plmns.cellular.config.nephio.org
 spec:
   group: cellular.config.nephio.org
   names:
-    kind: PLMNConfig
-    listKind: PLMNConfigList
-    plural: plmnconfigs
-    singular: plmnconfig
+    kind: PLMN
+    listKind: PLMNList
+    plural: plmns
+    singular: plmn
   scope: Namespaced
   versions:
   - name: v1alpha1
@@ -31,8 +31,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: PLMNConfigSpec defines the characteristics of a deployment
-              of a network function
+            description: PLMNSpec defines the characteristics of a deployment of a
+              network function
             properties:
               PLMNInfo:
                 description: PLMNInfo defines the list of PLMN to configure for core
@@ -51,10 +51,10 @@ spec:
                             description: dnnInfo defines the Data Network Names information
                             properties:
                               dns:
-                                description: Dns defines Domain Network Service Name
+                                description: DNS defines Domain Name Server
                                 type: string
                               name:
-                                description: name defines dnn
+                                description: name defines DNN
                                 type: string
                               sessionType:
                                 description: SessionType defines session type
@@ -83,8 +83,8 @@ spec:
                         - sst
                         type: object
                       type: array
-                    plmnId:
-                      description: PLMNId defines the PLMN Identifier
+                    plmnID:
+                      description: PLMNID defines the PLMN Identifier
                       properties:
                         mcc:
                           description: mcc defines the mobile country code
@@ -106,7 +106,7 @@ spec:
                       type: integer
                   required:
                   - nssai
-                  - plmnId
+                  - plmnID
                   - tac
                   type: object
                 type: array
@@ -114,7 +114,7 @@ spec:
             - PLMNInfo
             type: object
           status:
-            description: PLMNConfigStatus defines the observed state of PLMNConfig
+            description: PLMNStatus defines the observed state of PLMN
             type: object
         type: object
     served: true

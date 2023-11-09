@@ -32,7 +32,7 @@ spec:
             type: object
           spec:
             properties:
-              config:
+              configs:
                 description: Config is the embedded config
                 items:
                   type: object

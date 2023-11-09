@@ -36,5 +36,5 @@ type Config struct {
 type ConfigSpec struct {
 	// Config is the embedded config
 	//+kubebuilder:pruning:PreserveUnknownFields
-	ConfigRefs []runtime.RawExtension `json:"config,omitempty" yaml:"config,omitempty"`
+	Configs []runtime.RawExtension `json:"configs,omitempty" yaml:"configs,omitempty"`
 }
