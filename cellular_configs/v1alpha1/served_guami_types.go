@@ -19,36 +19,30 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// AMFStatus defines the observed state of Amf
-type AMFStatus struct {
+// ServedGUAMIStatus defines the observed state of ServedGUAMI
+type ServedGUAMIStatus struct {
 }
 
 // +kubebuilder:object:root=true
-type AMF struct {
+type ServedGUAMI struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	Spec   AMFSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status AMFStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   ServedGUAMISpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Status ServedGUAMIStatus `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// AMFList contains a list of amf
-type AMFList struct {
+// ServedGUAMIList contains a list of amf
+type ServedGUAMIList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
-	Items           []AMF `json:"items" yaml:"items"`
+	Items           []ServedGUAMI `json:"items" yaml:"items"`
 }
 
-// AMFSpec defines the characteristics of a deployment of a network function
-type AMFSpec struct {
-	// ServedGuami defines information related to GUAMI
-	ServedGuami []ServedGuami `json:"servedGUAMI" yaml:"servedGUAMI"`
-}
-
-// ServedGuami information related to GUAMI
-type ServedGuami struct {
+// ServedGUAMISpec defines the servedGUAMI for an AMF
+type ServedGUAMISpec struct {
 	// PlmnID defines the PLMN Identifier
 	PLMNID PLMNID `json:"plmnID" yaml:"plmnID"`
 	// AMFID defines the AMF Identifier
