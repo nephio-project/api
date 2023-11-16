@@ -37,80 +37,38 @@ spec:
               cellIdentity:
                 description: cellIdentity defines the cell identity of a cell
                 type: string
-              dlCarrierBandwidth:
+              downlinkCarrierBandwidth:
                 format: int32
                 type: integer
-              dlFrequencyBand:
+              downlinkFrequencyBand:
                 format: int32
                 type: integer
-              dlSubCarrierSpacing:
+              downlinkSubCarrierSpacing:
                 type: integer
-              physicalCellId:
+              "physicalCellID\t":
                 description: physicalCellId defines the physical cell identity of
                   a cell
                 format: int32
                 maximum: 503
                 minimum: 0
                 type: integer
-              plmnInfo:
-                description: plmn defines the plmn of a cell
-                properties:
-                  mcc:
-                    pattern: '[02-79][0-9][0-9]'
-                    type: string
-                  mnc:
-                    pattern: '[0-9][0-9][0-9]|[0-9][0-9]'
-                    type: string
-                  mncLength:
-                    enum:
-                    - 2
-                    - 3
-                    type: integer
-                  nssaiList:
-                    description: nssaiList defines the Nssai list to be configured
-                      for the cell
-                    items:
-                      properties:
-                        sd:
-                          pattern: ^[A-Fa-f0-9]{6}$
-                          type: string
-                        sst:
-                          type: integer
-                      required:
-                      - sd
-                      - sst
-                      type: object
-                    type: array
-                  tac:
-                    description: tac defines the tracking area code to be used by
-                      the cell
-                    format: int32
-                    maximum: 16777215
-                    minimum: 0
-                    type: integer
-                required:
-                - mcc
-                - mnc
-                - mncLength
-                - tac
-                type: object
-              ulCarrierBandwidth:
+              uplinkCarrierBandwidth:
                 format: int32
                 type: integer
-              ulFrequencyBand:
+              uplinkFrequencyBand:
                 format: int32
                 type: integer
-              ulSubCarrierSpacing:
+              uplinkSubCarrierSpacing:
                 type: integer
             required:
             - cellIdentity
-            - dlCarrierBandwidth
-            - dlFrequencyBand
-            - dlSubCarrierSpacing
-            - physicalCellId
-            - ulCarrierBandwidth
-            - ulFrequencyBand
-            - ulSubCarrierSpacing
+            - downlinkCarrierBandwidth
+            - downlinkFrequencyBand
+            - downlinkSubCarrierSpacing
+            - "physicalCellID\t"
+            - uplinkCarrierBandwidth
+            - uplinkFrequencyBand
+            - uplinkSubCarrierSpacing
             type: object
           status:
             description: RanConfigStatus defines the observed state of RanConfig

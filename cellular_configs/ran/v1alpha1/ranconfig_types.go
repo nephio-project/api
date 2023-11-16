@@ -20,27 +20,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type Nssai struct {
-	Sst uint8 `json:"sst"`
-	// +kubebuilder:validation:Pattern=`^[A-Fa-f0-9]{6}$`
-	Sd string `json:"sd"`
-}
-
-type PlmnInfo struct {
-	// +kubebuilder:validation:Pattern=`[02-79][0-9][0-9]`
-	Mcc string `json:"mcc"`
-	// +kubebuilder:validation:Pattern=`[0-9][0-9][0-9]|[0-9][0-9]`
-	Mnc string `json:"mnc"`
-	// +kubebuilder:validation:Enum=2;3
-	MncLength uint8 `json:"mncLength"`
-	//tac defines the tracking area code to be used by the cell
-	// +kubebuilder:validation:Minimum=0
-	// +kubebuilder:validation:Maximum=16777215
-	Tac uint32 `json:"tac"`
-	//nssaiList defines the Nssai list to be configured for the cell
-	NssaiList []Nssai `json:"nssaiList,omitempty"`
-}
-
 // RanConfigSpec defines the desired state of RanConfig
 type RanConfigSpec struct {
 	//cellIdentity defines the cell identity of a cell
@@ -48,15 +27,13 @@ type RanConfigSpec struct {
 	//physicalCellId defines the physical cell identity of a cell
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=503
-	PhysicalCellId uint32 `json:"physicalCellId"`
-	//plmn defines the plmn of a cell
-	PlmnInfo            `json:"plmnInfo,omitempty"`
-	DlFrequencyBand     uint32 `json:"dlFrequencyBand"`
-	DlSubCarrierSpacing uint16 `json:"dlSubCarrierSpacing"`
-	DlCarrierBandwidth  uint32 `json:"dlCarrierBandwidth"`
-	UlFrequencyBand     uint32 `json:"ulFrequencyBand"`
-	UlSubCarrierSpacing uint16 `json:"ulSubCarrierSpacing"`
-	UlCarrierBandwidth  uint32 `json:"ulCarrierBandwidth"`
+	PhysicalCellID            uint32 `json:"physicalCellID	"`
+	DownlinkFrequencyBand     uint32 `json:"downlinkFrequencyBand"`
+	DownlinkSubCarrierSpacing uint16 `json:"downlinkSubCarrierSpacing"`
+	DownlinkCarrierBandwidth  uint32 `json:"downlinkCarrierBandwidth"`
+	UplinkFrequencyBand       uint32 `json:"uplinkFrequencyBand"`
+	UplinkSubCarrierSpacing   uint16 `json:"uplinkSubCarrierSpacing"`
+	UplinkCarrierBandwidth    uint32 `json:"uplinkCarrierBandwidth"`
 }
 
 // RanConfigStatus defines the observed state of RanConfig
