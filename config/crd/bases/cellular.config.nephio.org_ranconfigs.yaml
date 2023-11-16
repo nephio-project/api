@@ -45,7 +45,7 @@ spec:
                 type: integer
               downlinkSubCarrierSpacing:
                 type: integer
-              "physicalCellID\t":
+              physicalCellID:
                 description: physicalCellId defines the physical cell identity of
                   a cell
                 format: int32
@@ -65,7 +65,7 @@ spec:
             - downlinkCarrierBandwidth
             - downlinkFrequencyBand
             - downlinkSubCarrierSpacing
-            - "physicalCellID\t"
+            - physicalCellID
             - uplinkCarrierBandwidth
             - uplinkFrequencyBand
             - uplinkSubCarrierSpacing

@@ -27,7 +27,7 @@ type RanConfigSpec struct {
 	//physicalCellId defines the physical cell identity of a cell
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:Maximum=503
-	PhysicalCellID            uint32 `json:"physicalCellID	"`
+	PhysicalCellID            uint32 `json:"physicalCellID"`
 	DownlinkFrequencyBand     uint32 `json:"downlinkFrequencyBand"`
 	DownlinkSubCarrierSpacing uint16 `json:"downlinkSubCarrierSpacing"`
 	DownlinkCarrierBandwidth  uint32 `json:"downlinkCarrierBandwidth"`
