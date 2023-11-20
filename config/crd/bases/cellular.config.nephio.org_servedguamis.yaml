@@ -37,18 +37,18 @@ spec:
                 description: AMFID defines the AMF Identifier
                 properties:
                   amfPointer:
-                    description: amfPointer uniquely identifies the AMF in AMF set
+                    description: AMFPointer uniquely identifies the AMF in AMF set
                     maxLength: 6
                     pattern: '[01]*'
                     type: string
                   amfRegionID:
-                    description: amfRegionId identifies the region
+                    description: AMFRegionID identifies the region
                     maxLength: 8
                     pattern: '[01]*'
                     type: string
                   amfSetID:
-                    description: amfSetId uniquely identifies the AMF Set within the
-                      AMF Region
+                    description: AMFfSetID uniquely identifies the AMF Set within
+                      the AMF Region
                     maxLength: 8
                     pattern: '[01]*'
                     type: string

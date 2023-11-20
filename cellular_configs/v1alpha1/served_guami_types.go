@@ -51,15 +51,15 @@ type ServedGUAMISpec struct {
 
 // AMFID defines the AMF Identifier
 type AMFID struct {
-	// amfRegionId identifies the region
+	// AMFRegionID identifies the region
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AMFRegionId string `json:"amfRegionID" yaml:"amfRegionID"`
-	// amfSetId uniquely identifies the AMF Set within the AMF Region
+	AMFRegionID string `json:"amfRegionID" yaml:"amfRegionID"`
+	// AMFfSetID uniquely identifies the AMF Set within the AMF Region
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=8
-	AMFSetId string `json:"amfSetID" yaml:"amfSetID"`
-	// amfPointer uniquely identifies the AMF in AMF set
+	AMFSetID string `json:"amfSetID" yaml:"amfSetID"`
+	// AMFPointer uniquely identifies the AMF in AMF set
 	// +kubebuilder:validation:Pattern=`[01]*`
 	// +kubebuilder:validation:MaxLength=6
 	AMFPointer string `json:"amfPointer" yaml:"amfPointer"`
