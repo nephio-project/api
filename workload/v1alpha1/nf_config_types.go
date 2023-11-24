@@ -25,6 +25,7 @@ type NFConfigStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// NFConfig is the Schema for the NFConfig API
 type NFConfig struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
@@ -37,4 +38,11 @@ type NFConfigSpec struct {
 	// Config is the embedded config
 	//+kubebuilder:pruning:PreserveUnknownFields
 	ConfigRefs []runtime.RawExtension `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
+}
+
+// NFConfigList contains a list of ref.Config
+type NFConfigList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []NFConfig `json:"items"`
 }
