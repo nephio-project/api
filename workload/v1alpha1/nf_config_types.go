@@ -40,6 +40,8 @@ type NFConfigSpec struct {
 	ConfigRefs []runtime.RawExtension `json:"configRefs,omitempty" yaml:"configRefs,omitempty"`
 }
 
+//+kubebuilder:object:root=true
+
 // NFConfigList contains a list of ref.Config
 type NFConfigList struct {
 	metav1.TypeMeta `json:",inline"`
