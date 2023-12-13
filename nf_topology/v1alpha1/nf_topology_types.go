@@ -18,17 +18,8 @@ package v1alpha1
 
 import (
 	nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
+	nephiodeployv1alpha1 "github.com/nephio-project/api/workload/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-)
-
-// +kubebuilder:object:root=true
-// NFType defines the type of network functions
-type NFType string
-
-const (
-	NFTypeUPF NFType = "upf"
-	NFTypeSMF NFType = "smf"
-	NFTypeAMF NFType = "amf"
 )
 
 // NFInterface defines the specification of network attachment points of a NF
@@ -41,13 +32,30 @@ type NFInterface struct {
 	NetworkInstanceName string `json:"networkInstanceName" yaml:"networkInstanceName"`
 }
 
+// PackageRevisionReference is a temporary replica of PackageRevisionReference used for the
+// ONE Summit
+type PackageRevisionReference struct {
+	// Namespace is the namespace for both the repository and package revision
+	// +optional
+	Namespace string `json:"namespace,omitempty"`
+
+	// Repository is the name of the repository containing the package
+	RepositoryName string `json:"repository"`
+
+	// PackageName is the name of the package for the revision
+	PackageName string `json:"packageName"`
+
+	// Revision is the specific version number of the revision of the package
+	Revision string `json:"revision"`
+}
+
 // NFTemplate defines the template for deployment of an instance of a NF
 type NFTemplate struct {
 	// NFType specifies the type of NF this template is specifying
-	NFType NFType `json:"nfType" yaml:"nfType"`
+	NFType string `json:"nfType" yaml:"nfType"`
 
-	// ClassName --- for now, the NFClass this NF template will derive from
-	ClassName string `json:"className" yaml:"className"`
+	// NFPackageRef specifies the upstream package reference for this NFTemplate
+	NFPackageRef PackageRevisionReference `json:"nfPackageRef" yaml:"nfPackageRef"`
 
 	// Capacity specifies the NF capacity profile for this NF instance
 	Capacity nephioreqv1alpha1.CapacitySpec `json:"capacity,omitempty" yaml:"capacity,omitempty"`
@@ -68,14 +76,21 @@ type NFInstance struct {
 	NFTemplate NFTemplate `json:"nfTemplate" yaml:"nfTemplate"`
 }
 
+// NFTopologySpec defines the specification of NFTopology
 type NFTopologySpec struct {
 	NFInstances []NFInstance `json:"nfInstances" yaml:"nfInstances"`
 }
 
 // NFTopologyStatus defines the observed state of NFTopology
 type NFTopologyStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Number of NFs deployed for this topology
+	NumNFDeployed int32 `json:"numNFDeployed,omitempty"`
+
+	// Current service state of the NF.
+	Conditions []nephiodeployv1alpha1.NFDeploymentConditionType `json:"conditions,omitempty"`
+
+	// Detail on the deployed instances.
+	NFInstances []NFDeployedInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
 }
 
 //+kubebuilder:object:root=true
