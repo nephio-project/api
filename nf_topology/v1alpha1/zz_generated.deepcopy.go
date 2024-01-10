@@ -21,7 +21,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	workloadv1alpha1 "github.com/nephio-project/api/workload/v1alpha1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -200,8 +200,10 @@ func (in *NFTopologyStatus) DeepCopyInto(out *NFTopologyStatus) {
 	*out = *in
 	if in.Conditions != nil {
 		in, out := &in.Conditions, &out.Conditions
-		*out = make([]workloadv1alpha1.NFDeploymentConditionType, len(*in))
-		copy(*out, *in)
+		*out = make([]v1.Condition, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.NFInstances != nil {
 		in, out := &in.NFInstances, &out.NFInstances

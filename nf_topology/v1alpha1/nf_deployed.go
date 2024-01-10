@@ -24,14 +24,10 @@ type NFConnectivity struct {
 type NFDeployedInstance struct {
 	// unique ID for this NF instance
 	ID string `json:"id,omitempty" yaml:"id,omitempty"`
-	// name of workload cluster where the NF instance is to be deployed
-	ClusterName string `json:"clusterName,omitempty" yaml:"clusterName,omitempty"`
 	// type of NF, example: amf, smf, upf
 	NFType string `json:"nfType,omitempty" yaml:"nfType,omitempty"`
-	// NF vendor name
-	NFVendor string `json:"nfVendor,omitempty" yaml:"nfVendor,omitempty"`
-	// the software version of this NF vendor's NFType
-	NFVersion string `json:"nfVersion,omitempty" yaml:"nfVersion,omitempty"`
+    // corresponding NFInstance name
+    NFInstaceName string `json:"nfInstanceName,omitempty" yaml:"nfInstanceName,omitempty"`
 	// list of connected NF instances to this NF instance
 	Connectivities []NFConnectivity `json:"connectivities,omitempty" yaml:"connectivities,omitempty"`
 }

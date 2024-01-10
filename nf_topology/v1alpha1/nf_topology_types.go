@@ -46,7 +46,7 @@ type PackageRevisionReference struct {
 	PackageName string `json:"packageName"`
 
 	// Revision is the specific version number of the revision of the package
-	Revision string `json:"revision"`
+	Revision string `json:"revision,omitempty"`
 }
 
 // NFTemplate defines the template for deployment of an instance of a NF
@@ -86,8 +86,8 @@ type NFTopologyStatus struct {
 	// Number of NFs deployed for this topology
 	NumNFDeployed int32 `json:"numNFDeployed,omitempty"`
 
-	// Current service state of the NF.
-	Conditions []nephiodeployv1alpha1.NFDeploymentConditionType `json:"conditions,omitempty"`
+	// Current service state of the NFTopology.
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
 
 	// Detail on the deployed instances.
 	NFInstances []NFDeployedInstance `json:"nfInstances,omitempty" yaml:"nfInstances,omitempty"`
