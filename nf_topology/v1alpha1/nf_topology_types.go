@@ -18,7 +18,6 @@ package v1alpha1
 
 import (
 	nephioreqv1alpha1 "github.com/nephio-project/api/nf_requirements/v1alpha1"
-	nephiodeployv1alpha1 "github.com/nephio-project/api/workload/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
