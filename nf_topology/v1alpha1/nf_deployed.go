@@ -26,8 +26,8 @@ type NFDeployedInstance struct {
 	ID string `json:"id,omitempty" yaml:"id,omitempty"`
 	// type of NF, example: amf, smf, upf
 	NFType string `json:"nfType,omitempty" yaml:"nfType,omitempty"`
-    // corresponding NFInstance name
-    NFInstaceName string `json:"nfInstanceName,omitempty" yaml:"nfInstanceName,omitempty"`
+	// corresponding NFInstance name
+	NFInstaceName string `json:"nfInstanceName,omitempty" yaml:"nfInstanceName,omitempty"`
 	// list of connected NF instances to this NF instance
 	Connectivities []NFConnectivity `json:"connectivities,omitempty" yaml:"connectivities,omitempty"`
 }
