@@ -165,7 +165,7 @@ spec:
                 type: object
               provisioningStatus:
                 properties:
-                  provisionedResources:
+                  provisionedResourceSet:
                     description: The resources that have been successfully provisioned
                       as part of the provisioning process.
                     properties:
