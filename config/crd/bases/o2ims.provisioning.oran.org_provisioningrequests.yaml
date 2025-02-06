@@ -86,7 +86,7 @@ spec:
               type: object
               description: ProvisioningRequestStatus defines the observed state of ProvisioningRequest
               properties:
-                provisionedResources:
+                provisionedResourceSet:
                   description: |
                     The resources that have been successfully provisioned as part of the provisioning process.
                   properties:
