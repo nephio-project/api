@@ -4,7 +4,7 @@ presubmits:
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:7
+      - image: nephio/gotests:1783899289886396416
         command:
         - make
         args:
@@ -14,7 +14,7 @@ presubmits:
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:7
+      - image: nephio/gotests:1783899289886396416
         command:
         - make
         args:
@@ -24,7 +24,7 @@ presubmits:
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:7
+      - image: nephio/gotests:1783899289886396416
         command:
         - make
         args:
@@ -34,7 +34,7 @@ presubmits:
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:7
+      - image: nephio/gotests:1783899289886396416
         command:
         - "/bin/sh"
         - "-c"
