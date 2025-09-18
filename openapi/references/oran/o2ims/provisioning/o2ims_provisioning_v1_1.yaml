@@ -42,13 +42,14 @@ components:
         - description
         - templateName
         - templateVersion
+        - templateParameters
       properties:
         provisioningRequestId:
           type: string
           description: | 
             Identifier of the ProvisioningRequest instance assigned by the SMO.
         name:
-          type: string
+          # type: string
           description: |
             Human readable name of the ProvisioningRequest instance as assigned by the SMO.
         description:
@@ -134,6 +135,9 @@ components:
             contain the Id(s) of all resources used to fulfil it.
           items:
             type: string
+      required:
+        - nodeClusterId
+        - infrastructureResourceIds
     O2ims_infrastructureProvisioning.ProvisioningRequestInfo:
       description: |
         This type represents information about the ProvisioningRequest object to provision O-Cloud Node Cluster 
@@ -162,6 +166,7 @@ components:
         - provisioningRequestData
         - provisioningRequestReference
         - status
+        - provisionedResourceSet
     O2ims_infrastructureProvisioning.ProvisioningRequestList:
       # this type does not explicitly exist in the ORAN specification but eliminates repetition in this 
       # OpenAPI specification
