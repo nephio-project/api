@@ -1,0 +1,495 @@
+openapi: '3.1.1'
+info:
+  title: O2ims_infrastructureProvisioning
+  version: '1' #according to the O-RAN.WG6.TS.O2IMS-INTERFACE-R004-v10.00 specification only major version is exposed on the api. 
+  description: |
+    This API enables the SMO to invoke O2ims_InfrastructureProvisioning Service towards the O-Cloud.
+    
+    The operations defined for O2ims_InfrastructureProvisioning Service through this API are- create, read, update, or
+    delete. Elements provisioned through a ProvisioningRequest include but are not limited to the following:
+
+    • O-Cloud NodeCluster
+
+    • O-Cloud InfrastructureResource(s)
+
+    Updated according to O-RAN.WG6.TS.O2IMS-INTERFACE-R004-v10.00 protocol version 1.1
+
+components:
+  securitySchemes:
+    BearerToken:
+      type: apiKey
+      description: "Bearer Token authentication"
+      name: authorization
+      in: header
+  schemas:
+    O2ims_infrastructureProvisioning.ProblemDetails:
+      description: |
+        Message describing the proplem details.
+      type: object
+      properties:
+        status:
+          type: string
+          description: |
+            Message describing the proplem details.
+    O2ims_infrastructureProvisioning.ProvisioningRequestData:
+      description: |
+        This type represents information about the input parameters of a ProvisioningRequest object to provision O-Cloud Node
+        Cluster and/or O-Cloud Infrastructure Resource(s) in an O-Cloud.
+      type: object
+      required:
+        - provisioningRequestId
+        - name
+        - description
+        - templateName
+        - templateVersion
+        - templateParameters
+      properties:
+        provisioningRequestId:
+          type: string
+          description: | 
+            Identifier of the ProvisioningRequest instance assigned by the SMO.
+        name:
+          # type: string
+          description: |
+            Human readable name of the ProvisioningRequest instance as assigned by the SMO.
+        description:
+          type: string
+          description: |
+            Human readable description of the ProvisioningRequest instance as assigned by the SMO.
+        templateName:
+          type: string
+          description: |
+            Name of the template to be used as the basis for the declarative model for the ProvisioningRequest instance.
+            When combined with the templateVersion it shall resolve to a templateId.
+        templateVersion:
+          type: string
+          description: |
+            Version of the template used as the basis for the declarative model for the ProvisioningRequest instance.
+            When combined with the templateName it shall resolve to a templateId.
+        templateParameters:
+          type: object #this intentionally differs from the key/value pair of the ORAN level 3 specification.
+                       #In the level 3 specification there is currently no way to express an object type correctly, 
+                       #the key/value pair is used in the level 3 specification to represent an intended object type.
+          description: | 
+            templateParameters carries the parameters required to provision resources using this template. The type is object as actual
+            parameters are defined by the template. The template parameter schema itself is not defined here as it is template specific.
+    O2ims_infrastructureProvisioning.ProvisioningPhase:
+      description: |
+        This is an enumerated set of values which reflects the current phase of the provisioning request.
+        Possible values are:
+
+        PENDING - The ProvisioningRequest is waiting to be processed by the O-Cloud (IMS).
+        
+        PROGRESSING - The O-Cloud (IMS) is processing the ProvisioningRequest and executing the actions to fulfill it.
+        
+        FULFILLED - The ProvisioningRequest has been successfully processed and completed by the O-Cloud(IMS).
+        
+        FAILED - The ProvisioningRequest could not be fully processed by the O-Cloud (IMS).
+
+        DELETING - The ProvisioningRequest is in the process of being deleted by the O-Cloud (IMS).       
+      type: string
+      enum:
+      - PENDING
+      - PROGRESSING
+      - FULFILLED
+      - FAILED
+      - DELETING
+    O2ims_infrastructureProvisioning.ProvisioningStatus:
+      type: object
+      description: |
+        This type represents information about the status of the ProvisioningRequest object to provision an O-Cloud Node
+        Cluster and/or O-Cloud Infrastructure Resource(s) in an O-Cloud.
+      properties:
+        updateTime:
+          type: string
+          format: date-time
+          description: |
+            The last date and time that the provisioningPhase attribute was modified. This attribute will follow the
+            date-time format.
+        message:
+          type: string
+          description: |
+            Human readable text about the provisioningPhase at the last updateTime.  
+        provisioningPhase:
+          $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningPhase'
+          description: |
+            This is an enumerated set of values which reflects the current phase of the provisioning request.
+      required:
+        - updateTime
+        - message
+        - provisioningPhase
+    O2ims_infrastructureProvisioning.ProvisionedResourceSet:
+      type: object
+      description: |
+        This type represents information about the resources that have been successfully provisioned 
+        as part of the ProvisioningRequest in the O-Cloud. 
+      properties:
+        nodeClusterId:
+          type: string
+          description: |
+            If the ProvisioningRequest is fulfilled by a NodeCluster this field will contain its Id.   
+        infrastructureResourceIds:
+          type: array
+          description: |
+            If the ProvisioningRequest is fulfilled by InfrastructureResource(s) this list will 
+            contain the Id(s) of all resources used to fulfil it.
+          items:
+            type: string
+      required:
+        - nodeClusterId
+        - infrastructureResourceIds
+    O2ims_infrastructureProvisioning.ProvisioningRequestInfo:
+      description: |
+        This type represents information about the ProvisioningRequest object to provision O-Cloud Node Cluster 
+        and/or O-Cloud Infrastructure Resource(s) in an O-Cloud.
+      type: object
+      properties:
+        provisioningRequestData:
+          $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestData'
+          description: |
+            Represents information about the input parameters of a ProvisioningRequest object to provision O-Cloud
+            Node Cluster and/or O-Cloud Infrastructure Resource(s) in an O-Cloud.
+        provisioningRequestReference:
+          type: string
+          description: |
+            A unique reference of this ProvisioningRequest, assigned by the service producer (O-Cloud) at the time
+            of request creation. This attribute can be used for, e.g., troubleshooting purposes.
+        status:
+          $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningStatus'
+          description: |
+            The time of the last message and the current ProvisioningPhase of the ProvisioningRequest.
+        provisionedResourceSet:
+          $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisionedResourceSet'
+          description: |
+            The resources that have been successfully provisioned as part of the ProvisioningRequest.
+      required:
+        - provisioningRequestData
+        - provisioningRequestReference
+        - status
+        - provisionedResourceSet
+    O2ims_infrastructureProvisioning.ProvisioningRequestList:
+      # this type does not explicitly exist in the ORAN specification but eliminates repetition in this 
+      # OpenAPI specification
+      description: |
+        ProvisioningRequestList is a list of ProvisioningRequest.
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: |
+            List of provisioning requests.
+          items:
+            $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo'
+paths:
+  /O2ims_infrastructureProvisioning/v1/provisioningRequests:
+    get:
+      tags:
+      - O2ims_infrastructureProvisioning
+      operationId: listO2ims_infrastructureProvisioning_ProvisioningRequest
+      description: The GET operation is used to retrieve the list of provisioningrequests
+      parameters:
+        - name: filter
+          description: |
+            Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013 [22].
+            The O-Cloud shall support receiving this parameter as part of the URI query string. 
+            The API consumer may supply this parameter.
+            All attribute names that appear in the InventorySubscriptionInfo and in data types referenced 
+            from it shall be supported by the O-Cloud in the filter expression.
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: all_fields
+          description: |
+            Include all complex attributes in the response. 
+            See clause 5.3 of ETSI GS NFV SOL 013 [22]  for details. 
+            The O-Cloud shall support this parameter.
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: fields
+          description: |
+            Complex attributes to be included into the response. 
+            See clause 5.3 of ETSI GS NFV SOL 013 [22]  for details. 
+            The O-Cloud should support this parameter.
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: exclude-fields
+          description: |
+            Complex attributes to be excluded from the response. 
+            See clause 5.3 of ETSI GS NFV SOL 013 [22]  for details. 
+            The O-Cloud should support this parameter.
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: exclude_default
+          #The below description follows the specification, the - TBD is in the specification
+          description: |
+            Indicates to exclude the following complex attributes from the response. 
+            See clause 5.3 of ETSI GS NFV SOL 013 [22]  for details. 
+            The O-Cloud shall support this parameter.
+            The following attributes shall be excluded from the list of InventorySubscriptionInfo 
+            in the response body if this parameter is provided, or none of the parameters 
+            "all_fields", "fields", "exclude_fields", "exclude_default" are provided:
+            
+            -	TBD 
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: nextpage_opaque_marker
+          description: |
+            Marker to obtain the next page of a paged response. 
+            Shall be supported by the O-Cloud if the O-Cloud supports alternative 2 (paging) according 
+            to clause 5.4.2.1 of ETSI GS NFV SOL 013 [22]  for this resource.
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            OK
+
+            Shall be returned when information about zero or more ProvisioningRequestInfo instances has been queried
+            successfully. 
+            
+            The response body shall contain in an array the representations of zero or more ProvisioningRequestInfo instances
+
+            If the "filter" URI parameter or one of the "all_fields", "fields" (if supported), "exclude_fields" (if supported) or
+            "exclude_default" URI parameters was supplied in the request, the data in the response body shall have been
+            transformed according to the rules specified in clauses 5.2.2 and 5.3.2 of ETSI GS NFV-SOL 013, respectively.
+
+            If the O-Cloud supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource, 
+            inclusion of the Link HTTP header in this response shall follow the provision
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestList'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestList'
+        '400':
+          description: |
+            Bad Request
+
+            Shall be returned upon the following errors: 
+            
+            - Invalid attribute-based filtering expression.
+            
+            - Invalid attribute selector.
+
+            - Response too big.
+
+            The response body shall contain a ProblemDetails structure, in which the "detail" attribute should convey
+            more information about the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+        '401':
+          description: Unauthorized
+    post:
+      description: |
+        The POST operation is used to create an individual ProvisioningRequest. As a result of successfully executing this
+        method, a new ProvisioningRequest instance resource as defined in clause 3.4.6.2.3 shall have been created, and the
+        value of the "status" attribute in the representation of the ProvisioningRequest instance shall reflect the current phase in
+        the provisioning request when the response is provided.
+
+        NOTE: The present document version does not specify the protocol and data model mechanisms to address the
+        handling of ProvisioningRequests in a "multi-tenancy" scenario.The POST operation is used to create an individual provisioningrequest
+      tags:
+        - O2ims_infrastructureProvisioning
+      operationId: createO2ims_infrastructureProvisioning_ProvisioningRequest
+      requestBody:
+        description: Parameters for the ProvisioningRequest instance to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestData'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestData'
+      responses:
+        '201':
+          description: |
+            Created
+
+            Shall be returned when information about a ProvisioningRequest instance has been created
+            successfully.
+
+            The response body shall contain a representation of the created ProvisioningRequestInfo instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo'
+        '409':
+          description: |
+            Conflict
+
+            Shall be returned upon the following error: the operation cannot be executed due to a conflict with
+            the state of the resource.
+
+            Typically, this is due to the fact that the consumer has requested to create a ProvisioningRequest instance
+            with same "provisioningRequestId" as an already existing other ProvisioningRequest instance.
+            
+            The response body shall contain a ProblemDetails structure, in which the "detail" attribute should convey
+            more information about the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+        '401':
+          description: Unauthorized
+  /O2ims_infrastructureProvisioning/v1/provisioningRequests/{provisioningRequestId}:
+    get:
+      description: "The GET operation is used to retrieve the description of a single ProvisioningRequest"
+      tags:
+        - "O2ims_infrastructureProvisioning"
+      operationId: "readO2ims_infrastructureProvisioning_ProvisioningRequest"
+      parameters:
+        - name: provisioningRequestId
+          in: path
+          description: "The ID of the ProvisioningRequest to retrieve."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            OK
+
+            Shall be returned when information about a ProvisioningRequestInfo instance has been queried
+            successfully.
+            
+            The response body shall contain a representation of the ProvisioningRequestInfo instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo"
+            application/yaml:
+              schema:
+                $ref: "#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo"
+        '401':
+          description: "Unauthorized"
+    put:
+      description: |
+        The PUT method is used to update fields of the ProvisioningRequest object. It operates as a “replace” or “overwrite”
+        semantic model. All fields that are input to the ProvisioningRequest, i.e., as indicated by the data type
+        "provisioningRequestData", can be updated, with the exception of the "provisioningRequestId". In case a different
+        value of "provisioningRequestId" is indicated in the request payload compared to the "provisioningRequestId" that
+        identifies the created ProvisioningRequest, the API producer shall return an appropriate error response.
+      tags:
+        - "O2ims_infrastructureProvisioning"
+      operationId: "replaceO2ims_infrastructureProvisioning_ProvisioningRequest"
+      parameters:
+        - name: provisioningRequestId
+          in: path
+          description: "The ID of the ProvisioningRequest to create."
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The parameters for the ProvisioningRequest
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestData'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestData'
+      responses:
+        '200':
+          description: |
+            OK
+
+            Shall be returned when the request has been accepted.
+
+            The response body shall contain a representation of the ProvisioningRequestInfo instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProvisioningRequestInfo'
+        '422':
+          description: |
+            Unprocessable Content
+
+            Shall be returned upon the following error: the content type of the message content is supported, and the 
+            message content of the request contains syntactically correct data, but the data cannot be processed.
+
+            In particular, this is due to the fact that the consumer has requested to modify values of the
+            ProvisioningRequest instance that are not modifiable due to specific API producer logic such as trying to
+            modify the value of the "provisoningRequestId".
+            
+            The response body shall contain a ProblemDetails structure, in which the "detail" attribute should convey
+            more information about the error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/O2ims_infrastructureProvisioning.ProblemDetails'
+        '401':
+          description: "Unauthorized"
+    delete:
+      description: |
+        The DELETE method is used to perform delete operation on a single ProvisioningRequest. On receiving a DELETE
+        request, the ProvisioningRequest instance transitions to 'DELETING' phase and in case resources had been provisioned,
+        the O-Cloud starts performing the deprovision of corresponding O-Cloud NodeCluster and/or other Infrastructure
+        Resources represented by the ProvisioningRequest instance being deleted. During this period the consumer can poll for
+        the status of deletion using GET method on the ProvisioningRequest resource URI. Once there are no resources
+        provisioned by the ProvisionedRequest, such as all corresponding resources are deleted successfully, the
+        ProvisionigRequest resource instance is deleted. Further onwards a GET on this ProvisionigRequest URI shall return
+        ‘404 Not Found’ response.
+      tags:
+        - "O2ims_infrastructureProvisioning"
+      operationId: "deleteO2ims_infrastructureProvisioning_ProvisioningRequest"
+      parameters:
+        - name: provisioningRequestId
+          in: path
+          description: "The ID of the ProvisioningRequest to delete."
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: |
+            Accepted 
+
+            Shall be returned when the request has been accepted.
+
+            The HTTP response shall include a "Location" HTTP header containing the URI for the
+            ProvisioningRequest instance being deleted. This URI can be used to poll for status of the delete
+            request.
+          headers:
+            Location:
+              description: |
+                The location of the ProvisioningRequest being deleted.
+              schema:
+                type: string
+                example: /o2ims-infrastructureprovisioning/v1/provisioningrequests/ID123
+        '401':
+          description: "Unauthorized"  
+security:
+  - BearerToken: []
