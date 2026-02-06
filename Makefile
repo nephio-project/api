@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-GO_VERSION ?= 1.20.2
-GOLANG_CI_VER ?= v1.52
-GOSEC_VER ?= 2.15.0
+GO_VERSION ?= 1.25
+GOLANG_CI_VER ?= v2.8.0
+GOSEC_VER ?= latest
 TEST_COVERAGE_FILE=lcov.info
 TEST_COVERAGE_HTML_FILE=coverage_unit.html
 TEST_COVERAGE_FUNC_FILE=func_coverage.out
@@ -78,15 +78,23 @@ $(LOCALBIN):
 
 ## Tool Binaries
 CONTROLLER_GEN ?= $(LOCALBIN)/controller-gen
+GOSEC ?= $(LOCALBIN)/gosec
 
 ## Tool Versions
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
-CONTROLLER_TOOLS_VERSION ?= v0.13.0
+CONTROLLER_TOOLS_VERSION ?= v0.20.0
+GOSEC_VERSION ?= latest
 
 .PHONY: controller-gen
 controller-gen: $(CONTROLLER_GEN) ## Download controller-gen locally if necessary.
 $(CONTROLLER_GEN): $(LOCALBIN)
 	test -s $(LOCALBIN)/controller-gen || GOBIN=$(LOCALBIN) go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_TOOLS_VERSION)
+
+.PHONY: gosec
+gosec: $(GOSEC) ## inspects source code for security problem by scanning the Go Abstract Syntax Tree
+	$(GOSEC) ./...
+$(GOSEC): $(LOCALBIN)
+	test -s $(LOCALBIN)/gosec || GOBIN=$(LOCALBIN) go install github.com/securego/gosec/v2/cmd/gosec@$(GOSEC_VERSION)
 
 .PHONY: unit_clean
 unit_clean: ## clean up the unit test artifacts created
@@ -98,7 +106,7 @@ endif
 .PHONY: unit
 unit: ## Run unit tests against code.
 ifeq ($(CONTAINER_RUNNABLE), 0)
-		$(CONTAINER_RUNTIME) run -it -v ${PWD}:/go/src -w /go/src docker.io/library/golang:${GO_VERSION}-alpine3.17 \
+		$(CONTAINER_RUNTIME) run -it -v ${PWD}:/go/src -w /go/src docker.io/library/golang:${GO_VERSION}-alpine \
          /bin/sh -c "go test ./... -v -coverprofile ${TEST_COVERAGE_FILE}; \
          go tool cover -html=${TEST_COVERAGE_FILE} -o ${TEST_COVERAGE_HTML_FILE}; \
          go tool cover -func=${TEST_COVERAGE_FILE} -o ${TEST_COVERAGE_FUNC_FILE}"
@@ -115,13 +123,4 @@ ifeq ($(CONTAINER_RUNNABLE), 0)
 		$(CONTAINER_RUNTIME) run -it -v ${PWD}:/go/src -w /go/src docker.io/golangci/golangci-lint:${GOLANG_CI_VER}-alpine golangci-lint run ./... -v
 else
 		golangci-lint run ./... -v --timeout 10m
-endif
-
-# Install link at https://github.com/securego/gosec#install if not running inside a container
-.PHONY: gosec
-gosec: ## inspects source code for security problem by scanning the Go Abstract Syntax Tree
-ifeq ($(CONTAINER_RUNNABLE), 0)
-		$(CONTAINER_RUNTIME) run -it -v ${PWD}:/go/src -w /go/src docker.io/securego/gosec:${GOSEC_VER} ./...
-else
-		gosec ./...
 endif

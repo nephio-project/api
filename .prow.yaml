@@ -4,31 +4,40 @@ presubmits:
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:1783899289886396416
+      - image: golang:1.25-alpine
         command:
-        - make
+        - "/bin/sh"
+        - "-c"
         args:
-        - unit
+        - |
+          apk add --no-cache make bash
+          make unit
   - name: presubmit-api-gosec
     decorate: true
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:1783899289886396416
+      - image: golang:1.25-alpine
         command:
-        - make
+        - "/bin/sh"
+        - "-c"
         args:
-        - gosec
+        - |
+          apk add --no-cache make bash git
+          make gosec
   - name: presubmit-api-golangci-lint
     decorate: true
     run_if_changed: "^.*.go$"
     spec:
       containers:
-      - image: nephio/gotests:1783899289886396416
+      - image: golangci/golangci-lint:v2.8.0-alpine
         command:
-        - make
+        - "/bin/sh"
+        - "-c"
         args:
-        - lint
+        - |
+          apk add --no-cache make bash
+          make lint
   - name: presubmit-api-license-header-check
     decorate: true
     run_if_changed: "^.*.go$"
