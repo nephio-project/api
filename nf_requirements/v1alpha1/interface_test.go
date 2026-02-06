@@ -24,7 +24,7 @@ import (
 	ipamv1alpha1 "github.com/nokia/k8s-ipam/apis/resource/ipam/v1alpha1"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/pointer" //nolint:staticcheck // TODO: migrate to k8s.io/utils/ptr
 )
 
 func TestIsCNISupported(t *testing.T) {
