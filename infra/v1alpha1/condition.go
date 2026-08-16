@@ -157,7 +157,7 @@ func Ready() Condition {
 func Unknown() Condition {
 	return Condition{metav1.Condition{
 		Type:               string(ConditionTypeReady),
-		Status:             metav1.ConditionFalse,
+		Status:             metav1.ConditionUnknown,
 		LastTransitionTime: metav1.Now(),
 		Reason:             string(ConditionReasonUnknown),
 	}}
