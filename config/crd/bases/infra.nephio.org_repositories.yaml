@@ -43,6 +43,22 @@ spec:
           spec:
             description: RepositorySpec defines the desired state of Repository
             properties:
+              org:
+                description: Org is the organization/owner name for the repository
+                type: string
+              provider:
+                default: gitea
+                description: Provider specifies the git provider type (gitea, github,
+                  gitlab)
+                enum:
+                - gitea
+                - github
+                - gitlab
+                type: string
+              url:
+                description: URL is the base URL for the git provider API (required
+                  for gitea, optional for github/gitlab)
+                type: string
               defaultBranch:
                 description: DefaultBranch of the repository (used when initializes
                   and in template)

@@ -39,6 +39,17 @@ const (
 
 // RepositorySpec defines the desired state of Repository
 type RepositorySpec struct {
+	// Provider specifies the git provider type (gitea, github, gitlab)
+	// +optional
+	// +kubebuilder:validation:Enum=gitea;github;gitlab
+	// +kubebuilder:default=gitea
+	Provider *string `json:"provider,omitempty" yaml:"provider,omitempty"`
+	// URL is the base URL for the git provider API (required for gitea, optional for github/gitlab)
+	// +optional
+	URL *string `json:"url,omitempty" yaml:"url,omitempty"`
+	// Org is the organization/owner name for the repository
+	// +optional
+	Org *string `json:"org,omitempty" yaml:"org,omitempty"`
 	// Lifecycle determines the deletion lifecycle policies the resource
 	// will follow
 	Lifecycle commonv1alpha1.Lifecycle `json:"lifecycle,omitempty"`
