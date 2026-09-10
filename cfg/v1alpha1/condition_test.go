@@ -218,3 +218,9 @@ func TestConditionWithMessage(t *testing.T) {
 		})
 	}
 }
+
+func TestUnknown(t *testing.T) {
+	if got := Unknown().Status; got != metav1.ConditionUnknown {
+		t.Errorf("Unknown().Status = %q, want %q", got, metav1.ConditionUnknown)
+	}
+}
